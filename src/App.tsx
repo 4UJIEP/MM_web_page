@@ -2,9 +2,10 @@ import './App.css'
 
 function App() {
   return (
-    <>
-      Сайт малого матфака
-    </>
+    <div className='background'>
+      <b style={{fontSize: 44}} className='text'>Сайт малого матфака</b>
+      <h3 className='text'>В разработке</h3>
+    </div>
   )
 }
 
