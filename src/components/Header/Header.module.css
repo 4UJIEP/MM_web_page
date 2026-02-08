@@ -1,0 +1,131 @@
+/* Контейнер хедера */
+.header {
+    background: #FFFFFF;
+    height: 100px;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 8px rgba(18, 18, 18, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+  height: 100%;
+  padding: 0 100px;
+  display: flex;
+  align-items: center; 
+}
+
+/* === ЛОГОТИП === */
+.logo {
+    width: 351px;
+    height: 58px;
+  
+    flex-shrink: 0;
+    margin-right: 100px;
+}
+
+.logoImage {
+    width: 100%;
+    height: 100%;
+    
+    /* Сохраняем пропорции */
+    object-fit: contain;
+    
+    /* Выравниваем слева */
+    object-position: left center;
+    display: block;
+}
+
+
+/* НАВИГАЦИЯ  */
+.nav {
+
+    display: flex;
+    align-items: center;
+    margin-right: 167px;
+}
+
+.navList {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    margin: 0;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    color: #121212;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.navLink:hover {
+    color: #1A96F6;
+}
+
+.navLink.active {
+    color: #1A96F6;
+}
+
+.navIcon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    
+    display: block;  
+}
+
+
+/* === КНОПКА === */
+.actions {
+    flex-shrink: 0;
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 1200px) {
+    .navList {
+        gap: 20px;
+    }
+    
+    .navLink {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .logoSubtitle {
+        display: none;
+    }
+    
+    .navList {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    .nav {
+        display: none; /* На мобилке скрываем, можно добавить бургер-меню */
+    }
+}

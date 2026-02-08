@@ -1,0 +1,84 @@
+/* Базовые стили кнопки */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Размеры */
+.sm {
+    padding: 8px 20px;
+    font-size: 14px;
+}
+
+.md {
+    padding: 12px 28px;
+    font-size: 15px;
+}
+
+.lg {
+    width: 251px;
+    height: 34px;
+    
+    padding: 8px;
+    
+    font-size: 15px; 
+    font-weight: 600;
+    letter-spacing: 0.75px;
+    line-height: 18px; 
+    border-radius: 16px;
+    
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Варианты */
+.primary {
+    background: #3160DC;
+    color: white;
+}
+
+.primary:hover:not(:disabled) {
+    background: #2E3DB5;
+    box-shadow: 0 6px 20px rgba(59, 79, 228, 0.3);
+}
+
+.secondary {
+    background: #F3F4F6;
+    color: #1F2937;
+}
+
+.secondary:hover:not(:disabled) {
+    background: #E5E7EB;
+}
+
+.outline {
+    background: transparent;
+    border: 2px solid #3B4FE4;
+    color: #3B4FE4;
+}
+
+.outline:hover:not(:disabled) {
+    background: #3B4FE4;
+    color: white;
+}
+
+.fullWidth {
+    width: 100%;
+}
