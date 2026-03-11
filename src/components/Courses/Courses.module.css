@@ -1,0 +1,40 @@
+.courses {
+    background: #D9EDFF;
+    width: 100%;
+    padding: 42px 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1519px;
+
+    margin: auto;
+    padding: 0 64px;
+    box-sizing: border-box;
+}
+
+.title {
+    width: 100%;
+    max-width: 1519px;
+    height: 56px;
+    
+    /* Убираем дефолтные отступы */
+    margin: 0;
+    
+    /* Отступ снизу до сетки: 32px из Figma */
+    margin-bottom: 32px;
+    
+    /* Шрифт из Figma */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 1.44px; /* 3% от 48px */
+    
+    /* Цвет */
+    color: #21242B;
+    
+    /* Вертикальное выравнивание */
+    display: flex;
+    align-items: center;
+}

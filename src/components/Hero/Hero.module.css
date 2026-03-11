@@ -1,0 +1,289 @@
+.hero {
+    background: #D9EDFF;
+    width: 100%;
+    padding:0;
+}
+
+.container {
+    width: 1920px;
+    margin: 0 auto;
+    padding: 0 64px;
+}
+
+.outerBlock {
+    width: 100%;
+    max-width: 1600px;
+    height: 841px;
+    
+    margin: 0 auto;
+    
+    padding: 42px 64px; /* top/bottom: 42px, left/right: 64px */
+    
+    position: relative;
+    box-sizing: border-box;
+}
+
+.card {
+    width: 100%;
+    max-width: 1472px;
+    min-height: 757px;
+    background: #F5F7FA ;
+    border-radius: 64px;
+    
+    padding: 72px 46px 71px 46px; /* top: 72px, right: 46px, bottom: 71px, left: 46px */
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+}
+
+.content {
+    width: 819px;
+    flex-shrink: 0;
+    
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 5;
+}
+
+.badge {
+    width: 371px;
+    height: 43px;
+    
+    padding: 10px;
+    
+    background: rgba(150, 205, 255, 0.4); 
+    
+    border-radius: 16px;
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.6px; 
+    text-align: center;
+    
+    color: #21242B;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin-bottom: 8px; 
+    
+    box-sizing: border-box;
+}
+
+.title{
+    width: 819px;
+    height: 56px;
+
+    margin: 0;
+    margin-bottom: 16px;
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 1.44px; 
+    
+    color: #21242B;
+}
+
+.description {
+    width: 819px;
+    height: 76px;
+
+    margin: 0;
+    margin-bottom: 9px;
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0.96px; 
+    
+    color: #21242B;
+}
+
+.divider {
+    width: 768.5px;
+    height: 0;
+
+    margin: 0;
+    margin-bottom: 30px;
+    border: none;
+
+    border-top: 1px solid #21242B;
+}
+
+.quote {
+    width: 733px;
+    height: 114px;
+
+    margin: 0;
+    padding: 0;
+
+    margin-bottom: 101px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0.96px;
+
+    color: #21242B;
+}
+
+.ctaContainer{
+    width: 388px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.enrollment{
+    width: 388px;
+    height: 23px;
+    
+    margin: 0;
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.6px; 
+    
+    color: #21242B;
+    
+    display: flex;
+    align-items: center;
+}
+
+.recordLink{
+    width: 388px;
+    height: 78px;
+    
+    padding: 20px 30px;
+    
+    background: #68B5FF;
+    
+    border-radius: 16px;
+    
+    border: none;
+    
+    box-shadow: 
+        0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+        inset 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0.96px;
+    text-align: center;
+    
+    color: #21242B;
+    
+    cursor: pointer;
+    
+    transition: all 0.2s ease;
+    
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.recordLink:hover {
+  background: #5AA5EF;
+  transform: translateY(-2px);
+  box-shadow: 
+    0px 6px 8px 0px rgba(0, 0, 0, 0.3),
+    inset 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.recordLink:active {
+  transform: translateY(0);
+  box-shadow: 
+    0px 2px 4px 0px rgba(0, 0, 0, 0.2),
+    inset 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.decorativeElements{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
+
+.flower2 {
+    position: absolute;
+    width: 514px;
+    height: 514px;
+    top: 32px;
+    left: 1066px;
+    object-fit: contain;
+    z-index: 1;
+    
+}
+
+.boyImage {
+    position: absolute;
+    width: 664px;
+    height: 784px;
+    
+    /* Координаты из Figma */
+    top: 15px;
+    left: 872px;
+    
+    object-fit: contain;
+    z-index: 2;
+}
+
+.flower1 {
+    position: absolute;
+    width: 259.3px;
+    height: 248.15px;
+    top: 466px;
+    left: 820px;
+    z-index: 3;
+    object-fit: contain;
+}
+
+.cursorImage {
+    position: absolute;
+    width: 59.07px;
+    height: 71.65px;
+    top: 638px;
+    left: 529px;
+    object-fit: contain;
+    z-index: 4;
+}
+
+@media (max-width: 1600px) {
+    .outerBlock {
+        height: auto;
+        padding: 30px 40px;
+    }
+    
+    .card {
+        height: auto;
+        padding: 60px 40px;
+    }
+    
+    /* Скрываем декоративные элементы на маленьких экранах */
+    .flower1,
+    .flower2,
+    .boyImage,
+    .cursorImage {
+        display: none;
+    }
+}
