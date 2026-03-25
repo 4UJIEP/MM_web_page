@@ -1,0 +1,153 @@
+/* ============================================
+   FAQ SECTION
+   ============================================ */
+.faq {
+    width: 100%;
+    min-height: 841px;
+  
+    margin: 0 auto;
+  
+    /* Фон из Figma */
+    background: #D9EDFF;
+  
+    padding-top: 39px; /* Отступ до заголовка */
+    padding-bottom: 60px;
+  
+    box-sizing: border-box;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+    width: 100%;
+    max-width: 1600px;
+    
+    margin: 0 auto;
+    
+    box-sizing: border-box;
+}
+
+/* ============================================
+   TITLE - Заголовок
+   ============================================ */
+.title {
+    width: 509px;
+    height: 96px;
+    
+    /* Центрирование */
+    margin: 0 auto;
+    margin-bottom: 60px; /* Отступ до контента (195px - 39px = 156px, примерно) */
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 1.44px; /* 3% от 48px */
+    text-align: center;
+    
+    color: #21242B;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   CONTENT - Контейнер для левой и правой частей
+   ============================================ */
+.content {
+  width: 100%;
+  max-width: 1600px;
+  
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  
+  padding: 0 60px;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   LEFT SIDE - Левая часть (декоративные картинки)
+   ============================================ */
+.leftSide {
+  width: auto;
+  flex: 1;
+  
+  /* TODO: Добавить стили для картинок */
+}
+
+/* ============================================
+   RIGHT SIDE - Правая часть (аккордеон)
+   ============================================ */
+.rightSide {
+  width: 800px;
+  min-height: 590px;
+  
+  /* Позиция из Figma */
+  /* top: 195px уже учтено в margin-bottom заголовка */
+  /* left: 715px - автоматически через justify-content */
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* Gap между вопросами: 15px */
+  gap: 15px;
+  
+  flex-shrink: 0;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 1600px) {
+  .content {
+    padding: 0 40px;
+  }
+  
+  .rightSide {
+    width: 700px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .title {
+    width: auto;
+    max-width: 90%;
+    font-size: 40px;
+  }
+  
+  .content {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 30px;
+  }
+  
+  .leftSide {
+    display: none; /* Прячем картинки на планшетах */
+  }
+  
+  .rightSide {
+    width: 100%;
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .content {
+    padding: 0 20px;
+  }
+}

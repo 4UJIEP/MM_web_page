@@ -1,0 +1,235 @@
+/* ============================================
+   CARD - Карточка преподавателя (414×630)
+   ============================================ */
+.card {
+  width: 414px;
+  height: 630px;
+  
+  background: #D9EDFF;
+  border-radius: 32px;
+  
+  padding: 0;
+  
+  box-sizing: border-box;
+  position: relative;
+  
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   CONTAINER - Внутренний контейнер (369×574)
+   ============================================ */
+.container {
+  width: 369px;
+  height: 100%;
+  padding-bottom: 20px;
+  
+  margin-left: 22px;
+  
+  /* Flex для вертикальной раскладки */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  
+}
+
+/* ============================================
+   TOP SECTION - Верхняя часть (369×392)
+   ============================================ */
+.topSection {
+  width: 369px;
+  
+  margin-top: 36px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* Gap между namePhotoBlock и achievements: 32px */
+  gap: 32px;
+}
+
+/* ============================================
+   NAME & PHOTO BLOCK (309×216)
+   ============================================ */
+.namePhotoBlock {
+  width: 309px;
+  height: 216px;
+  
+  /* Центрируем внутри topSection */
+  margin: 0 auto;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* Gap между именем и фото: 16px */
+  gap: 16px;
+}
+
+/* ============================================
+   NAME - ФИО (309×56)
+   ============================================ */
+.name {
+  width: 309px;
+  height: 56px;
+  
+  margin: 0;
+  
+  /* Шрифт из Figma */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.72px; /* 3% от 24px */
+  text-align: center;
+  
+  color: #21242B;
+  
+  /* Для переноса строки (\n в тексте) */
+  white-space: pre-line;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   PHOTO WRAPPER & PHOTO (144×144)
+   ============================================ */
+.photoWrapper {
+  width: 144px;
+  height: 144px;
+  
+  /* Круглая форма */
+  border-radius: 50%;
+  
+  overflow: hidden;
+  
+  flex-shrink: 0;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   ACHIEVEMENTS - Звания (369×128)
+   ============================================ */
+.achievements {
+  width: 369px;
+  
+  /* Динамическая высота (от 1 до 4 званий) */
+  
+  min-height: 24px;
+  max-height: 222px; 
+  overflow-y: auto;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ============================================
+   ACHIEVEMENT ITEM - Один элемент звания (369×24)
+   ============================================ */
+.achievementItem {
+  width: 369px;
+
+  
+  display: flex;
+  align-items: center;
+  
+  /* Gap между иконкой и текстом: 4px */
+  gap: 4px;
+}
+
+/* ============================================
+   STAR ICON - Иконка звёздочки (24×24)
+   ============================================ */
+.starIcon {
+  width: 24px;
+  height: 24px;
+  
+  flex-shrink: 0;
+  
+  object-fit: contain;
+  display: block;
+}
+
+/* ============================================
+   ACHIEVEMENT TEXT - Текст звания (335×22)
+   ============================================ */
+.achievementText {
+  width: 335px;
+  height: auto;
+  
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px; /* 3% от 16px */
+  
+  color: #21242B;
+  
+  display: block;
+  align-items: center;
+  
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+/* ============================================
+   COURSES BUTTON - Кнопка (306×60)
+   ============================================ */
+.coursesButton {
+  width: 306px;
+  min-height: 60px;
+  box-sizing: border-box;
+  
+  /* Центрируем */
+  margin: 0 auto;
+  
+  padding: 8px 16px;
+  
+  background: #F5F7FA;
+  border-radius: 8px;
+  border: none;
+  
+  /* Шрифт (уточни в Figma!) */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  text-align: center;
+  color: #21242B;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coursesButton:hover {
+  background: #E5E7EB;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coursesButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

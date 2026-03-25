@@ -1,0 +1,422 @@
+/* ============================================
+   CARD - Карточка курса (720×211)
+   ============================================ */
+.card {
+  /* Размеры из Figma */
+  width: 100%;
+  max-width: 720px;
+  height: 211px;
+  
+  /* Фон */
+  background: #FFFFFF;
+  
+  /* Скругления */
+  border-radius: 16px;
+  
+  /* Flexbox для раскладки: фото слева, инфо справа */
+  display: flex;
+  
+  /* Gap между фото и инфо: 16px */
+  gap: 16px;
+  
+  /* Убираем padding (его нет в Figma) */
+  padding: 0;
+  
+  /* Box-sizing */
+  box-sizing: border-box;
+  
+  /* Тень (если есть в Figma - добавь параметры) */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  
+  /* Плавный переход для hover эффектов */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover эффект для всей карточки */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   IMAGE WRAPPER - Контейнер для фото (248×211)
+   ============================================ */
+.imageWrapper {
+  /* Размеры из Figma */
+  width: 248px;
+  height: 211px;
+  
+  /* Запрещаем сжиматься */
+  flex-shrink: 0;
+  
+  /* Скругления только слева */
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  
+  /* Обрезаем картинку по скруглению */
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  
+  /* Подгонка картинки */
+  object-fit: cover;
+  
+  display: block;
+}
+
+/* ============================================
+   INFO - Правая часть с информацией (456×211)
+   ============================================ */
+.info {
+  width: 456px;
+  min-height: 211px; /* Минимум 211px, но может расти */
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* ✅ Распределяем пространство между элементами */
+  justify-content: space-between;
+  
+  /* ✅ Padding: сверху/снизу 16px, слева 16px, справа 16px */
+  padding: 16px;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   HEADER - Название + Бейдж (357×58)
+   ============================================ */
+.header {
+  /* Размеры из Figma */
+  width: 100%;
+  min-height: 58px;
+  
+  /* Flex для горизонтальной раскладки */
+  display: flex;
+  align-items: center;
+  
+  /* Gap между названием и бейджем: 32px */
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   TITLE - Название курса (198×38)
+   ============================================ */
+.title {
+  width: auto;
+  max-width: 240px; /* Максимальная ширина для длинных названий */
+  
+  min-width: 0;
+  margin: 0;
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.96px;
+  color: #21242B;
+  
+  display: flex;
+  align-items: center;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  /* ✅ НЕ растягиваем */
+  flex-shrink: 0;
+}
+
+/* ============================================
+   BADGE - Бейдж класса (118×42)
+   ============================================ */
+.badge {
+  min-width: 118px;
+  width: auto;
+
+  height: 42px;
+  padding: 10px;
+  
+  border-radius: 16px;
+  box-shadow: inset 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.42px;
+  text-align: center;
+  color: #21242B;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.statsWrapper {
+  width: 100%;
+  min-height: 64px;
+  
+  /* ✅ Не растягиваем */
+  flex-shrink: 0;
+}
+.stats {
+  width: 244px;
+  min-height: 48px; /* ✅ Уменьшаем минимальную высоту */
+  
+  margin-left: 0; /* ✅ Убираем отступ */
+  
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* ============================================
+   STATS LEFT - Левая колонка (119×64)
+   ============================================ */
+.statsLeft {
+  width: 119px;
+  height: 64px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* ✅ Gap между временем и занятиями: 16px */
+  gap: 16px;
+}
+
+/* ============================================
+   STATS RIGHT - Правая колонка (93×64)
+   ============================================ */
+.statsRight {
+  width: 93px;
+  height: 64px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* ✅ Выравнивание по верху */
+  justify-content: flex-start;
+}
+
+.statItem {
+  min-height: 20px; /* Минимальная высота */
+  
+  display: flex;
+  flex-direction: row; /* ✅ ВАЖНО: горизонтально */
+  align-items: center;
+  gap: 4px; /* ✅ Увеличиваем gap с 4px до 8px */
+}
+
+.statIcon {
+  width: 18px;
+  height: 18px;
+  
+  /* Запрещаем сжиматься */
+  flex-shrink: 0;
+  
+  /* Центрирование иконки внутри контейнера */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Убираем inline spacing */
+  overflow: hidden;
+}
+
+.statIcon img {
+  width: 18px;
+  height: 18px;
+  
+  /* Подгонка изображения */
+  object-fit: contain;
+  
+  display: block;
+}
+
+.statText {
+  min-height: 20px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px;
+  color: #21242B;
+  
+  display: flex;
+  align-items: center;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   BUTTONS - Кнопки действий (294×42)
+   ============================================ */
+.buttons {
+  /* Размеры из Figma */
+  width: 294px;
+  height: 42px;
+  
+  /* Flex для горизонтальной раскладки */
+  display: flex;
+  align-items: center;
+  
+  /* Gap между кнопками: 32px */
+  gap: 32px;
+}
+
+/* ============================================
+   КНОПКИ - Общие стили
+   ============================================ */
+.btnDetails,
+.btnEnroll {
+  /* Высота */
+  height: 42px;
+  
+  /* Padding */
+  padding: 10px 18px;
+  
+  /* Фон */
+  background: #D9EDFF;
+  
+  /* Скругления */
+  border-radius: 8px;
+  
+  /* Убираем border */
+  border: none;
+  
+  /* Тень */
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px; /* 3% от 16px */
+  text-align: center;
+  
+  /* Цвет текста */
+  color: #016AEE;
+  
+  /* Курсор */
+  cursor: pointer;
+  
+  /* Переход */
+  transition: all 0.2s ease;
+  
+  box-sizing: border-box;
+  
+  /* Выравнивание текста */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Кнопка "Подробнее" (129×42) */
+.btnDetails {
+  width: 129px;
+}
+
+/* Кнопка "Записаться" (133×42) */
+.btnEnroll {
+  width: 133px;
+}
+
+/* Hover эффекты */
+.btnDetails:hover,
+.btnEnroll:hover {
+  background: #C0E3FF;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* Active эффекты */
+.btnDetails:active,
+.btnEnroll:active {
+  transform: translateY(0);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Планшеты */
+@media (max-width: 1024px) {
+  .card {
+    height: auto;
+  }
+  
+  .info {
+    width: auto;
+    height: auto;
+  }
+  
+  .header,
+  .stats,
+  .buttons {
+    width: 100%;
+  }
+}
+
+/* Мобильные */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .imageWrapper {
+    width: 100%;
+    height: 200px;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .info {
+    width: 100%;
+    height: auto;
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    gap: 12px;
+  }
+  
+  .title {
+    width: 100%;
+    font-size: 24px;
+  }
+  
+  .badge {
+    width: auto;
+  }
+  
+  .stats {
+    width: 100%;
+  }
+  
+  .buttons {
+    width: 100%;
+    gap: 16px;
+  }
+  
+  .btnDetails,
+  .btnEnroll {
+    flex: 1;
+    width: auto;
+  }
+}
