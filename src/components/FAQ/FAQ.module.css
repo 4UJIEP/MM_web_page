@@ -3,7 +3,7 @@
    ============================================ */
 .faq {
     width: 100%;
-    min-height: 841px;
+    height: 841px;
   
     margin: 0 auto;
   
@@ -11,9 +11,10 @@
     background: #D9EDFF;
   
     padding-top: 39px; /* Отступ до заголовка */
-    padding-bottom: 60px;
+    padding-bottom: 0px;
   
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* ============================================
@@ -75,8 +76,129 @@
 .leftSide {
   width: auto;
   flex: 1;
+  position: relative;
   
-  /* TODO: Добавить стили для картинок */
+  min-height: 754px; /* высота от мальчика на контент*/
+  top: -100px;
+}
+
+.decorativeElements {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.boyBook {
+  position: absolute;
+  
+  /* Размеры из Figma */
+  width: 673px;
+  height: 754px;
+  
+  /* Позиция из Figma (относительно секции FAQ) */
+  top: 0;
+  left: 29px;
+  
+  object-fit: contain;
+  
+  /* Слой */
+  z-index: 1;
+}
+
+.question1 {
+  position: absolute;
+  
+  /* Размеры из Figma */
+  width: 231.49px;
+  height: 231.49px;
+  
+  /* Позиция из Figma */
+  top: 27px;
+  left: 64px;
+  
+  
+  object-fit: contain;
+  
+  /* Слой (над мальчиком) */
+  z-index: 2;
+}
+
+.question2 {
+  position: absolute;
+  
+  /* Размеры из Figma */
+  width: 114.3px;
+  height: 114.3px;
+  
+  /* Позиция из Figma */
+  top: 200px;
+  left: 522px;
+  
+  
+  object-fit: contain;
+  
+  /* Слой */
+  z-index: 2;
+}
+
+.question3 {
+  position: absolute;
+  
+  /* Размеры из Figma */
+  width: 85.11px;
+  height: 85.11px;
+  
+  /* Позиция из Figma */
+  top: 513px;
+  left: 95px;
+  
+  
+  object-fit: contain;
+  
+  /* Слой */
+  z-index: 2;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ - декоративные элементы
+   ============================================ */
+
+@media (max-width: 1600px) {
+  /* Уменьшаем масштаб картинок */
+  .boyBook {
+    width: 550px;
+    height: 616px;
+    top: 70px;
+    left: 20px;
+  }
+  
+  .question1 {
+    width: 190px;
+    height: 190px;
+    top: 50px;
+    left: 50px;
+  }
+  
+  .question2 {
+    width: 95px;
+    height: 95px;
+    top: 220px;
+    left: 430px;
+  }
+  
+  .question3 {
+    width: 70px;
+    height: 70px;
+    top: 420px;
+    left: 80px;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Прячем декоративные элементы на планшетах */
+  .leftSide {
+    display: none;
+  }
 }
 
 /* ============================================

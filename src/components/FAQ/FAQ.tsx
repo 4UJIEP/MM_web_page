@@ -22,27 +22,28 @@ export const FAQ: FC = () => {
           
           {/* ЛЕВАЯ ЧАСТЬ - Декоративные картинки */}
           <div className={styles.leftSide}>
-            <img 
-              src={boyBook}
-              alt='Мальчик с книгой'
-              className={styles.boyBook}
-            />
-            <img
-              src={question1}
-              alt=''
-              className={styles.questionIcon1} 
-            />
-            <img
-              src={question2}
-              alt=''
-              className={styles.questionIcon2} 
-            />
-            <img
-              src={question3}
-              alt=''
-              className={styles.questionIcon3} 
-            />
-          
+            <div className={styles.decorativeElements}>
+              <img 
+                src={boyBook}
+                alt='Мальчик с книгой'
+                className={styles.boyBook}
+              />
+              <img
+                src={question1}
+                alt=''
+                className={styles.question1} 
+              />
+              <img
+                src={question2}
+                alt=''
+                className={styles.question2} 
+              />
+              <img
+                src={question3}
+                alt=''
+                className={styles.question3} 
+              />
+            </div>
           </div>
           
           {/* ПРАВАЯ ЧАСТЬ - Аккордеон с вопросами */}

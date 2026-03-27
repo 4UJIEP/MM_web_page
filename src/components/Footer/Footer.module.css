@@ -1,0 +1,188 @@
+.footer {
+  background-color: #fff;
+  padding: 30px 0 0 64px;
+  color: #21242B;
+  position: relative;
+}
+
+.container {
+  width: 1164px;
+  min-height: 299px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 130px;
+  position: relative;
+}
+
+.leftColumn {
+  width: 316px;
+  min-height: 299px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.rightColumn {
+  width: 398px;
+  min-height: 296px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.linksContainer {
+  width: 277px;
+  height: 229px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.heading {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rightHeading {
+  margin: 0;
+  width: 398px;
+  height: 84px;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+}
+
+.contactsColumn {
+  width: 261px;
+  height: 92px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactRow {
+  width: 261px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contactIcon {
+  width: 38px;
+  height: 38px;
+}
+
+.contactText {
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.links li {
+  width: auto;
+}
+
+.links a {
+  color: #21242B;
+  text-decoration: none;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  width: fit-content;
+}
+
+.links a {
+  color: #1f1f24;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.divider {
+    width: 1px;
+    
+    margin-bottom: 23px;
+    border: 1px solid #21242B;
+}
+
+.info {
+  margin: 0 0 18px;
+  font-size: 17px;
+}
+
+.contactItem {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+
+.contactLabel {
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.contactLink {
+  color: #1f1f24;
+  text-decoration: underline;
+}
+
+.workTime {
+    font-family: Roboto;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 24px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 3%;
+    vertical-align: middle;
+    color:  #21242B;
+
+
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* вправо */
+  padding-bottom: 30px;
+  margin-top: 336px;
+}
+
+.logo {
+  width: 147px;
+  height: 130px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .divider {
+    display: none;
+  }
+}
