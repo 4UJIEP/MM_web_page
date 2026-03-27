@@ -116,6 +116,8 @@
     transition: all 0.2s ease;
 
     box-sizing: border-box;
+    border: none;
+    outline: none;
 
 }
 

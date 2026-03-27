@@ -1,0 +1,406 @@
+/* ============================================
+   OVERLAY - Затемнённый фон
+   ============================================ */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  /* Затемнение из Figma */
+  background: rgba(62, 64, 68, 0.15); /* #3E404426 */
+  
+  /* Центрирование модального окна */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Поверх всего */
+  z-index: 9999;
+  
+  /* Анимация появления */
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MODAL - Модальное окно (600×630)
+   ============================================ */
+.modal {
+  /* Размеры из Figma */
+  width: 600px;
+  height: 630px;
+  
+  /* Скругления */
+  border-radius: 32px;
+  
+  /* Фон */
+  background: #FFFFFF;
+  
+  /* Граница */
+  border: 1px solid #D9D9D9;
+  
+  /* Тень */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  
+  /* Позиционирование для кнопки закрытия */
+  position: relative;
+  
+  /* Анимация появления */
+  animation: slideIn 0.3s ease;
+  
+  box-sizing: border-box;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   CLOSE BUTTON - Кнопка закрытия (44×44)
+   ============================================ */
+.closeButton {
+  position: absolute;
+  
+  /* Позиция из Figma */
+  top: 27px;
+  right: 40px;
+  
+  /* Размеры */
+  width: 44px;
+  height: 44px;
+  
+  padding: 10px;
+  
+  background: transparent;
+  border: none;
+  
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: opacity 0.2s ease;
+  
+  box-sizing: border-box;
+}
+
+.closeButton img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.closeButton:hover {
+  opacity: 0.7;
+}
+
+/* ============================================
+   CONTAINER - Контейнер содержимого (500×477)
+   ============================================ */
+.container {
+  /* Размеры из Figma */
+  width: 500px;
+  height: 477px;
+  
+  /* Позиция из Figma */
+  margin-top: 49px;
+  margin-left: 50px;
+  
+  /* Gap между элементами */
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+/* ============================================
+   TITLE - Заголовок "Вход" (500×56)
+   ============================================ */
+.title {
+  width: 500px;
+  height: 56px;
+  
+  margin: 0;
+  
+  /* Шрифт из Figma */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 100%;
+  letter-spacing: 1.44px; /* 3% от 48px */
+  text-align: center;
+  
+  color: #21242B;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   FORM CONTAINER (500×404)
+   ============================================ */
+.formContainer {
+  width: 500px;
+  height: 404px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ============================================
+   INPUT GROUP - Группа поля ввода
+   ============================================ */
+.inputGroup {
+  width: 500px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Gap между label и input */
+}
+
+/* ============================================
+   LABEL - Подпись поля (Логин / Пароль)
+   ============================================ */
+.label {
+  width: 500px;
+  height: 28px;
+  
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0;
+  
+  color: #1E1E1E;
+  
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   INPUT - Поле ввода (500×60)
+   ============================================ */
+.input {
+  width: 500px;
+  height: 60px;
+  min-width: 120px;
+  
+  padding: 16px;
+  
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px; /* Radius/200 */
+  
+  /* Шрифт */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0;
+  
+  color: #1E1E1E;
+  
+  box-sizing: border-box;
+  
+  transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: #B3B3B3; /* Цвет placeholder из Figma */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #016AEE;
+}
+
+/* ============================================
+   FORGOT PASSWORD - "Забыли пароль?"
+   ============================================ */
+.forgotPassword {
+  width: 500px;
+  height: 22px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.forgotLink {
+  width: auto;
+  height: 22px;
+  
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px; /* Body/Size Medium */
+  line-height: 140%;
+  letter-spacing: 0;
+  
+  color: #1E1E1E;
+  text-decoration: underline;
+  
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.forgotLink:hover {
+  opacity: 0.7;
+}
+
+/* ============================================
+   SUBMIT BUTTON - Кнопка "Войти" (500×60)
+   ============================================ */
+.submitButton {
+  width: 500px;
+  height: 60px;
+  
+  padding: 0;
+  
+  background: #21242B; /* Чёрная кнопка */
+  border: none;
+  border-radius: 8px;
+  
+  /* Шрифт */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0;
+  
+  color: #FFFFFF;
+  
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #3E4044;
+}
+
+.submitButton:disabled {
+  background: #F5F5F5;
+  color: #B3B3B3;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   AGREEMENT CONTAINER - Чекбокс + текст
+   ============================================ */
+.agreementContainer {
+  width: 377px;
+  height: auto;
+  
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ============================================
+   CHECKBOX - Чекбокс (34×34)
+   ============================================ */
+.checkbox {
+  width: 34px;
+  height: 34px;
+  
+  padding: 8px;
+  
+  cursor: pointer;
+  
+  flex-shrink: 0;
+}
+
+/* ============================================
+   AGREEMENT TEXT - Текст политики
+   ============================================ */
+.agreementText {
+  width: 335px;
+  
+  /* Шрифт из Figma */
+  font-family: 'Museo Sans Cyrl', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 130%;
+  letter-spacing: 0;
+  
+  color: #000000;
+  
+  cursor: pointer;
+}
+
+.agreementText .link {
+  color: #000000;
+  text-decoration: underline;
+  
+  transition: opacity 0.2s ease;
+}
+
+.agreementText .link:hover {
+  opacity: 0.7;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 768px) {
+  .modal {
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    padding: 30px 20px;
+  }
+  
+  .container {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+  
+  .title {
+    width: 100%;
+    font-size: 36px;
+  }
+  
+  .formContainer,
+  .inputGroup,
+  .label,
+  .input,
+  .forgotPassword,
+  .submitButton {
+    width: 100%;
+  }
+  
+  .agreementContainer {
+    width: 100%;
+  }
+  
+  .agreementText {
+    width: calc(100% - 42px);
+  }
+}
