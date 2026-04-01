@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './Header.module.css';
 import { LoginModal } from "../ui/LoginModal";
 
@@ -23,6 +24,7 @@ const navigationItems: NavItem[] = [
 
 export const Header: FC = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const navigate = useNavigate(); // Для навигации при клике на пункты меню
 
     const handleLoginClick = () => {
         setIsLoginModalOpen(true);
@@ -43,25 +45,34 @@ export const Header: FC = () => {
                 <div className={styles.container}>
                     <div className={styles.leftSection}>
                         <div className={styles.logo}>
-                            <a href="/" className={styles.logoLink}>
+                            <Link to="/" className={styles.logoLink}>
                                 <img 
-                                    src={logo}
-                                    alt="Малый Матфак"
-                                    className={styles.logoImage}
+                                    src={logo} 
+                                    alt="Малый Матфак" 
+                                    className={styles.logo}
                                 />
-                            </a>
+                            </Link>
                         </div>
-
+                        {/* Навигация */}
                         <nav className={styles.nav}>
-                            {navigationItems.map((item) => (
-                                <a 
-                                    key={item.id} 
-                                    href={item.href} 
-                                    className={styles.navLink}
-                                    >
-                                    {item.label}
-                                </a>
-                            ))}
+                            <Link to="/" className={styles.navLink}>
+                                Курсы
+                            </Link>
+                            <Link to="/teachers" className={styles.navLink}>
+                                Наши преподаватели
+                            </Link>
+                            <Link to="/olympiads" className={styles.navLink}>
+                                Олимпиады
+                            </Link>
+                            <Link to="/schedule" className={styles.navLink}>
+                                Расписание
+                            </Link>
+                            <Link to="/news" className={styles.navLink}>
+                                Новости
+                            </Link>
+                            <Link to="/contacts" className={styles.navLink}>
+                                Контакты
+                            </Link>
                         </nav>
                     </div>
 

@@ -1,0 +1,388 @@
+/* ============================================
+   SCHEDULE PAGE - Основной контейнер секции
+   ============================================ */
+.schedulePage {
+  /* Размеры из Figma */
+  width: 100%;
+  max-width: 1600px;
+  min-height: 1697px;
+  
+  margin: 0 auto;
+  
+  /* Фон */
+  background: #F5F7FA;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   CONTAINER - Внутренний контейнер (1472×1611)
+   ============================================ */
+.container {
+  width: 1472px;
+  min-height: 1611px;
+  
+  /* Позиция из Figma */
+  margin-top: 42px;
+  margin-left: 64px;
+  
+  /* Gap между элементами */
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   TITLE - Заголовок (1472×39)
+   ============================================ */
+.title {
+  width: 1472px;
+  height: 39px;
+  
+  margin: 0;
+  
+  /* Шрифт из Figma */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 100%;
+  letter-spacing: 1.44px; /* 3% от 48px */
+  
+  color: #21242B;
+  
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   CONTENT WRAPPER - Поиск + Расписание (1472×1508)
+   ============================================ */
+.contentWrapper {
+  width: 1472px;
+  min-height: 1508px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ============================================
+   SEARCH BAR - Поисковое поле (513×48)
+   ============================================ */
+.searchBar {
+  width: 513px;
+  height: 48px;
+  min-width: 120px;
+  
+  /* Padding из Figma */
+  padding: 16px;
+  
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 9999px; /* Radius/Full */
+  
+  /* Flexbox для расположения input и иконки */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   SEARCH INPUT - Поле ввода поиска
+   ============================================ */
+.searchInput {
+  width: 449px;
+  height: 16px;
+  
+  border: none;
+  outline: none;
+  background: transparent;
+  
+  /* Шрифт */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px; /* Body/Size Medium */
+  line-height: 100%;
+  letter-spacing: 0;
+  
+  color: #1E1E1E;
+}
+
+.searchInput::placeholder {
+  color: #B3B3B3;
+}
+
+/* ============================================
+   SEARCH ICON - Иконка поиска (24×24)
+   ============================================ */
+.searchIcon {
+  width: 24px;
+  height: 24px;
+  
+  /* Отступ справа 12px */
+  margin-right: 12px;
+  
+  flex-shrink: 0;
+  
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* ============================================
+   SCHEDULE CONTAINER - Контейнер расписания (1472×1428)
+   ============================================ */
+.scheduleContainer {
+  width: 1472px;
+  min-height: 1428px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: visible;
+}
+
+/* ============================================
+   SCHEDULE ROW - Одна строка расписания (1472×345)
+   ============================================ */
+.scheduleRow {
+  width: 1472px;
+  min-height: 345px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================
+   FILTERS ROW - Контейнер фильтров (376×44)
+   ============================================ */
+.filtersRow {
+  width: 376px;
+  height: 44px;
+  
+  padding-left: 5px;
+  
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ============================================
+   FILTER BUTTON - Кнопка фильтра (140×44)
+   ============================================ */
+.filterButton1 {
+  width: 140px;
+  height: 44px;
+  
+  padding: 10px;
+  
+  background: #FFFFFF;
+  border: 0.6px solid rgba(0, 0, 0, 0.2); /* #00000033 */
+  border-radius: 8px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  cursor: pointer;
+  
+  box-sizing: border-box;
+  
+  transition: background 0.2s ease;
+}
+
+.filterButton2{
+  width: 219px;
+  height: 44px;
+  padding: 10px;
+  background: #FFFFFF;
+  border: 0.6px solid #00000033;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  cursor: pointer;
+  
+  box-sizing: border-box;
+  
+  transition: background 0.2s ease;
+}
+
+.filterButton:hover {
+  background: #F5F7FA;
+}
+
+/* ============================================
+   FILTER CONTENT - Иконка + Текст (84×24)
+   ============================================ */
+.filterContent {
+  width: 84px;
+  height: 24px;
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ============================================
+   FILTER ICON - Иконка фильтра (24×24)
+   ============================================ */
+.filterIcon {
+  width: 24px;
+  height: 24px;
+  
+  object-fit: contain;
+  
+  flex-shrink: 0;
+}
+
+/* ============================================
+   FILTER TEXT - Текст фильтра
+   ============================================ */
+.filterText {
+  width: 50px;
+  height: 22px;
+  
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px; /* 3% от 16px */
+  
+  color: #535353;
+  
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   ARROW ICON - Стрелка вниз (24×24)
+   ============================================ */
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+  
+  object-fit: contain;
+  
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CATEGORY TITLE - Заголовок категории
+   ============================================ */
+.categoryTitle {
+  width: 100%;
+  height: 48px;
+  
+  padding: 12px 24px;
+  
+  background: #68B5FF;
+  border-radius: 8px;
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.72px;
+  
+  color: #FFFFFF;
+  
+  display: flex;
+  align-items: center;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   CARDS GRID - Сетка карточек (временная)
+   ============================================ */
+.cardsGrid {
+  width: 100%;
+  
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Временная карточка (placeholder) */
+.placeholderCard {
+  width: 100%;
+  height: 200px;
+  
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #B3B3B3;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 1600px) {
+  .container {
+    width: 90%;
+    margin-left: 5%;
+  }
+  
+  .title,
+  .contentWrapper,
+  .scheduleContainer,
+  .scheduleRow {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .schedulePage {
+    padding: 20px;
+  }
+  
+  .container {
+    margin: 0;
+    gap: 32px;
+  }
+  
+  .title {
+    font-size: 36px;
+  }
+  
+  .searchBar {
+    width: 100%;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
+  
+  .filtersRow {
+    width: 100%;
+  }
+  
+  .filterButton {
+    flex: 1;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+}

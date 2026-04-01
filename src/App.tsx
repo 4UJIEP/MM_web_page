@@ -1,22 +1,24 @@
 import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { Courses } from './components/Courses'
-import { Teachers } from './components/Teachers'
-import { FAQ } from './components/FAQ'
-import { Footer } from './components/Footer'
+import { BrowserRouter, Routes, Route } from 'react-router-dom' 
+import { Schedule } from './pages/Schedule'
+import { Home } from './pages/Home'
 import './App.css'
+import { Footer } from './components/Footer'
 
 function App() {
   return (
-    <div className="App"> 
-      <Header />
-      <Hero />
-      <Courses />
-      <Teachers />
-      <FAQ />
-      <Footer />
-    </div>
-      
+    <BrowserRouter>
+      <div className="app">
+        <Header />
+        <Routes>
+          /*Главная страница */
+          <Route path='/' element={<Home />}/>
+          /*Страница расписания */
+          <Route path='/schedule' element={<Schedule />}/>
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>  
   )
 }
 

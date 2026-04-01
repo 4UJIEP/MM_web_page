@@ -1,0 +1,224 @@
+/* ============================================
+   CATEGORY BLOCK (1472×285)
+   ============================================ */
+.categoryBlock {
+  width: 1467px;
+  height: 285px;
+  
+  border-radius: 32px;
+  background: #68B5FF;
+  box-shadow: 
+    0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+    0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+  
+  /* Для правильного позиционирования */
+  position: relative;
+  overflow: visible; /* Разрешаем выход за пределы */
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   CONTAINER (1467×285)
+   ============================================ */
+.container {
+  width: 100%; /* ✅ 100% вместо 1467px */
+  height: 100%;
+  
+  position: relative;
+  overflow: visible; /* ✅ Разрешаем выход за пределы */
+}
+
+/* ============================================
+   TITLE CONTAINER - Заголовок (1419×54)
+   ============================================ */
+.titleContainer {
+  width: calc(100% - 48px); /* ✅ Автоматическая ширина с отступами */
+  height: 54px;
+  
+  padding: 16px 20px 16px 34px;
+  
+  background: #68B5FF;
+  border-radius: 32px 32px 0 0;
+  
+  display: flex;
+  align-items: center;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   TITLE WRAPPER
+   ============================================ */
+.titleWrapper {
+  width: auto;
+  height: 22px;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   TITLE - Текст названия
+   ============================================ */
+.title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px;
+  
+  color: #21242B;
+}
+
+/* ============================================
+   CARDS CONTAINER - Контейнер карточек (1488×247)
+   ============================================ */
+.cardsContainer {
+  width: 100%; 
+  height: 247px;
+  
+  padding: 22px;
+  
+  /*  Позиционируем абсолютно */
+  position: absolute;
+  top: 38px; 
+  left: 0; 
+  
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 
+    0px 4px 12px 0px rgba(0, 0, 0, 0.12), 
+    0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+  
+  /* Карточки поверх заголовка */
+  z-index: 1;
+  
+  box-sizing: border-box;
+  overflow: visible; /* Разрешаем выход стрелок за пределы */
+}
+
+/* ============================================
+   SWIPER
+   ============================================ */
+.swiper {
+  width: 100%;
+  height: 220px;
+
+  overflow: visible; /* Разрешаем выход слайдов */
+    
+  padding: 0 50px;
+}
+
+/* Ограничиваем ширину слайда */
+.swiper :global(.swiper-slide) {
+  width: 368px !important;
+  height: 203px;
+}
+
+/* ============================================
+   NAVIGATION BUTTONS - Стрелки (42×42)
+   ============================================ */
+.navButtonPrev,
+.navButtonNext {
+  width: 42px;
+  height: 42px;
+  
+  padding: 0;
+  
+  background: #FFFFFF;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 
+    0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+    0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+  
+  cursor: pointer;
+  
+  /* ✅ Абсолютное позиционирование относительно cardsContainer */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: all 0.2s ease;
+}
+
+.navButtonPrev {
+  left: -20px; /* ✅ Ближе к краю */
+}
+
+.navButtonNext {
+  right: -20px; /* ✅ Ближе к краю */
+}
+
+.navButtonPrev img,
+.navButtonNext img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1.47);
+}
+
+.navButtonPrev:hover,
+.navButtonNext:hover {
+  background: #F5F7FA;
+  box-shadow: 
+    0px 6px 16px 0px rgba(0, 0, 0, 0.15),
+    0px 0px 1px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+.swiper :global(.swiper-pagination) {
+  bottom: -30px; /* ✅ Под каруселью */
+  position: relative;
+}
+
+.swiper :global(.swiper-pagination-bullet) {
+  background: #016AEE;
+  opacity: 0.3;
+  width: 8px;
+  height: 8px;
+  transition: all 0.2s ease;
+}
+
+.swiper :global(.swiper-pagination-bullet-active) {
+  opacity: 1;
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 1600px) {
+  .categoryBlock {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .swiper {
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .navButtonPrev,
+  .navButtonNext {
+    display: none;
+  }
+  
+  .cardsContainer {
+    width: 100%;
+    left: 0;
+  }
+}

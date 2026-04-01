@@ -1,0 +1,196 @@
+/* ============================================
+   CARD - Карточка расписания (368×203)
+   ============================================ */
+.card {
+    width: 368px;
+    height: 203px;
+    
+    padding: 16px;
+    
+    background: #FFFFFF;
+    border-radius: 24px;
+    box-shadow: 
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 14px;   
+
+    box-sizing: border-box;
+}
+
+/* ============================================
+   INFO CONTAINER - Класс, преподаватель, время, место (336×126)
+   ============================================ */
+.infoContainer {
+  width: 336px;
+  height: 126px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ============================================
+   CLASS TEXT - Класс (336×22)
+   ============================================ */
+.classText {
+  width: 336px;
+  height: 22px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px; /* 3% от 16px */
+  
+  color: #333333;
+}
+
+/* ============================================
+   TEACHER SCHEDULE CONTAINER - Преподаватель + Время (336×47)
+   ============================================ */
+.teacherScheduleContainer {
+  width: 336px;
+  height: 47px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ============================================
+   TEACHER NAME - ФИО преподавателя (336×22)
+   ============================================ */
+.teacherName {
+  width: 336px;
+  height: 22px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px;
+  
+  color: #333333;
+}
+
+/* ============================================
+   SCHEDULE TIME - Время (149×17)
+   ============================================ */
+.scheduleTime {
+  width: 149px;
+  height: 17px;
+  
+  padding: 0 4px 0 6px;
+  border-radius: 6px;
+  
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============================================
+   TIME ICON - Иконка часов (16×16)
+   ============================================ */
+.timeIcon {
+  width: 16px;
+  height: 16px;
+  
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   TIME TEXT - Текст времени (117×17)
+   ============================================ */
+.timeText {
+  width: 117px;
+  height: 17px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 140%;
+  letter-spacing: 0.36px;
+  
+  color: #5C5C5C;
+}
+
+/* ============================================
+   LOCATION CONTAINER - Место (288×33)
+   ============================================ */
+.locationContainer {
+  width: 288px;
+  height: 33px;
+  
+  padding: 8px 10px 8px 6px;
+  
+  border: 0.6px solid rgba(0, 0, 0, 0.2); /* #00000033 */
+  border-radius: 8px;
+  
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  box-sizing: border-box;
+}
+
+/* ============================================
+   LOCATION ICON - Иконка места (16×16)
+   ============================================ */
+.locationIcon {
+  width: 16px;
+  height: 16px;
+  
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   LOCATION TEXT - Текст адреса (250×17)
+   ============================================ */
+.locationText {
+  width: 250px;
+  height: 17px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 140%;
+  letter-spacing: 0.36px;
+  
+  color: #5C5C5C;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   START DATE - Начало занятий (336×31)
+   ============================================ */
+.startDate {
+  width: 336px;
+  height: 31px;
+  
+  padding: 8px 10px 8px 6px;
+  
+  background: #D9EDFF;
+  border-radius: 8px;
+  
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0;
+  
+  color: #016AEE;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  box-sizing: border-box;
+}
