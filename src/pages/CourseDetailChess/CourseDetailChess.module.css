@@ -1,0 +1,179 @@
+/* ============================================
+   COURSE DETAIL PAGE - Основной контейнер (1600×1483)
+   ============================================ */
+.courseDetailPage {
+  /* Фон на весь экран */
+  width: 100%;
+  min-height: 1600px;
+
+  background: #F5F7FA;
+
+  /* Центрируем содержимое */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   HERO BLOCK - Первый блок (1472×557)
+   ============================================ */
+.heroBlock {
+  width: 1472px;
+  max-width: calc(100% - 128px);
+  /* Отступы 64px слева и справа */
+  height: 557px;
+
+  margin-top: 27px;
+
+  padding: 38px 46px;
+
+  background: #BCDFFF;
+  border-radius: 32px;
+
+  /* Flexbox для расположения текста и картинок */
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 64px;
+  /* Gap между текстом и картинками */
+
+  box-sizing: border-box;
+  
+  
+}
+
+/* ============================================
+   TEXT CONTENT - Левая часть: Текст (519×466)
+   ============================================ */
+.textContent {
+  width: 519px;
+  min-height: 466px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  /* Gap между title и description */
+}
+
+/* ============================================
+   TITLE - Заголовок "Математика" (519×56)
+   ============================================ */
+.title {
+  width: 519px;
+  height: 56px;
+
+  margin: 0;
+
+  /* Шрифт из Figma */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 100%;
+  letter-spacing: 1.44px;
+  /* 3% от 48px */
+
+  color: #21242B;
+
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   DESCRIPTION - Контейнер описания (519×378)
+   ============================================ */
+.description {
+  width: 519px;
+  min-height: 378px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Gap между параграфами */
+}
+
+/* ============================================
+   PARAGRAPH - Параграф текста
+   ============================================ */
+.paragraph {
+  width: 519px;
+  /* Высота динамическая (110px, 44px, 66px, 110px) */
+
+  margin: 0;
+
+  /* Шрифт из Figma */
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.48px;
+  /* 3% от 16px */
+
+  color: #21242B;
+}
+
+.decorativeElements_ {
+  flex: 1;
+  /* Занимает оставшееся пространство */
+  min-height: 466px;
+
+  /* Позиционирование для абсолютных элементов */
+  position: relative;
+
+  /* Скрываем выход за пределы Hero блока */
+  overflow: visible;
+
+}
+
+.flower1 {
+  width: 259.3px;
+  height: 248.15px;
+
+  /* Абсолютное позиционирование */
+  position: absolute;
+
+  top: 329px;
+  right: 1179px;
+
+
+  /* Фильтр/тень из Figma */
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+
+  object-fit: contain;
+
+  /* Слой */
+  z-index: 1;
+
+}
+
+.boyImg{
+  width: 549px;
+  height: 557px;
+  
+  position: absolute;
+  
+  top: 27px;
+  right: 771px;
+  
+  object-fit: contain;
+  
+  /* Слой */
+  z-index: 2;
+}
+
+.flower2 {
+  width: 514px;
+  height: 514px;
+  
+  position: absolute;
+  
+  top: 12px;
+  right: 510px;
+  
+  object-fit: contain;
+  
+  
+  z-index: 0;
+}

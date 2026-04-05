@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 import vkIcon from '../../assets/icons/vkontakte.png';
 import appIcon from '../../assets/icons/app.png';
@@ -12,12 +13,12 @@ export const Footer: FC = () => {
           <h3 className={styles.heading}>Навигация по сайту</h3>
           <div className={styles.linksContainer}>
             <ul className={styles.links}>
-              <li><a href="#courses">Курсы</a></li>
-              <li><a href="#teachers">Наши преподаватели</a></li>
-              <li><a href="#olympiads">Олимпиады</a></li>
-              <li><a href="#news">Новости</a></li>
-              <li><a href="#schedule">Расписание</a></li>
-              <li><a href="#contacts">Контакты</a></li>
+              <li><Link to="/courses">Курсы</Link></li>
+              <li><Link to="/teachers">Наши преподаватели</Link></li>
+              <li><Link to="/olympiads">Олимпиады</Link></li>
+              <li><Link to="/news">Новости</Link></li>
+              <li><Link to="/schedule">Расписание</Link></li>
+              <li><Link to="/contacts">Контакты</Link></li>
             </ul>
           </div>
         </div>

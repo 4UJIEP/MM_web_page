@@ -3,6 +3,7 @@ export interface Course {
   /** Уникальный идентификатор курса */
   id: string;
   
+  slug: string; //  slug для маршрутизации
   /** Название курса (например, "Математика") */
   title: string;
   

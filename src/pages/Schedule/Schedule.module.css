@@ -4,7 +4,6 @@
 .schedulePage {
   /* Размеры из Figma */
   width: 100%;
-  max-width: 1600px;
   min-height: 1697px;
   
   margin: 0 auto;
@@ -20,11 +19,12 @@
    ============================================ */
 .container {
   width: 1472px;
+  max-width: 100%;
   min-height: 1611px;
+  margin: 0 auto;
   
   /* Позиция из Figma */
-  margin-top: 42px;
-  margin-left: 64px;
+  padding: 42px 64px 64px;
   
   /* Gap между элементами */
   display: flex;
@@ -169,17 +169,25 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-top: 32px;
+}
+
+/* Убираем верхний отступ у первой строки фильтров */
+.filtersRow:first-child {
+  margin-top: 0;
 }
 
 /* ============================================
    FILTER BUTTON - Кнопка фильтра (140×44)
    ============================================ */
 .filterButton1 {
-  width: 140px;
+  width: auto;
+  min-width: 140px;
   height: 44px;
   
   padding: 10px;
-  
+  gap: 12px;
+
   background: #FFFFFF;
   border: 0.6px solid rgba(0, 0, 0, 0.2); /* #00000033 */
   border-radius: 8px;
@@ -221,12 +229,14 @@
    FILTER CONTENT - Иконка + Текст (84×24)
    ============================================ */
 .filterContent {
-  width: 84px;
+  width: auto;
   height: 24px;
   
   display: flex;
   align-items: center;
   gap: 10px;
+
+  flex-shrink: 0;
 }
 
 /* ============================================
@@ -245,7 +255,7 @@
    FILTER TEXT - Текст фильтра
    ============================================ */
 .filterText {
-  width: 50px;
+  width: auto;
   height: 22px;
   
   /* Шрифт из Figma */
@@ -259,6 +269,7 @@
   
   display: flex;
   align-items: center;
+  white-space: nowrap; 
 }
 
 /* ============================================
@@ -271,6 +282,7 @@
   object-fit: contain;
   
   flex-shrink: 0;
+  
 }
 
 /* ============================================

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import type { Course } from '../../../types/course';
+import { useNavigate } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 
 import clockIcon from '../../../assets/icons/clock.png';
@@ -12,6 +13,8 @@ interface CourseCardProps extends Course {
 }
 
 export const CourseCard: FC<CourseCardProps> = ({
+  id,
+  slug,
   title,
   badge,
   badgeColor,
@@ -22,6 +25,11 @@ export const CourseCard: FC<CourseCardProps> = ({
   onDetailsClick,
   onEnrollClick,
 }) => {
+  const navigate = useNavigate(); // Хук для навигации
+
+  const handleDetailsClick = () => {
+    navigate(`/course/${slug}`); // Переход на страницу курса
+  };
   return (
     <div className={styles.card}>
       
@@ -104,7 +112,7 @@ export const CourseCard: FC<CourseCardProps> = ({
         <div className={styles.buttons}>
           <button 
             className={styles.btnDetails}
-            onClick={onDetailsClick}
+            onClick={handleDetailsClick}
           >
             Подробнее
           </button>

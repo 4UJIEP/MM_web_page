@@ -8,6 +8,7 @@ import cuboroImage from '../assets/kid_chess.png';
 export const coursesData: Course[] = [
   {
     id: 'math',
+    slug: 'mathematics',
     title: 'Математика',
     badge: '1-11 классы',
     badgeColor: '#ABF5CC',
@@ -18,6 +19,7 @@ export const coursesData: Course[] = [
   },
   {
     id: 'chess',
+    slug: 'chess',
     title: 'Шахматы',
     badge: 'Для всех возрастов',
     badgeColor: '#D9BAFF',
@@ -28,6 +30,7 @@ export const coursesData: Course[] = [
   },
   {
     id: 'it',
+    slug: 'informatics',
     title: 'Информатика',
     badge: '3-11 классы',
     badgeColor: '#96CDFF',
@@ -38,6 +41,7 @@ export const coursesData: Course[] = [
   },
   {
     id: 'cuboro',
+    slug: 'cuboro',
     title: 'Куборо',
     badge: 'Для всех возрастов',
     badgeColor: '#FFD88A',

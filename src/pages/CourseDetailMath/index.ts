@@ -1,0 +1,1 @@
+export {CourseDetailMath} from './CourseDetailMath';

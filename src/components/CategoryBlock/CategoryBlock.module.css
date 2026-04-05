@@ -36,7 +36,7 @@
   width: calc(100% - 48px); /* ✅ Автоматическая ширина с отступами */
   height: 54px;
   
-  padding: 16px 20px 16px 34px;
+  padding: 16px 20px 26px 34px;
   
   background: #68B5FF;
   border-radius: 32px 32px 0 0;
@@ -150,11 +150,11 @@
 }
 
 .navButtonPrev {
-  left: -20px; /* ✅ Ближе к краю */
+  left: -20px; 
 }
 
 .navButtonNext {
-  right: -20px; /* ✅ Ближе к краю */
+  right: -20px; 
 }
 
 .navButtonPrev img,

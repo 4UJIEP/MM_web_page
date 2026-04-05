@@ -50,6 +50,10 @@ const mathematicsSchedule = [
     startDate: '12 октября',
   },
 ];
+// заглушка для других расписаний
+const informaticsSchedule = [...mathematicsSchedule];
+const chessSchedule = [...mathematicsSchedule];
+const cuboroSchedule = [...mathematicsSchedule];
 
 export const Schedule: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,74 +62,212 @@ export const Schedule: FC = () => {
 
   return (
     <section className={styles.schedulePage}>
-      <h1 className={styles.pageTitle}>
-        Расписание занятий на 2025-2026 год
-      </h1>
-      
-      <div className={styles.contentWrapper}>
-        {/* поисковое поле*/}
-        <div className={styles.searchBar}>
-          <input
+      <div className={styles.container}>
+
+        <h1 className={styles.title}>
+          Расписание занятий на 2025-2026 год
+        </h1>
+
+        <div className={styles.contentWrapper}>
+          {/* поисковое поле*/}
+          <div className={styles.searchBar}>
+            <input
               type="text"
               className={styles.searchInput}
               placeholder="Поиск"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <img 
-              src={searchIcon} 
-              alt="" 
+            <img
+              src={searchIcon}
+              alt=""
               className={styles.searchIcon}
             />
-        </div>
-        {/* Контейнер с расписанием */}
+          </div>
+          {/* Контейнер с расписанием */}
           <div className={styles.scheduleContainer}>
-            
+
             {/* СТРОКА 1: Математика */}
             <div className={styles.scheduleRow}>
-              
+
               {/* Фильтры */}
               <div className={styles.filtersRow}>
-                
+
                 {/* Фильтр "Класс" */}
                 <div className={styles.filterButton1}>
                   <div className={styles.filterContent}>
-                    <img 
-                      src={classIcon} 
-                      alt="" 
+                    <img
+                      src={classIcon}
+                      alt=""
                       className={styles.filterIcon}
                     />
                     <span className={styles.filterText}>Класс</span>
                   </div>
-                  <img 
-                    src={arrowDownIcon} 
-                    alt="" 
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
                     className={styles.arrowIcon}
                   />
                 </div>
-                
+
                 {/* Фильтр "Преподаватель" */}
                 <div className={styles.filterButton2}>
                   <div className={styles.filterContent}>
-                    <img 
-                      src={teacherIcon} 
-                      alt="" 
+                    <img
+                      src={teacherIcon}
+                      alt=""
                       className={styles.filterIcon}
                     />
                     <span className={styles.filterText}>Преподаватель</span>
                   </div>
-                  <img 
-                    src={arrowDownIcon} 
-                    alt="" 
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
                     className={styles.arrowIcon}
                   />
                 </div>
               </div>
-              <CategoryBlock 
+              <CategoryBlock
                 title='Математика'
                 schedules={mathematicsSchedule}
               />
             </div>
+            {/* СТРОКА 2: Информатика */}
+            <div className={styles.scheduleRow}>
+
+              {/* Фильтры */}
+              <div className={styles.filtersRow}>
+
+                {/* Фильтр "Класс" */}
+                <div className={styles.filterButton1}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={classIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Класс</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+
+                {/* Фильтр "Преподаватель" */}
+                <div className={styles.filterButton2}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={teacherIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Преподаватель</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+              </div>
+              <CategoryBlock
+                title='Информатика'
+                schedules={informaticsSchedule}
+              />
+            </div>
+            {/* СТРОКА 3: шахматы */}
+            <div className={styles.scheduleRow}>
+
+              {/* Фильтры */}
+              <div className={styles.filtersRow}>
+
+                {/* Фильтр "Класс" */}
+                <div className={styles.filterButton1}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={classIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Класс</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+
+                {/* Фильтр "Преподаватель" */}
+                <div className={styles.filterButton2}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={teacherIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Преподаватель</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+              </div>
+              <CategoryBlock
+                title='Шахматы'
+                schedules={chessSchedule}
+              />
+            </div>
+            {/* СТРОКА 4: куборо */}
+            <div className={styles.scheduleRow}>
+
+              {/* Фильтры */}
+              <div className={styles.filtersRow}>
+
+                {/* Фильтр "Класс" */}
+                <div className={styles.filterButton1}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={classIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Класс</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+
+                {/* Фильтр "Преподаватель" */}
+                <div className={styles.filterButton2}>
+                  <div className={styles.filterContent}>
+                    <img
+                      src={teacherIcon}
+                      alt=""
+                      className={styles.filterIcon}
+                    />
+                    <span className={styles.filterText}>Преподаватель</span>
+                  </div>
+                  <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={styles.arrowIcon}
+                  />
+                </div>
+              </div>
+              <CategoryBlock
+                title='Куборо'
+                schedules={cuboroSchedule}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

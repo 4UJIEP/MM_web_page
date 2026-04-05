@@ -56,7 +56,7 @@ export const Teachers: FC = () => {
             modules={[Navigation]}
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
             
-            slidesPerView={'auto'} // ✅ Автоматический размер
+            slidesPerView={3.5} 
             spaceBetween={16}
             
             navigation={false}
@@ -68,7 +68,7 @@ export const Teachers: FC = () => {
               320: { slidesPerView: 1, spaceBetween: 16 },
               768: { slidesPerView: 2, spaceBetween: 16 },
               1024: { slidesPerView: 3, spaceBetween: 16 },
-              1440: { slidesPerView: 4, spaceBetween: 16 },
+              1440: { slidesPerView: 3.5, spaceBetween: 16 },
             }}
             
             className={styles.swiper}

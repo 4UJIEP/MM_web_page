@@ -1,0 +1,1 @@
+export {CourseDetailChess} from './CourseDetailChess';

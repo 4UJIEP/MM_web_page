@@ -66,8 +66,9 @@
   
   position: relative;
   
-  /* ✅ Padding для стрелок */
+  /* Padding для стрелок */
   padding: 0 70px;
+  overflow: hidden;
 }
 
 /* ============================================
@@ -79,13 +80,12 @@
   
   padding: 0;
   
-  /* ✅ Отключаем overflow для видимости стрелок */
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* ✅ Ограничиваем ширину слайда */
 .swiper :global(.swiper-slide) {
-  width: 414px !important; /* ✅ ФИКСИРОВАННАЯ ширина */
+  
   height: 630px;
 }
 
@@ -156,28 +156,6 @@
 .navButtonPrev:active,
 .navButtonNext:active {
   transform: translateY(-50%) scale(0.95);
-}
-
-/* ============================================
-   PAGINATION - Точки
-   ============================================ */
-.swiper :global(.swiper-pagination) {
-  bottom: 10px; /* Под каруселью */
-  position: relative;
-}
-
-.swiper :global(.swiper-pagination-bullet) {
-  background: #016AEE;
-  opacity: 0.3;
-  width: 10px;
-  height: 10px;
-  transition: all 0.2s ease;
-}
-
-.swiper :global(.swiper-pagination-bullet-active) {
-  opacity: 1;
-  width: 24px;
-  border-radius: 5px;
 }
 
 /* ============================================
