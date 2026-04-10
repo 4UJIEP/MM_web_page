@@ -1,0 +1,375 @@
+/* ============================================
+   SECTION — w:1600 bg:#F5F7FA
+   ============================================ */
+.section {
+  width: 100%;
+  min-height: 1062px;
+  background: var(--Background, #F5F7FA);
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================
+   CONTAINER — w:1472 top:64 left:64 gap:16
+   ============================================ */
+.container {
+  width: 1472px;
+  max-width: calc(100vw - 128px);
+  margin-top: 64px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================
+   TITLE — h:28 Roboto 500 24px #21242B
+   ============================================ */
+.title {
+  height: 28px;
+  margin: 0;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.03em; /* 3% */
+  vertical-align: middle;
+
+  color: var(--Font, #21242B);
+
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   DIVIDER — 2px solid #3E404433
+   ============================================ */
+.divider {
+  border: none;
+  border-top: 2px solid #3E404433;
+  margin: 0;
+}
+
+/* ============================================
+   CONTROLS — h:32 justify-content:space-between
+   ============================================ */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+}
+
+/* ============================================
+   MONTH PILL — w:124 h:32 gap:4 br:16 p:4
+   ============================================ */
+.monthPill {
+  display: flex;
+  align-items: center;
+  width: 124px;
+  height: 32px;
+  gap: 4px;
+  border-radius: 16px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.calendarIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Текст месяца — w:105 h:23 Roboto 500 20px */
+.monthLabel {
+  width: 105px;
+  height: 23px;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   WEEK NAV — w:193 h:23 gap:8
+   ============================================ */
+.weekNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 23px;
+}
+
+.arrowButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  line-height: 0;
+}
+
+.arrowButton:hover {
+  background: rgba(62, 64, 68, 0.08);
+}
+
+/* Стрелка — исходный PNG angle-down (смотрит вниз), поворачиваем */
+.arrowIcon {
+  /* Размеры из Figma: w:14 h:7 */
+  width: 14px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Предыдущая неделя — повернуть влево (90°) */
+.arrowLeft {
+  transform: rotate(90deg);
+}
+
+/* Следующая неделя — повернуть вправо (-90°) */
+.arrowRight {
+  transform: rotate(-90deg);
+}
+
+/* Текст недели — w:163 h:23 Roboto 500 20px */
+.weekLabel {
+  width: 163px;
+  height: 23px;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   GRID — 7 колонок
+   ============================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid rgba(62, 64, 68, 0.15);
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+  flex: 1;
+  min-height: 500px;
+}
+
+/* ============================================
+   DAY COLUMN
+   ============================================ */
+.dayColumn {
+  border-right: 1px solid rgba(62, 64, 68, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.dayColumn:last-child {
+  border-right: none;
+}
+
+.dayColumnToday {
+  background: #FAFBFC;
+}
+
+/* Заголовок дня */
+.dayHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px 10px;
+  border-bottom: 1px solid rgba(62, 64, 68, 0.1);
+  gap: 4px;
+}
+
+.dayName {
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(33, 36, 43, 0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dayNumber {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #21242B;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Красный кружок для текущего дня */
+.dayNumberToday {
+  background: #E24B4A;
+  color: #ffffff;
+  border-radius: 50%;
+  font-weight: 500;
+}
+
+/* Содержимое колонки дня */
+.dayContent {
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+/* ============================================
+   LESSON GROUP (курс + карточка)
+   ============================================ */
+.lessonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Название курса над карточкой */
+.courseLabel {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #21242B;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   LESSON CARD
+   ============================================ */
+.lessonCard {
+  background: #F5F7FA;
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lessonMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.lessonClass {
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #21242B;
+  background: rgba(33, 36, 43, 0.08);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.lessonDot {
+  font-size: 10px;
+  color: rgba(33, 36, 43, 0.3);
+}
+
+.lessonDateTime {
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  color: rgba(33, 36, 43, 0.55);
+}
+
+.lessonTeacher {
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  color: #21242B;
+  margin: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lessonLocation {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.locationIcon {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.5;
+}
+
+.locationText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  color: rgba(33, 36, 43, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+@media (max-width: 1600px) {
+  .container {
+    max-width: calc(100vw - 80px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: calc(100vw - 40px);
+    margin-top: 32px;
+  }
+
+  .monthLabel,
+  .weekLabel {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: auto;
+  }
+
+  .controls {
+    flex-direction: column;
+    height: auto;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}

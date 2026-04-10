@@ -2,7 +2,6 @@
    CARD - Карточка курса (720×211)
    ============================================ */
 .card {
-  /* Размеры из Figma */
   width: 100%;
   max-width: 720px;
   height: 211px;
@@ -19,16 +18,11 @@
   /* Gap между фото и инфо: 16px */
   gap: 16px;
   
-  /* Убираем padding (его нет в Figma) */
   padding: 0;
   
   /* Box-sizing */
   box-sizing: border-box;
-  
-  /* Тень (если есть в Figma - добавь параметры) */
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
-  
-  /* Плавный переход для hover эффектов */
+
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -77,10 +71,8 @@
   display: flex;
   flex-direction: column;
   
-  /* ✅ Распределяем пространство между элементами */
   justify-content: space-between;
   
-  /* ✅ Padding: сверху/снизу 16px, слева 16px, справа 16px */
   padding: 16px;
   
   box-sizing: border-box;
@@ -127,7 +119,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   
-  /* ✅ НЕ растягиваем */
   flex-shrink: 0;
 }
 
@@ -163,14 +154,13 @@
   width: 100%;
   min-height: 64px;
   
-  /* ✅ Не растягиваем */
   flex-shrink: 0;
 }
 .stats {
   width: 244px;
-  min-height: 48px; /* ✅ Уменьшаем минимальную высоту */
+  min-height: 48px; 
   
-  margin-left: 0; /* ✅ Убираем отступ */
+  margin-left: 0; 
   
   display: flex;
   flex-direction: row;
@@ -188,7 +178,6 @@
   display: flex;
   flex-direction: column;
   
-  /* ✅ Gap между временем и занятиями: 16px */
   gap: 16px;
 }
 
@@ -202,7 +191,6 @@
   display: flex;
   flex-direction: column;
   
-  /* ✅ Выравнивание по верху */
   justify-content: flex-start;
 }
 
@@ -210,9 +198,9 @@
   min-height: 20px; /* Минимальная высота */
   
   display: flex;
-  flex-direction: row; /* ✅ ВАЖНО: горизонтально */
+  flex-direction: row; 
   align-items: center;
-  gap: 4px; /* ✅ Увеличиваем gap с 4px до 8px */
+  gap: 4px;  
 }
 
 .statIcon {
@@ -263,7 +251,6 @@
    BUTTONS - Кнопки действий (294×42)
    ============================================ */
 .buttons {
-  /* Размеры из Figma */
   width: 294px;
   height: 42px;
   
@@ -298,7 +285,6 @@
   /* Тень */
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   
-  /* Шрифт из Figma */
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 16px;

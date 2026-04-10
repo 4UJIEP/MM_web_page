@@ -3,9 +3,10 @@
    ============================================ */
 .courseDetailPage {
     width: 100%;
-    min-height: 1483px;
-    max-height: 1763px;
+    min-height: auto;
     background: #F5F7FA;
+
+    padding-bottom: 32px;
 
     /* Центрируем содержимое */
     display: flex;
@@ -113,7 +114,7 @@
   color: #21242B;
 }
 
-.decorativeElements_ {
+.imagesContainer_{
   flex: 1;
   /* Занимает оставшееся пространство */
   min-height: 466px;
@@ -124,6 +125,14 @@
   /* Скрываем выход за пределы Hero блока */
   overflow: visible;
 
+}
+
+.imagesCuboro .girlImg {
+  top: 104px;
+}
+
+.imagesChess .girlImg {
+  top: 242.5px;
 }
 
 .flower1 {

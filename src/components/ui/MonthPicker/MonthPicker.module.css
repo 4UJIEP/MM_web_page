@@ -1,0 +1,312 @@
+/* ============================================
+   ROOT — обёртка с position:relative для попапа
+   ============================================ */
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+/* ============================================
+   PILL — кнопка-триггер
+   w:124 h:32 gap:4 border-radius:16 padding:4
+   ============================================ */
+.pill {
+  display: flex;
+  align-items: center;
+  width: 124px;
+  height: 32px;
+  gap: 4px;
+  border-radius: 16px;
+  padding: 4px;
+  box-sizing: border-box;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.pill:hover {
+  background: rgba(62, 64, 68, 0.06);
+}
+
+/* Иконка календаря 24×24 */
+.pillIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Текст месяца — w:105 h:23 Roboto 500 20px letter-spacing 3% */
+.pillLabel {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+
+.popup {
+  position: absolute;
+  top: 40px;   /* появляется под месяцем */
+  left: 0;
+
+  width: 318px;
+  height: 308px;
+  box-sizing: border-box;
+
+  border-radius: 12px; 
+  border: 1px solid var(--Border-Default-Default, #D9D9D9);
+  padding: 16px;
+
+  background: var(--Background-Default-Default, #FFFFFF);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  animation: popupIn 0.15s ease;
+}
+
+@keyframes popupIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+.popupHeader {
+  display: flex;
+  align-items: center;
+  width: 286px;
+  height: 36px;
+  gap: 16px;
+}
+
+
+.arrowButton {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid #D9D9D9; 
+  padding: 8px; 
+  box-sizing: border-box;
+
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.arrowButton:hover {
+  background: #F5F7FA;
+}
+
+.arrowInner {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+/* Левая стрелка*/
+.arrowLeft {
+  width: 5px;
+  height: 10px;
+  border-left: 2px solid var(--Icon-Default-Default, #1E1E1E);
+  border-bottom: 2px solid var(--Icon-Default-Default, #1E1E1E);
+  transform: rotate(45deg);
+  margin-left: 3px;
+}
+
+/* Правая стрелка */
+.arrowRight {
+  width: 5px;
+  height: 10px;
+  border-right: 2px solid var(--Icon-Default-Default, #1E1E1E);
+  border-bottom: 2px solid var(--Icon-Default-Default, #1E1E1E);
+  transform: rotate(-45deg);
+  margin-right: 3px;
+}
+
+/* ============================================
+   SELECTORS ROW
+   ============================================ */
+.selectors {
+  display: flex;
+  align-items: center;
+  width: 182px;
+  height: 28px;
+  gap: 8px;
+  flex: 1;
+}
+
+/* ============================================
+   SELECTOR BOX (месяц / год)
+   ============================================ */
+.selectorBox {
+  display: flex;
+  align-items: center;
+  width: 87px;
+  height: 28px;
+  gap: 8px;
+  border-bottom: 1px solid var(--Border-Default-Default, #D9D9D9);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Select — скрываем нативный вид, оставляем функциональность */
+.selectorSelect {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 0 20px 0 0; 
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px; 
+  line-height: 100%;
+  letter-spacing: 0;
+  color: var(--Text-Default-Default, #1E1E1E);
+}
+
+.chevronDown {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chevronDown::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid #1E1E1E;
+  border-bottom: 1.5px solid #1E1E1E;
+  transform: rotate(45deg);
+  margin-top: -4px;
+}
+
+/* ============================================
+   CALENDAR GRID
+   ============================================ */
+.calendarGrid {
+  width: 286px;
+  height: 240px;
+  padding-top: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ============================================
+   DAY NAMES ROW
+   ============================================ */
+.dayNames {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 286px;
+  height: 20px;
+  gap: 1px;
+}
+
+/* Ячейка дня */
+.dayNameCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+/* Текст дня  */
+.dayNameText {
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 400; 
+  font-size: 11px; 
+  line-height: 1.4; 
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--Text-Default-Secondary, #757575);
+}
+
+/* ============================================
+   DAY NUMBERS GRID
+   ============================================ */
+.dayNumbers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 286px;
+  gap: 1px;
+  flex: 1;
+}
+
+/* ============================================
+   DAY CELL — число в сетке
+   ============================================ */
+.dayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 6px;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #1E1E1E;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.dayCell:hover {
+  background: #F5F7FA;
+}
+
+/* Дни не текущего месяца — серые */
+.dayCellOtherMonth {
+  color: #C0C0C0;
+}
+
+/* Сегодня — тёмный фон */
+.dayCellToday {
+  background: #21242B;
+  color: #ffffff;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.dayCellToday:hover {
+  background: #3E4044;
+}

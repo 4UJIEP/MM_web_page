@@ -22,18 +22,18 @@
    CONTAINER (1467×285)
    ============================================ */
 .container {
-  width: 100%; /* ✅ 100% вместо 1467px */
+  width: 100%; 
   height: 100%;
   
   position: relative;
-  overflow: visible; /* ✅ Разрешаем выход за пределы */
+  overflow: visible; 
 }
 
 /* ============================================
    TITLE CONTAINER - Заголовок (1419×54)
    ============================================ */
 .titleContainer {
-  width: calc(100% - 48px); /* ✅ Автоматическая ширина с отступами */
+  width: calc(100% - 48px); 
   height: 54px;
   
   padding: 16px 20px 26px 34px;
@@ -178,7 +178,7 @@
    PAGINATION
    ============================================ */
 .swiper :global(.swiper-pagination) {
-  bottom: -30px; /* ✅ Под каруселью */
+  bottom: -30px; 
   position: relative;
 }
 

@@ -18,14 +18,13 @@
    QUESTION CONTAINER - Контейнер вопроса + кнопки
    ============================================ */
 .questionContainer {
-  width: 788.88px; /* Из Figma */
+  width: 788.88px; 
   height: 67.88px;
   
   display: flex;
   align-items: center;
   justify-content: space-between;
   
-  /* Gap между вопросом и кнопкой: 92px из Figma */
   gap: 92px;
 }
 
@@ -38,20 +37,19 @@
   
   margin: 0;
   
-  /* Шрифт из Figma */
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 24px;
   line-height: 100%;
   letter-spacing: 0.72px; /* 3% от 24px */
-  text-align: left; /* ✅ Выравнивание слева, а не по центру */
+  text-align: left; 
   
   color: #000000;
   
   display: flex;
   align-items: center;
   
-  /* На случай длинного текста */
+  /* если  длинный текст */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -61,7 +59,7 @@
    TOGGLE BUTTON - Кнопка открытия/закрытия
    ============================================ */
 .toggleButton {
-  width: 48px; /* Из Figma */
+  width: 48px; 
   height: 48px;
   
   padding: 0;
@@ -88,7 +86,6 @@
   display: block;
 }
 
-/* ✅ Поворот кнопки на 45° при открытии (крестик) */
 .toggleButton.open {
   transform: rotate(45deg);
 }
@@ -110,7 +107,6 @@
   /* Gap 16px снизу до линии */
   margin-bottom: 16px;
   
-  /* Шрифт из Figma */
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 16px;

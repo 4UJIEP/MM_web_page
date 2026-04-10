@@ -3,8 +3,8 @@
    ============================================ */
 .faq {
     width: 100%;
-    height: 841px;
-  
+    min-height: 841px;
+    height: auto;
     margin: 0 auto;
   
     /* Фон из Figma */
@@ -91,12 +91,11 @@
 .boyBook {
   position: absolute;
   
-  /* Размеры из Figma */
   width: 673px;
   height: 754px;
   
-  /* Позиция из Figma (относительно секции FAQ) */
-  top: 0;
+  /* Позиция относительно секции FAQ */
+  top: 100px;
   left: 29px;
   
   object-fit: contain;
@@ -108,47 +107,40 @@
 .question1 {
   position: absolute;
   
-  /* Размеры из Figma */
   width: 231.49px;
   height: 231.49px;
   
-  /* Позиция из Figma */
   top: 27px;
   left: 64px;
   
   
   object-fit: contain;
   
-  /* Слой (над мальчиком) */
+  /* Слой над мальчиком */
   z-index: 2;
 }
 
 .question2 {
   position: absolute;
   
-  /* Размеры из Figma */
   width: 114.3px;
   height: 114.3px;
   
-  /* Позиция из Figma */
   top: 200px;
   left: 522px;
   
   
   object-fit: contain;
   
-  /* Слой */
   z-index: 2;
 }
 
 .question3 {
   position: absolute;
   
-  /* Размеры из Figma */
   width: 85.11px;
   height: 85.11px;
   
-  /* Позиция из Figma */
   top: 513px;
   left: 95px;
   
@@ -208,7 +200,6 @@
   width: 800px;
   min-height: 590px;
   
-  /* Позиция из Figma */
   /* top: 195px уже учтено в margin-bottom заголовка */
   /* left: 715px - автоматически через justify-content */
   

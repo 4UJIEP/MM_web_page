@@ -8,7 +8,6 @@
   right: 0;
   bottom: 0;
   
-  /* Затемнение из Figma */
   background: rgba(62, 64, 68, 0.15); /* #3E404426 */
   
   /* Центрирование модального окна */
@@ -36,7 +35,6 @@
    MODAL - Модальное окно (600×630)
    ============================================ */
 .modal {
-  /* Размеры из Figma */
   width: 600px;
   height: 630px;
   
@@ -78,7 +76,6 @@
 .closeButton {
   position: absolute;
   
-  /* Позиция из Figma */
   top: 27px;
   right: 40px;
   
@@ -116,11 +113,10 @@
    CONTAINER - Контейнер содержимого (500×477)
    ============================================ */
 .container {
-  /* Размеры из Figma */
   width: 500px;
   height: 477px;
-  
-  /* Позиция из Figma */
+
+  /* позиция */
   margin-top: 49px;
   margin-left: 50px;
   
@@ -139,7 +135,6 @@
   
   margin: 0;
   
-  /* Шрифт из Figma */
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 48px;
@@ -184,7 +179,6 @@
   width: 500px;
   height: 28px;
   
-  /* Шрифт из Figma */
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 20px;
@@ -211,7 +205,6 @@
   border: 1px solid #D9D9D9;
   border-radius: 8px; /* Radius/200 */
   
-  /* Шрифт */
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 16px;
@@ -253,10 +246,9 @@
   width: auto;
   height: 22px;
   
-  /* Шрифт из Figma */
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 16px; /* Body/Size Medium */
+  font-size: 16px; 
   line-height: 140%;
   letter-spacing: 0;
   
@@ -308,7 +300,6 @@
   border: none;
   border-radius: 8px;
   
-  /* Шрифт */
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 20px;
@@ -368,7 +359,6 @@
 .agreementText {
   width: 335px;
   
-  /* Шрифт из Figma */
   font-family: 'Museo Sans Cyrl', sans-serif;
   font-weight: 400;
   font-size: 12px;

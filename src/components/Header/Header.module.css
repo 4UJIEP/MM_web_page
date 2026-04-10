@@ -28,20 +28,17 @@
 }
 /* === ЛОГОТИП === */
 .logoLink {
-    width: 164px;
-    height: 32px;
-    
-  
+    display: inline-flex;
+    align-items: center;
+    height: 80px;
+    width: auto;
 }
 
 .logoImage {
-    width: 100%;
-    height: 100%;
-    
-    /* Сохраняем пропорции */
-    object-fit: contain;
+    width: auto;
+    max-height: 100%;
     display: block;
-
+    object-fit: contain;
 }
 
 
@@ -132,6 +129,77 @@
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
+/* БЛОК ПОЛЬЗОВАТЕЛЯ (если залогинен)  */
+.userBlock {
+    display: flex;
+    align-items: center;
+    width: 297px;
+    height: 42px;
+    gap: 11px;
+    justify-content: flex-end;
+ 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+ 
+    transition: opacity 0.2s ease;
+}
+ 
+.userBlock:hover {
+    opacity: 0.8;
+}
+ 
+/* Имя — w:244 h:23 Roboto 500 20px letter-spacing 3% */
+.userName {
+    width: 244px;
+    height: 23px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em; /* 3% */
+    text-align: right;
+    vertical-align: middle;
+    color: #333333;
+ 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+ 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ 
+/* Аватарка PNG — w:42 h:42 */
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+ 
+/* Аватарка-заглушка (инициалы), пока нет картинки */
+.avatarPlaceholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #016AEE;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+ 
+
 /* === АДАПТИВНОСТЬ === */
 @media (max-width: 1200px) {
     .navList {
@@ -159,6 +227,6 @@
     }
     
     .nav {
-        display: none; /* На мобилке скрываем, можно добавить бургер-меню */
+        display: none; /* На мобилке скрываем */
     }
 }

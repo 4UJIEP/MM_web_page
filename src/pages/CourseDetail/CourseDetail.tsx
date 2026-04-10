@@ -34,17 +34,23 @@ export const CourseDetail: FC = () => {
   const handleNextClick = () => {
     swiperRef.current?.slideNext();
   };
+  // функция для получения класса в зависимоти от курса
+  const getImagesClass = () => {
+    if (slug === 'chess') return styles.imagesChess;
+    if (slug === 'cuboro') return styles.imagesCuboro;
+    return ''; // Для mathematics и informatics
+  };
 
   return (
     <section className={styles.courseDetailPage}>
-      
+
       {/* Hero блок */}
       <div className={styles.heroBlock}>
-        
+
         {/* Левая часть: Текст */}
         <div className={styles.textContent}>
           <h1 className={styles.title}>{courseData.title}</h1>
-          
+
           <div className={styles.description}>
             {courseData.heroDescription.map((text, index) => (
               <p key={index} className={styles.paragraph}>
@@ -53,58 +59,58 @@ export const CourseDetail: FC = () => {
             ))}
           </div>
         </div>
-        
+
         {/* Правая часть: Картинки */}
-        <div className={styles.decorativeElements}>
-          <img 
-            src={courseData.images.flower1} 
-            alt="" 
+        <div className={`${styles.imagesContainer} ${getImagesClass()}`}>
+          <img
+            src={courseData.images.flower1}
+            alt=""
             className={styles.flower1}
           />
-          
-          <img 
-            src={courseData.images.mainImage} 
-            alt="" 
+
+          <img
+            src={courseData.images.mainImage}
+            alt=""
             className={styles.girlImg}
           />
-          
-          <img 
-            src={courseData.images.flower2} 
-            alt="" 
+
+          <img
+            src={courseData.images.flower2}
+            alt=""
             className={styles.flower2}
           />
         </div>
-        
+
       </div>
-      
+
       {/*УСЛОВНАЯ КАРУСЕЛЬ - только если hasCarousel = true */}
       {courseData.hasCarousel && courseData.infoCards && (
         <div className={styles.carouselSection}>
-          
-          <button 
+
+          <button
             className={styles.navButtonPrev}
             onClick={handlePrevClick}
             aria-label="Предыдущая карточка"
           >
             <img src={arrowLeftIcon} alt="" />
           </button>
-          
+
           <Swiper
             modules={[Navigation, Pagination]}
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
-            
+
             slidesPerView={2.6}
             spaceBetween={16}
-            
+
             navigation={false}
             pagination={{ clickable: true }}
-            
+
             loop={true}
             centeredSlides={false}
-            
+
             className={styles.swiper}
           >
-            
+
             {courseData.infoCards.map((card, index) => (
               <SwiperSlide key={index}>
                 <InfoCard
@@ -115,20 +121,20 @@ export const CourseDetail: FC = () => {
                 />
               </SwiperSlide>
             ))}
-            
+
           </Swiper>
-          
-          <button 
+
+          <button
             className={styles.navButtonNext}
             onClick={handleNextClick}
             aria-label="Следующая карточка"
           >
             <img src={arrowRightIcon} alt="" />
           </button>
-          
+
         </div>
       )}
-    
+
     </section>
   );
 };

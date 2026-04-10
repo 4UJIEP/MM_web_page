@@ -8,8 +8,7 @@ import flower2Img from '../../assets/flower2.png';
 export const CourseDetailChess: FC = () => {
     return (
         <section className={styles.courseDetailPage}>
-            <div>
-
+            <div className={styles.heroBlock}>
 
                 <div className={styles.textContent}>
 

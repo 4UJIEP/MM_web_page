@@ -4,7 +4,6 @@
 .teachers {
   width: 100%;
   
-  /* ✅ ГОЛУБОЙ ФОН всей секции (как в Figma) */
   background: #F5F7FA;/* Светло-голубой фон секции */
   
   /* Padding сверху/снизу */
@@ -83,7 +82,6 @@
   overflow: hidden;
 }
 
-/* ✅ Ограничиваем ширину слайда */
 .swiper :global(.swiper-slide) {
   
   height: 630px;
@@ -98,11 +96,10 @@
   width: 42px;
   height: 42px;
   
-  padding: 0; /* ✅ Убираем padding */
+  padding: 0;
   
   border-radius: 100px;
   
-  /* Фон белый */
   background: #FFFFFF;
   
   border: none;
@@ -126,11 +123,11 @@
 
 /* Позиция стрелок */
 .navButtonPrev {
-  left: 0; /* ✅ У левого края wrapper */
+  left: 0; 
 }
 
 .navButtonNext {
-  right: 0; /* ✅ У правого края wrapper */
+  right: 0; 
 }
 
 /* Иконка внутри кнопки */
@@ -140,12 +137,6 @@
   
 }
 
-/* ✅ УБИРАЕМ поворот - у тебя две разные иконки */
-/* .navButtonPrev img {
-  transform: rotate(180deg);
-} */
-
-/* Hover эффект */
 .navButtonPrev:hover,
 .navButtonNext:hover {
   background: #F0F8FF;
