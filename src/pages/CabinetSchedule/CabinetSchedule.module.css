@@ -132,7 +132,7 @@
 .arrowIcon {
   /* Размеры из Figma: w:14 h:7 */
   width: 14px;
-  height: 20px;
+  height: 7px;
   object-fit: contain;
 }
 
@@ -186,6 +186,8 @@
   border-right: 1px solid rgba(62, 64, 68, 0.12);
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* карточки не вылезают за границу колонки */
+  min-width: 0;     /* flex/grid child должен уметь сжиматься */
 }
 
 .dayColumn:last-child {
@@ -243,6 +245,7 @@
   flex-direction: column;
   gap: 12px;
   flex: 1;
+  min-width: 0;
 }
 
 /* ============================================
@@ -252,6 +255,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 /* Название курса над карточкой */
@@ -274,6 +278,14 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.lessonCard:hover {
+  background: #eaecf0;
 }
 
 .lessonMeta {
@@ -281,6 +293,7 @@
   align-items: center;
   gap: 4px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .lessonClass {
@@ -310,9 +323,12 @@
   color: #21242B;
   margin: 0;
   line-height: 1.4;
-  white-space: nowrap;
+  /* убираем nowrap — текст переносится внутри колонки */
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .lessonLocation {
@@ -334,9 +350,11 @@
   font-family: 'Roboto', sans-serif;
   font-size: 10px;
   color: rgba(33, 36, 43, 0.55);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 /* ============================================

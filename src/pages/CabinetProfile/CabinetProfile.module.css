@@ -1,0 +1,314 @@
+/* ============================================
+   SECTION — w:1600 h:1041 bg:#F5F7FA
+   ============================================ */
+.section {
+  width: 100%;
+  min-height: 1041px;
+  background: var(--Background, #F5F7FA);
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================
+   CONTAINER — внутренний контейнер
+   Повторяет паттерн CabinetSchedule:
+   max-width 1472px, отступ сверху 60px
+   ============================================ */
+.container {
+  width: 1472px;
+  max-width: calc(100vw - 128px);
+  /* top:60 от верхней границы секции */
+  margin-top: 60px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  /* gap между элементами задаётся отдельно через margin */
+  gap: 0;
+}
+
+/* ============================================
+   TITLE «Профиль»
+   w:107 h:28 Roboto 500 24px #21242B
+   letter-spacing 3% left:73 (64+9 = отступ контейнера)
+   ============================================ */
+.title {
+  width: 107px;
+  height: 28px;
+  margin: 0 0 10px 9px; /* отступ снизу 10px до разделителя, 9px слева (73-64) */
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+
+  color: var(--Font, #21242B);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   DIVIDER — border: 2px solid #3E404433
+   ============================================ */
+.divider {
+  border: none;
+  border-top: 2px solid rgba(62, 64, 68, 0.2);
+  margin: 0;
+  width: 100%;
+}
+
+/* ============================================
+   INFO BLOCK — аватарка + ФИО + телефон
+   top:115 → отступ 17px от разделителя (98+17=115)
+   ============================================ */
+.infoBlock {
+  display: flex;
+  align-items: flex-start;
+  /* left:93 → отступ слева 93-64=29px */
+  padding: 17px 0 0 29px;
+  /* отступ снизу: разделитель2 top:321, аватарка top:115+189=304 → ~17px */
+  margin-bottom: 17px;
+  gap: 45px; /* отступ между аватаркой и инфо — 45px из Figma */
+}
+
+/* ============================================
+   AVATAR — w:189 h:189
+   ============================================ */
+.avatar {
+  width: 189px;
+  height: 189px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Аватарка-заглушка */
+.avatarPlaceholder {
+  width: 189px;
+  height: 189px;
+  border-radius: 50%;
+  background: #016AEE;
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   USER INFO — w:555 h:89 gap:13
+   top:165 → top аватарки(115) + (189-89)/2 = центр по вертикали
+   left:327
+   ============================================ */
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  width: 555px;
+  gap: 13px;
+  /* Выравниваем по центру аватарки (189px): (189-89)/2 = 50px сверху */
+  margin-top: 50px;
+}
+
+/* ============================================
+   INFO ROW — строка «метка: значение»
+   ============================================ */
+.infoRow {
+  display: flex;
+  align-items: center;
+  height: 38px;
+}
+
+/* ФИО row — gap:28 */
+.infoRow:first-child {
+  gap: 28px;
+}
+
+/* Телефон row — gap:15 */
+.infoRow:last-child {
+  gap: 15px;
+}
+
+/* ============================================
+   LABEL — «ФИО:» / «Номер телефона:»
+   Roboto 600 32px #21242B letter-spacing 3%
+   ============================================ */
+.infoLabel {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   VALUE NAME — «Василий Пупкин Мупкин»
+   w:390 h:38 Roboto 600 32px #333333
+   ============================================ */
+.infoValueName {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  color: #333333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   VALUE — телефон
+   w:265 h:38 Roboto 600 32px #21242B
+   ============================================ */
+.infoValue {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+}
+
+/* ============================================
+   COURSES BLOCK
+   w:239 h:122 top:337 left:64 gap:32
+   от разделителя2 (top:321) отступ 16px вниз
+   ============================================ */
+.coursesBlock {
+  display: flex;
+  flex-direction: column;
+  width: 239px;
+  gap: 32px;
+  padding: 16px 0 19px 0; /* 16 сверху, 19 снизу до разделителя3 */
+}
+
+/* «Курсы» — w:239 h:28 Roboto 500 24px #21242B */
+.coursesTitle {
+  width: 239px;
+  height: 28px;
+  margin: 0;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+
+  color: var(--Font, #21242B);
+
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   COURSES LIST — w:239 h:62 gap:16
+   ============================================ */
+.coursesList {
+  display: flex;
+  flex-direction: column;
+  width: 239px;
+  gap: 16px;
+}
+
+/* ============================================
+   COURSE ROW — w:239 h:23 gap:8
+   ============================================ */
+.courseRow {
+  display: flex;
+  align-items: center;
+  width: 239px;
+  height: 23px;
+  gap: 8px;
+}
+
+/* Текст курса — w:214 h:23 Roboto 500 20px #21242B letter-spacing 3% */
+.courseText {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--Font, #21242B);
+  white-space: nowrap;
+}
+
+/* Стрелка — w:14 h:7 angle:180deg (повёрнута вверх) #7A7A7A */
+.courseArrow {
+  width: 14px;
+  height: 7px;
+  object-fit: contain;
+  flex-shrink: 0;
+  /* angle:180 — стрелка смотрит вверх (раскрытие) */
+  transform: rotate(180deg);
+  /* Перекраска в #7A7A7A через CSS filter */
+  filter: invert(50%) sepia(0%) saturate(0%) brightness(80%);
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+@media (max-width: 1200px) {
+  .infoLabel,
+  .infoValueName,
+  .infoValue {
+    font-size: 24px;
+  }
+
+  .userInfo {
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: calc(100vw - 40px);
+    margin-top: 32px;
+  }
+
+  .infoBlock {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding-left: 0;
+  }
+
+  .userInfo {
+    margin-top: 0;
+    width: 100%;
+    align-items: center;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    height: auto;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .infoLabel,
+  .infoValueName,
+  .infoValue {
+    font-size: 20px;
+  }
+}

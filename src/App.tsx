@@ -8,6 +8,7 @@ import './App.css'
 import { Footer } from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
 import { CabinetSchedule } from './pages/CabinetSchedule'
+import { CabinetProfile } from './pages/CabinetProfile'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path='/course/:slug' element={<CourseDetail />} />
             {/* Личный кабинет */}
             <Route path='/cabinet/schedule' element={<CabinetSchedule />} />
+            <Route path='/cabinet/profile' element={<CabinetProfile />} />
           </Routes>
           <Footer />
         </div>

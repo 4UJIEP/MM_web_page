@@ -8,16 +8,16 @@
     box-shadow: 0 4px 8px rgba(18, 18, 18, 0.2);
     top: 0;
     z-index: 1000;
-    transform: translateZ(0);
-    isolation: isolate;
+    position: relative;
+    /* нужен для z-index без isolation */
 }
 
 .container {
-  height: 100%;
-  padding: 0 65px;
-  display: flex;
-  align-items: center; 
-  justify-content: space-between;
+    height: 100%;
+    padding: 0 65px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .leftSection {
@@ -26,29 +26,26 @@
     gap: 32px;
     flex: 1;
 }
+
 /* === ЛОГОТИП === */
 .logoLink {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    height: 80px;
-    width: auto;
 }
 
 .logoImage {
-    width: auto;
-    max-height: 100%;
-    display: block;
+    width: 100%;
+    height: auto;
     object-fit: contain;
+    display: block;
 }
 
-
-/* НАВИГАЦИЯ  */
+/* НАВИГАЦИЯ */
 .nav {
     display: flex;
     align-items: center;
     gap: 16px;
     height: 23px;
-
 }
 
 .navLink {
@@ -64,18 +61,9 @@
     color: #333333;
     display: flex;
     align-items: center;
-
-    /* Не переносить текст на новую строку */
     white-space: nowrap;
-
     transition: color 0.2s ease;
-
 }
-
-.navItem {
-    margin: 0;
-}
-
 
 .navLink:hover,
 .navLink.active {
@@ -88,6 +76,7 @@
     flex-shrink: 0;
 }
 
+/* === КНОПКА «ЛИЧНЫЙ КАБИНЕТ» (незалогинен) === */
 .profileLink {
     width: 173px;
     height: 42px;
@@ -100,8 +89,8 @@
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    line-height: 140%; 
-    letter-spacing: 0.48px; 
+    line-height: 140%;
+    letter-spacing: 0.48px;
     text-align: center;
     color: #016AEE;
 
@@ -115,21 +104,24 @@
     box-sizing: border-box;
     border: none;
     outline: none;
-
+    cursor: pointer;
 }
 
 .profileLink:hover {
-  background: #E0F2FF; /* чуть темнее */
-  box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.3); /* сильнее тень */
-  transform: translateY(-1px); /* лёгкий подъём */
+    background: #E0F2FF;
+    box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
 }
 
 .profileLink:active {
-  transform: translateY(0);
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
-/* БЛОК ПОЛЬЗОВАТЕЛЯ (если залогинен)  */
+/* ============================================
+   БЛОК ПОЛЬЗОВАТЕЛЯ (залогинен)
+   w:297 h:42 gap:11
+   ============================================ */
 .userBlock {
     display: flex;
     align-items: center;
@@ -137,20 +129,20 @@
     height: 42px;
     gap: 11px;
     justify-content: flex-end;
- 
+
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     outline: none;
- 
+
     transition: opacity 0.2s ease;
 }
- 
+
 .userBlock:hover {
     opacity: 0.8;
 }
- 
+
 /* Имя — w:244 h:23 Roboto 500 20px letter-spacing 3% */
 .userName {
     width: 244px;
@@ -159,20 +151,21 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 100%;
-    letter-spacing: 0.03em; /* 3% */
+    letter-spacing: 0.03em;
+    /* 3% */
     text-align: right;
     vertical-align: middle;
     color: #333333;
- 
+
     display: flex;
     align-items: center;
     justify-content: flex-end;
- 
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
- 
+
 /* Аватарка PNG — w:42 h:42 */
 .avatar {
     width: 42px;
@@ -181,7 +174,7 @@
     object-fit: cover;
     flex-shrink: 0;
 }
- 
+
 /* Аватарка-заглушка (инициалы), пока нет картинки */
 .avatarPlaceholder {
     width: 42px;
@@ -198,26 +191,18 @@
     flex-shrink: 0;
     letter-spacing: 0.02em;
 }
- 
 
 /* === АДАПТИВНОСТЬ === */
 @media (max-width: 1200px) {
-    .navList {
-        gap: 20px;
-    }
-    
     .navLink {
         font-size: 13px;
     }
 }
 
 @media (max-width: 1024px) {
-    .logoSubtitle {
-        display: none;
-    }
-    
-    .navList {
-        gap: 16px;
+    .navLink {
+        font-size: 12px;
+        gap: 12px;
     }
 }
 
@@ -225,8 +210,219 @@
     .container {
         padding: 0 20px;
     }
-    
+
     .nav {
-        display: none; /* На мобилке скрываем */
+        display: none;
     }
+
+    .userName {
+        display: none;
+    }
+}
+
+/* ============================================
+   USER BLOCK WRAPPER
+   position:relative — для дропдауна
+   ============================================ */
+.userBlockWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================
+   DROPDOWN — w:382 h:169 br:16 bg:#fff
+   Позиционируется через position:fixed в портале
+   ============================================ */
+.dropdown {
+    width: 382px;
+    height: 169px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+    overflow: hidden;
+    animation: dropdownIn 0.15s ease;
+    box-sizing: border-box;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* inner — w:374 top:16 left:4 gap:12 */
+.dropdownInner {
+    position: absolute;
+    top: 16px;
+    left: 4px;
+    width: 374px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ============================================
+   СТРОКА ФИО + АВАТАРКА
+   w:374 h:42
+   ФИО: w:244 h:23 top:10 left:58
+   Аватарка: w:42 h:42 left:310
+   ============================================ */
+.dropdownProfile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 374px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.dropdownProfile:hover .dropdownName {
+    opacity: 0.7;
+}
+
+/* ФИО — w:244 h:23 Roboto 500 20px #333 letter-spacing 3% */
+/* left:58 = отступ слева (под аватаркой нет, просто позиция) */
+.dropdownName {
+    position: absolute;
+    left: 58px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 244px;
+    height: 23px;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: #333333;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.15s ease;
+}
+
+/* Аватарка — w:42 h:42 left:310 */
+.dropdownAvatar {
+    position: absolute;
+    left: 310px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dropdownAvatarPlaceholder {
+    position: absolute;
+    left: 310px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #016AEE;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   БЛОК «ДОБАВИТЬ АККАУНТ»
+   w:374 h:48 gap:11
+   Сверху и снизу — линии 2px solid #3E404433
+   ============================================ */
+.dropdownAddSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* центрируем кнопку по горизонтали */
+    width: 374px;
+    gap: 11px;
+    flex-shrink: 0;
+}
+
+/* Линия — border: 2px solid #3E404433 */
+.dropdownLine {
+    width: 374px;
+    border: none;
+    border-top: 2px solid rgba(62, 64, 68, 0.2);
+    margin: 0;
+}
+
+/* Кнопка «+ Добавить аккаунт» — w:209 h:24
+   Roboto 500 20px #3E4044 letter-spacing 3%
+   Плюс — просто символ текста */
+.dropdownAddAccount {
+    display: flex;
+    align-items: center;
+    width: 209px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--Font_02, #3E4044);
+    white-space: nowrap;
+
+    transition: opacity 0.15s ease;
+}
+
+.dropdownAddAccount:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   ВЫЙТИ ИЗ АККАУНТА
+   w:374 h:24 Roboto 500 20px #E82346 letter-spacing 3%
+   ============================================ */
+.dropdownLogout {
+    width: 374px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--Red-800, #E82346);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+}
+
+.dropdownLogout:hover {
+    opacity: 0.75;
 }

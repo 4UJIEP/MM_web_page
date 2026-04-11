@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import styles from './CabinetSchedule.module.css';
 import { MonthPicker } from '../../components/ui/MonthPicker';
+import { LessonModal } from '../../components/ui/LessonModal';
 
 import locationIcon from '../../assets/icons/location.png';
 import arrowDownIcon from '../../assets/icons/angle-down.png';
@@ -117,8 +118,21 @@ const MOCK_LESSONS: Record<string, Lesson[]> = {
 // SUB-COMPONENTS
 // ============================================
 
-const LessonCard: FC<{ lesson: Lesson }> = ({ lesson }) => (
-  <div className={styles.lessonCard}>
+interface LessonCardProps {
+  lesson: Lesson;
+  onOpen: (lessonId: string) => void;
+}
+
+const LessonCard: FC<LessonCardProps> = ({ lesson, onOpen }) => (
+  // Клик открывает модалку с деталями — id урока передаём наверх
+  <div
+    className={styles.lessonCard}
+    onClick={() => onOpen(lesson.id)}
+    role="button"
+    tabIndex={0}
+    aria-label={`Открыть подробности: ${lesson.courseName}`}
+    onKeyDown={(e) => e.key === 'Enter' && onOpen(lesson.id)}
+  >
     <div className={styles.lessonMeta}>
       <span className={styles.lessonClass}>{lesson.classLabel}</span>
       <span className={styles.lessonDot}>·</span>
@@ -132,7 +146,13 @@ const LessonCard: FC<{ lesson: Lesson }> = ({ lesson }) => (
   </div>
 );
 
-const DayColumn: FC<{ dayName: string; data: DayData }> = ({ dayName, data }) => {
+interface DayColumnProps {
+  dayName: string;
+  data: DayData;
+  onOpenLesson: (lessonId: string) => void;
+}
+
+const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson }) => {
   const today = isToday(data.day);
   return (
     <div className={`${styles.dayColumn} ${today ? styles.dayColumnToday : ''}`}>
@@ -146,7 +166,7 @@ const DayColumn: FC<{ dayName: string; data: DayData }> = ({ dayName, data }) =>
         {data.lessons.map((lesson) => (
           <div key={lesson.id} className={styles.lessonGroup}>
             <p className={styles.courseLabel}>{lesson.courseName}</p>
-            <LessonCard lesson={lesson} />
+            <LessonCard lesson={lesson} onOpen={onOpenLesson} />
           </div>
         ))}
       </div>
@@ -160,6 +180,9 @@ const DayColumn: FC<{ dayName: string; data: DayData }> = ({ dayName, data }) =>
 
 export const CabinetSchedule: FC = () => {
   const [monday, setMonday] = useState<Date>(() => getMondayOf(new Date()));
+
+  // null = модалка закрыта, string = id открытого урока
+  const [openLessonId, setOpenLessonId] = useState<string | null>(null);
 
   const weekDays = getWeekDays(monday);
   const weekData: DayData[] = weekDays.map((day) => ({
@@ -187,6 +210,11 @@ export const CabinetSchedule: FC = () => {
     setMonday(getMondayOf(pickedDate));
   };
 
+  const handleGoToJournal = (_lessonId: string) => {
+    // TODO: navigate('/cabinet/journal?lesson=' + lessonId)
+    setOpenLessonId(null);
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -195,15 +223,12 @@ export const CabinetSchedule: FC = () => {
         <hr className={styles.divider} />
 
         <div className={styles.controls}>
-
-          {/* MonthPicker: передаём месяц/год текущего понедельника для отображения */}
           <MonthPicker
             month={monday.getMonth()}
             year={monday.getFullYear()}
             onChange={handleDatePicked}
           />
 
-          {/* Навигация по неделям */}
           <div className={styles.weekNav}>
             <button
               className={styles.arrowButton}
@@ -239,11 +264,20 @@ export const CabinetSchedule: FC = () => {
               key={day}
               dayName={day}
               data={weekData[index]}
+              onOpenLesson={setOpenLessonId}
             />
           ))}
         </div>
 
       </div>
+
+      {/* Модалка с деталями урока — монтируется вне grid, чтобы не обрезалась */}
+      <LessonModal
+        lessonId={openLessonId}
+        onClose={() => setOpenLessonId(null)}
+        onGoToJournal={handleGoToJournal}
+      />
+
     </section>
   );
 };
