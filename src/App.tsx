@@ -9,6 +9,7 @@ import { Footer } from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
 import { CabinetSchedule } from './pages/CabinetSchedule'
 import { CabinetProfile } from './pages/CabinetProfile'
+import { CabinetJournal } from './pages/CabinetJournal/CabinetJournal'
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
             {/* Личный кабинет */}
             <Route path='/cabinet/schedule' element={<CabinetSchedule />} />
             <Route path='/cabinet/profile' element={<CabinetProfile />} />
+
+            <Route path= '/cabinet/journal' element={<CabinetJournal />} />
           </Routes>
           <Footer />
         </div>

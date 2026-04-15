@@ -210,10 +210,6 @@ export const CabinetSchedule: FC = () => {
     setMonday(getMondayOf(pickedDate));
   };
 
-  const handleGoToJournal = (_lessonId: string) => {
-    // TODO: navigate('/cabinet/journal?lesson=' + lessonId)
-    setOpenLessonId(null);
-  };
 
   return (
     <section className={styles.section}>
@@ -275,7 +271,6 @@ export const CabinetSchedule: FC = () => {
       <LessonModal
         lessonId={openLessonId}
         onClose={() => setOpenLessonId(null)}
-        onGoToJournal={handleGoToJournal}
       />
 
     </section>

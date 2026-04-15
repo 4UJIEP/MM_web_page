@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { LoginModal } from '../ui/LoginModal';
 import { useAuth } from '../../context/AuthContext';
+import { LogoutConfirmModal } from '../ui/LogoutConfirmModal';
 
 import logo from '../../assets/logoMM.png';
 
@@ -152,6 +153,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
 export const Header: FC = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
     const { user, isAuthenticated, login, logout } = useAuth();
     const navigate = useNavigate();
     // Ref на кнопку-триггер для вычисления позиции дропдауна
@@ -176,9 +178,19 @@ export const Header: FC = () => {
     };
 
     const handleLogout = () => {
-        logout();
+        // открываем подтверждение выхода
         setIsDropdownOpen(false);
+        setIsLogoutConfirmOpen(true);
+    };
+
+    const handleLogoutConfirm = () => {
+        logout();
+        setIsLogoutConfirmOpen(false);
         navigate('/');
+    };
+
+    const handleLogoutCancel = () => {
+        setIsLogoutConfirmOpen(false);
     };
 
     const handleGoToProfile = () => {
@@ -293,6 +305,12 @@ export const Header: FC = () => {
                 isOpen={isLoginModalOpen}
                 onClose={handleCloseModal}
                 onLogin={handleLogin}
+            />
+
+            <LogoutConfirmModal 
+                isOpen={isLogoutConfirmOpen}
+                onConfirm={handleLogoutConfirm}
+                onCancel={handleLogoutCancel}
             />
         </>
     );

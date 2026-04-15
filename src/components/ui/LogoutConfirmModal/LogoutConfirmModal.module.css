@@ -1,0 +1,181 @@
+/* ============================================
+   OVERLAY — bg: #3E404426
+   ============================================ */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(62, 64, 68, 0.15); /* #3E404426 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ============================================
+   MODAL — w:604 h:180 br:16 bg:#fff
+   ============================================ */
+.modal {
+    width: 604px;
+    height: 180px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    position: relative;
+    animation: slideIn 0.15s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   ТЕКСТ — w:522 h:28 top:39 left:29
+   Roboto 500 24px #000 letter-spacing 3%
+   ============================================ */
+.question {
+    position: absolute;
+    top: 39px;
+    left: 29px;
+    width: 522px;
+    height: 28px;
+
+    margin: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* ============================================
+   КНОПКИ — w:240 h:44 top:97 left:311 gap:16
+   ============================================ */
+.actions {
+    position: absolute;
+    top: 97px;
+    left: 311px;
+    width: 240px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ============================================
+   КНОПКА «ВЫЙТИ»
+   w:132 h:44 br:8 bg:#E82346 shadow p:10 18
+   ============================================ */
+.btnLogout {
+    width: 132px;
+    height: 44px;
+    border-radius: 8px;
+    padding: 10px 18px;
+    box-sizing: border-box;
+
+    background: var(--Red-800, #E82346);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.btnLogout:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.btnLogout:active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* inner — w:96 h:24 gap:8 */
+.btnInner {
+    display: flex;
+    align-items: center;
+    width: 96px;
+    height: 24px;
+    gap: 8px;
+}
+
+/* Иконка 24×24 */
+.logoutIcon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* Текст — w:64 h:23 Roboto 500 20px #F5F7FA letter-spacing 3% */
+.btnLogoutText {
+    width: 64px;
+    height: 23px;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+
+    color: var(--Background, #F5F7FA);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   КНОПКА «ОСТАТЬСЯ»
+   w:92 h:23 Roboto 500 20px #E82346 letter-spacing 3%
+   ============================================ */
+.btnStay {
+    width: 92px;
+    height: 23px;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+
+    color: var(--Red-800, #E82346);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+}
+
+.btnStay:hover {
+    opacity: 0.7;
+}

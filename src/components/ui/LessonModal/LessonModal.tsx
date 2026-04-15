@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import styles from './LessonModal.module.css';
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface LessonDetail {
     id: string;
@@ -18,7 +19,6 @@ export interface LessonDetail {
 interface LessonModalProps {
     lessonId: string | null;
     onClose: () => void;
-    onGoToJournal: (lessonId: string) => void;
 }
 
 // ============================================
@@ -91,7 +91,8 @@ const InfoCard: FC<InfoCardProps> = ({ label, value, withIcon }) => (
 // MODAL
 // ============================================
 
-export const LessonModal: FC<LessonModalProps> = ({ lessonId, onClose, onGoToJournal }) => {
+export const LessonModal: FC<LessonModalProps> = ({ lessonId, onClose }) => {
+    const navigate = useNavigate();
     const [detail, setDetail] = useState<LessonDetail | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -180,7 +181,7 @@ export const LessonModal: FC<LessonModalProps> = ({ lessonId, onClose, onGoToJou
                             {/* Кнопка —  */}
                             <button
                                 className={styles.journalButton}
-                                onClick={() => onGoToJournal?.(detail.id)}
+                                onClick={() => { onClose(); navigate('/cabinet/journal?lesson=' + detail.id); }}
                             >
                                 Перейти в журнал
                             </button>

@@ -1,68 +1,97 @@
-/* Контейнер хедера */
+/* ============================================
+   HEADER
+   width: 100% — растягивается на любой экран.
+   Убраны: max-width, margin: 0 auto, isolation,
+   transform: translateZ(0) — они создавали
+   горизонтальный скролл и ломали z-index дропдауна.
+   ============================================ */
 .header {
     background: #F5F7FA;
     height: 80px;
     width: 100%;
-    max-width: 1920px;
-    margin: 0 auto;
     box-shadow: 0 4px 8px rgba(18, 18, 18, 0.2);
+    position: sticky;
     top: 0;
     z-index: 1000;
-    position: relative;
-    /* нужен для z-index без isolation */
 }
 
+/* ============================================
+   CONTAINER
+   Горизонтальные отступы через padding — они
+   «съедаются» внутрь width:100%, а не добавляются
+   снаружи, поэтому скролла не будет никогда.
+   ============================================ */
 .container {
     height: 100%;
-    padding: 0 65px;
+    width: 100%;
+    padding: 0 64px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 24px;
 }
 
+/* ============================================
+   LEFT SECTION
+   flex: 1 — занимает всё доступное место между
+   логотипом и правой кнопкой, не вылезая за край.
+   min-width: 0 — разрешает flex-детям сжиматься.
+   ============================================ */
 .leftSection {
     display: flex;
     align-items: center;
     gap: 32px;
     flex: 1;
+    min-width: 0;
 }
 
-/* === ЛОГОТИП === */
+/* ============================================
+   ЛОГОТИП
+   Фиксируем только высоту, ширина — auto.
+   Логотип 182×66px → при height:40px ширина ~110px.
+   flex-shrink: 0 — не сжимается при нехватке места.
+   ============================================ */
 .logoLink {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
 }
 
 .logoImage {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 40px;
+    width: auto;
     display: block;
+    object-fit: contain;
 }
 
-/* НАВИГАЦИЯ */
+/* ============================================
+   НАВИГАЦИЯ
+   flex-wrap: nowrap + min-width:0 на leftSection
+   позволяют nav сжиматься.
+   gap через clamp: от 8px до 16px в зависимости
+   от ширины вьюпорта.
+   ============================================ */
 .nav {
     display: flex;
     align-items: center;
-    gap: 16px;
-    height: 23px;
+    gap: clamp(8px, 1.2vw, 16px);
+    min-width: 0;
+    flex-shrink: 1;
 }
 
 .navLink {
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    font-style: Medium;
-    font-size: 20px;
+    font-size: clamp(14px, 1.1vw, 20px);
     line-height: 100%;
     letter-spacing: 0.6px;
-    text-align: center;
-    vertical-align: middle;
     color: #333333;
-    display: flex;
-    align-items: center;
     white-space: nowrap;
     transition: color 0.2s ease;
+    flex-shrink: 0;
 }
 
 .navLink:hover,
@@ -70,22 +99,25 @@
     color: #016AEE;
 }
 
+/* ============================================
+   RIGHT SECTION
+   flex-shrink: 0 — кнопка/блок юзера не сжимается.
+   ============================================ */
 .rightSection {
     display: flex;
     align-items: center;
     flex-shrink: 0;
 }
 
-/* === КНОПКА «ЛИЧНЫЙ КАБИНЕТ» (незалогинен) === */
+/* ============================================
+   КНОПКА «ЛИЧНЫЙ КАБИНЕТ»
+   ============================================ */
 .profileLink {
-    width: 173px;
     height: 42px;
     padding: 10px 18px;
     border-radius: 8px;
-
     background: #F0F8FF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    text-decoration: none;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -93,14 +125,12 @@
     letter-spacing: 0.48px;
     text-align: center;
     color: #016AEE;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     white-space: nowrap;
     transition: all 0.2s ease;
-
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -122,51 +152,45 @@
    БЛОК ПОЛЬЗОВАТЕЛЯ (залогинен)
    w:297 h:42 gap:11
    ============================================ */
+.userBlockWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .userBlock {
     display: flex;
     align-items: center;
-    width: 297px;
     height: 42px;
     gap: 11px;
     justify-content: flex-end;
-
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     outline: none;
-
     transition: opacity 0.2s ease;
+    max-width: 297px;
 }
 
 .userBlock:hover {
     opacity: 0.8;
 }
 
-/* Имя — w:244 h:23 Roboto 500 20px letter-spacing 3% */
 .userName {
-    width: 244px;
-    height: 23px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    font-size: 20px;
+    font-size: clamp(14px, 1.05vw, 20px);
     line-height: 100%;
     letter-spacing: 0.03em;
-    /* 3% */
     text-align: right;
-    vertical-align: middle;
     color: #333333;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 244px;
 }
 
-/* Аватарка PNG — w:42 h:42 */
 .avatar {
     width: 42px;
     height: 42px;
@@ -175,7 +199,6 @@
     flex-shrink: 0;
 }
 
-/* Аватарка-заглушка (инициалы), пока нет картинки */
 .avatarPlaceholder {
     width: 42px;
     height: 42px;
@@ -192,47 +215,9 @@
     letter-spacing: 0.02em;
 }
 
-/* === АДАПТИВНОСТЬ === */
-@media (max-width: 1200px) {
-    .navLink {
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .navLink {
-        font-size: 12px;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 0 20px;
-    }
-
-    .nav {
-        display: none;
-    }
-
-    .userName {
-        display: none;
-    }
-}
-
 /* ============================================
-   USER BLOCK WRAPPER
-   position:relative — для дропдауна
-   ============================================ */
-.userBlockWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-/* ============================================
-   DROPDOWN — w:382 h:169 br:16 bg:#fff
-   Позиционируется через position:fixed в портале
+   DROPDOWN — рендерится через портал в body,
+   позиционируется через position:fixed + inline style.
    ============================================ */
 .dropdown {
     width: 382px;
@@ -247,18 +232,10 @@
 }
 
 @keyframes dropdownIn {
-    from {
-        opacity: 0;
-        transform: translateY(-6px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* inner — w:374 top:16 left:4 gap:12 */
 .dropdownInner {
     position: absolute;
     top: 16px;
@@ -269,12 +246,6 @@
     gap: 12px;
 }
 
-/* ============================================
-   СТРОКА ФИО + АВАТАРКА
-   w:374 h:42
-   ФИО: w:244 h:23 top:10 left:58
-   Аватарка: w:42 h:42 left:310
-   ============================================ */
 .dropdownProfile {
     position: relative;
     display: flex;
@@ -292,8 +263,6 @@
     opacity: 0.7;
 }
 
-/* ФИО — w:244 h:23 Roboto 500 20px #333 letter-spacing 3% */
-/* left:58 = отступ слева (под аватаркой нет, просто позиция) */
 .dropdownName {
     position: absolute;
     left: 58px;
@@ -301,23 +270,19 @@
     transform: translateY(-50%);
     width: 244px;
     height: 23px;
-
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 20px;
     line-height: 100%;
     letter-spacing: 0.03em;
     text-align: center;
-    vertical-align: middle;
     color: #333333;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: opacity 0.15s ease;
 }
 
-/* Аватарка — w:42 h:42 left:310 */
 .dropdownAvatar {
     position: absolute;
     left: 310px;
@@ -343,22 +308,15 @@
     justify-content: center;
 }
 
-/* ============================================
-   БЛОК «ДОБАВИТЬ АККАУНТ»
-   w:374 h:48 gap:11
-   Сверху и снизу — линии 2px solid #3E404433
-   ============================================ */
 .dropdownAddSection {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* центрируем кнопку по горизонтали */
     width: 374px;
     gap: 11px;
     flex-shrink: 0;
 }
 
-/* Линия — border: 2px solid #3E404433 */
 .dropdownLine {
     width: 374px;
     border: none;
@@ -366,9 +324,6 @@
     margin: 0;
 }
 
-/* Кнопка «+ Добавить аккаунт» — w:209 h:24
-   Roboto 500 20px #3E4044 letter-spacing 3%
-   Плюс — просто символ текста */
 .dropdownAddAccount {
     display: flex;
     align-items: center;
@@ -378,17 +333,14 @@
     border: none;
     cursor: pointer;
     padding: 0;
-
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 20px;
     line-height: 100%;
     letter-spacing: 0.03em;
     text-align: center;
-    vertical-align: middle;
     color: var(--Font_02, #3E4044);
     white-space: nowrap;
-
     transition: opacity 0.15s ease;
 }
 
@@ -396,10 +348,6 @@
     opacity: 0.7;
 }
 
-/* ============================================
-   ВЫЙТИ ИЗ АККАУНТА
-   w:374 h:24 Roboto 500 20px #E82346 letter-spacing 3%
-   ============================================ */
 .dropdownLogout {
     width: 374px;
     height: 24px;
@@ -407,16 +355,13 @@
     border: none;
     cursor: pointer;
     padding: 0;
-
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 20px;
     line-height: 100%;
     letter-spacing: 0.03em;
     text-align: center;
-    vertical-align: middle;
     color: var(--Red-800, #E82346);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -425,4 +370,67 @@
 
 .dropdownLogout:hover {
     opacity: 0.75;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Планшет — убираем часть nav-ссылок или уменьшаем */
+@media (max-width: 1100px) {
+    .container {
+        padding: 0 32px;
+    }
+
+    .leftSection {
+        gap: 20px;
+    }
+}
+
+/* Небольшой планшет — скрываем nav, оставляем логотип и кнопку */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+        gap: 12px;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .userName {
+        display: none;
+    }
+
+    .profileLink {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+}
+
+/* Мобильный */
+@media (max-width: 480px) {
+    .header {
+        height: 60px;
+    }
+
+    .logoImage {
+        height: 28px;
+    }
+
+    .profileLink {
+        font-size: 13px;
+        padding: 6px 12px;
+        height: 36px;
+    }
+
+    .userBlock {
+        height: 36px;
+    }
+
+    .avatar,
+    .avatarPlaceholder {
+        width: 36px;
+        height: 36px;
+    }
 }

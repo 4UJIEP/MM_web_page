@@ -1,361 +1,329 @@
 /* ============================================
-   COURSE DETAIL PAGE - Основной контейнер (1600×1483)
+   COURSE DETAIL PAGE
    ============================================ */
 .courseDetailPage {
     width: 100%;
     min-height: auto;
     background: #F5F7FA;
-
     padding-bottom: 32px;
-
-    /* Центрируем содержимое */
     display: flex;
     flex-direction: column;
     align-items: center;
-
     position: relative;
     box-sizing: border-box;
 }
 
 /* ============================================
-   HERO BLOCK - Первый блок (1472×557)
+   HERO BLOCK
+   position: relative — картинки абсолютно
+   позиционированы относительно этого блока.
+   overflow: visible — картинки выходят за края
+   блока сверху/снизу (как в дизайне).
    ============================================ */
 .heroBlock {
-  width: 1472px;
-  max-width: calc(100% - 128px);
-  /* Отступы 64px слева и справа */
-  min-height: 557px;
+    width: calc(100% - 128px);
+    max-width: 1472px;
+    min-height: 557px;
+    margin-top: 27px;
+    padding: 38px 46px;
+    box-sizing: border-box;
 
-  margin-top: 27px;
+    background: #BCDFFF;
+    border-radius: 32px;
 
-  padding: 38px 46px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
 
-  background: #BCDFFF;
-  border-radius: 32px;
-
-  /* Flexbox для расположения текста и картинок */
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 64px;
-  /* Gap между текстом и картинками */
-
-  box-sizing: border-box;
-  
-  
+    position: relative;
+    overflow: visible;
 }
 
 /* ============================================
-   TEXT CONTENT - Левая часть: Текст (519×466)
+   TEXT CONTENT — левая часть
+   Фиксированная max-width чтобы текст не
+   наезжал на картинки.
    ============================================ */
 .textContent {
-  width: 519px;
-  min-height: 466px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  /* Gap между title и description */
+    flex: 0 0 auto;
+    width: min(519px, 50%);
+    min-height: 466px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    position: relative;
+    z-index: 3;
 }
 
-/* ============================================
-   TITLE - Заголовок "Математика" (519×56)
-   ============================================ */
 .title {
-  width: 519px;
-  height: 56px;
-
-  margin: 0;
-
-  /* Шрифт из Figma */
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 100%;
-  letter-spacing: 1.44px;
-  /* 3% от 48px */
-
-  color: #21242B;
-
-  display: flex;
-  align-items: center;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3vw, 48px);
+    line-height: 100%;
+    letter-spacing: 1.44px;
+    color: #21242B;
 }
 
-/* ============================================
-   DESCRIPTION - Контейнер описания (519×378)
-   ============================================ */
 .description {
-  width: 519px;
-  min-height: 378px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  /* Gap между параграфами */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-/* ============================================
-   PARAGRAPH - Параграф текста
-   ============================================ */
 .paragraph {
-  width: 519px;
-  /* Высота динамическая (110px, 44px, 66px, 110px) */
-
-  margin: 0;
-
-  /* Шрифт из Figma */
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 140%;
-  letter-spacing: 0.48px;
-  /* 3% от 16px */
-
-  color: #21242B;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(14px, 1vw, 16px);
+    line-height: 140%;
+    letter-spacing: 0.48px;
+    color: #21242B;
 }
 
-.imagesContainer_{
-  flex: 1;
-  /* Занимает оставшееся пространство */
-  min-height: 466px;
-
-  /* Позиционирование для абсолютных элементов */
-  position: relative;
-
-  /* Скрываем выход за пределы Hero блока */
-  overflow: visible;
-
-}
-
-.imagesCuboro .girlImg {
-  top: 104px;
-}
-
-.imagesChess .girlImg {
-  top: 242.5px;
-}
-
-.flower1 {
-  width: 259.3px;
-  height: 248.15px;
-
-  /* Абсолютное позиционирование */
-  position: absolute;
-
-  top: 329px;
-  right: 1179px;
-
-
-  /* Фильтр/тень из Figma */
-  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
-
-  object-fit: contain;
-
-  /* Слой */
-  z-index: 1;
-
-}
-
-.girlImg{
-  width: 549px;
-  height: 557px;
-  
-  position: absolute;
-  
-  top: 27px;
-  right: 771px;
-  
-  object-fit: contain;
-  
-  /* Слой */
-  z-index: 2;
-}
-
-.flower2 {
-  width: 514px;
-  height: 514px;
-  
-  position: absolute;
-  
-  top: 12px;
-  right: 510px;
-  
-  object-fit: contain;
-  
-  
-  z-index: 0;
-}
 /* ============================================
-   CAROUSEL SECTION - Секция с каруселью (1763×835)
+   IMAGES CONTAINER
+   Просто резервирует место справа — картинки
+   внутри него абсолютно позиционированы
+   относительно .heroBlock через % его ширины.
+   ============================================ */
+.imagesContainer {
+    flex: 1;
+    min-height: 466px;
+    position: relative;
+}
+
+/* ============================================
+   КАРТИНКИ
+   Позиционируются в % от ширины .heroBlock
+   (у которого position:relative).
+   Это гарантирует корректное масштабирование
+   на любом экране.
+
+   Оригинальные пиксели из Фигмы (при блоке 1472px):
+     flower2: right=510  → right = 510/1472 = 34.6%
+              top=12     → top = 12/557 = 2.1%
+              width=514  → width = 514/1472 = 34.9%
+
+     girlImg: right=771  → right = 771/1472 = 52.4%
+              top=0 (выходит за верх)
+              width=549  → width = 549/1472 = 37.3%
+
+     flower1: right=1179 → right = 1179/1472 = 80.1%
+              top=329    → bottom вместо top
+              width=259  → width = 259/1472 = 17.6%
+   ============================================ */
+
+/* flower2 — большой пазл, фон (z-index: 0) */
+.flower2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 37%;
+    height: auto;
+    object-fit: contain;
+    z-index: 0;
+}
+
+/* girlImg — персонаж, поверх пазла (z-index: 2) */
+.girlImg {
+    position: absolute;
+    top: -27px; /* выходит за верхний край heroBlock */
+    right: 4%;
+    width: 40%;
+    height: auto;
+    object-fit: contain;
+    z-index: 2;
+}
+
+/* flower1 — маленький пазл, левее и ниже (z-index: 1) */
+.flower1 {
+    position: absolute;
+    bottom: -27px; /* выходит за нижний край */
+    right: 38%;
+    width: 18%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+    z-index: 1;
+}
+
+/* Для chess и cuboro персонаж чуть ниже */
+.imagesLower .girlImg {
+    top: 20px;
+}
+
+/* ============================================
+   CAROUSEL SECTION
    ============================================ */
 .carouselSection {
-  width: calc(577px * 2.6 + 16px * 1.6 + 120px); /* 577*2.6 + gap*1.6 + стрелки */
-  /* Примерно 1625px */
-  
-  max-width: calc(100% - 128px);
-  height: 835px;
-
-  /* Отступ от Hero блока: 32px */
-  margin-top: 16px;
-  margin-left: 64px;
-
-  /* Позиционирование для стрелок */
-  position: relative;
-
-  overflow: hidden;
+    width: calc(100% - 128px);
+    max-width: 1472px;
+    height: 835px;
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* ============================================
-   SWIPER
-   ============================================ */
 .swiper {
-  width: 100%;
-  height: 835px;
-
-  overflow: visible;
-  padding: 0;
-  /* Место для стрелок */
+    width: 100%;
+    height: 835px;
+    overflow: visible;
+    padding: 0 56px;
+    box-sizing: border-box;
 }
 
-/* Фиксируем ширину слайда */
 .swiper :global(.swiper-slide) {
-  width: auto;
-  height: 835px;
-  flex-shrink: 0;
+    width: auto;
+    height: 835px;
+    flex-shrink: 0;
 }
 
 /* ============================================
-   NAVIGATION BUTTONS - Стрелки (42×42)
+   NAV BUTTONS
    ============================================ */
 .navButtonPrev,
 .navButtonNext {
-  width: 42px;
-  height: 42px;
-
-  padding: 11px 12px;
-
-  background: #FFFFFF;
-  border: none;
-  border-radius: 100px;
-  box-shadow:
-    0px 4px 12px 0px rgba(0, 0, 0, 0.12),
-    0px 0px 1px 0px rgba(0, 0, 0, 0.12);
-
-  cursor: pointer;
-
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: all 0.2s ease;
+    width: 42px;
+    height: 42px;
+    padding: 11px 12px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 100px;
+    box-shadow:
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-.navButtonPrev {
-  left: 0;
-}
-
-.navButtonNext {
-  right: 0;
-}
+.navButtonPrev { left: 0; }
+.navButtonNext { right: 0; }
 
 .navButtonPrev img,
 .navButtonNext img {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
 }
 
 .navButtonPrev:hover,
 .navButtonNext:hover {
-  background: #F5F7FA;
-  box-shadow:
-    0px 6px 16px 0px rgba(0, 0, 0, 0.15),
-    0px 0px 1px 0px rgba(0, 0, 0, 0.15);
+    background: #F5F7FA;
+    box-shadow:
+        0px 6px 16px 0px rgba(0, 0, 0, 0.15),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================
    PAGINATION
    ============================================ */
 .swiper :global(.swiper-pagination) {
-  bottom: -40px;
+    bottom: -40px;
 }
 
 .swiper :global(.swiper-pagination-bullet) {
-  background: #016AEE;
-  opacity: 0.3;
-  width: 8px;
-  height: 8px;
+    background: #016AEE;
+    opacity: 0.3;
+    width: 8px;
+    height: 8px;
 }
 
 .swiper :global(.swiper-pagination-bullet-active) {
-  opacity: 1;
-  width: 20px;
-  border-radius: 4px;
+    opacity: 1;
+    width: 20px;
+    border-radius: 4px;
 }
 
 /* ============================================
    АДАПТИВНОСТЬ
    ============================================ */
 
-@media (max-width: 1600px) {
-  .heroBlock {
-    width: 90%;
-    max-width: 1472px;
-  }
+@media (max-width: 1200px) {
+    .heroBlock {
+        width: calc(100% - 64px);
+    }
+
+    .carouselSection {
+        width: calc(100% - 64px);
+    }
 }
 
-@media (max-width: 1024px) {
-  .heroBlock {
-    width: 95%;
-    height: auto;
-    flex-direction: column;
-    gap: 40px;
-    padding: 30px;
-  }
+@media (max-width: 900px) {
+    .heroBlock {
+        width: calc(100% - 40px);
+        flex-direction: column;
+        padding: 28px 24px;
+        gap: 0;
+        /* На мобиле даём место картинкам сверху */
+        padding-top: 200px;
+    }
 
-  .textContent {
-    width: 100%;
-  }
+    .textContent {
+        width: 100%;
+        min-height: auto;
+    }
 
-  .title {
-    width: 100%;
-    font-size: 36px;
-  }
+    /* На мобиле картинки вверху блока */
+    .flower2 {
+        top: -10px;
+        right: -10px;
+        width: 55%;
+    }
 
-  .description {
-    width: 100%;
-  }
+    .girlImg {
+        top: -10px;
+        right: 2%;
+        width: 58%;
+    }
 
-  .paragraph {
-    width: 100%;
-  }
+    .flower1 {
+        bottom: auto;
+        top: 120px;
+        right: 52%;
+        width: 26%;
+    }
 
-  .imagesContainer {
-    width: 100%;
-    min-height: 300px;
-  }
+    .carouselSection {
+        width: calc(100% - 40px);
+        height: auto;
+    }
+
+    .swiper {
+        height: auto;
+    }
+
+    .swiper :global(.swiper-slide) {
+        height: auto;
+    }
 }
 
-@media (max-width: 768px) {
-  .courseDetailPage {
-    padding: 20px;
-  }
+@media (max-width: 600px) {
+    .heroBlock {
+        width: calc(100% - 24px);
+        margin-top: 12px;
+        border-radius: 20px;
+        padding: 160px 16px 20px;
+    }
 
-  .heroBlock {
-    margin-top: 0;
-    padding: 20px;
-  }
+    .flower2 {
+        width: 65%;
+    }
 
-  .title {
-    font-size: 28px;
-  }
+    .girlImg {
+        width: 68%;
+    }
 
-  .paragraph {
-    font-size: 14px;
-  }
+    .carouselSection {
+        width: calc(100% - 24px);
+    }
 }
