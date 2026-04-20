@@ -15,15 +15,17 @@
 
 /* ============================================
    HERO BLOCK
-   position: relative — картинки абсолютно
-   позиционированы относительно этого блока.
-   overflow: visible — картинки выходят за края
-   блока сверху/снизу (как в дизайне).
+   Figma: width=1472 height=557 top=27 left=64
+   position:relative — картинки позиционируются
+   внутри него.
+   overflow:visible — girlImg и flower2 выходят
+   за верхний край (top: 0 и top: -15px).
    ============================================ */
 .heroBlock {
     width: calc(100% - 128px);
     max-width: 1472px;
-    min-height: 557px;
+    height: 557px;
+    /* фиксируем — именно от этого считаются % */
     margin-top: 27px;
     padding: 38px 46px;
     box-sizing: border-box;
@@ -33,27 +35,26 @@
 
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 48px;
 
     position: relative;
     overflow: visible;
 }
 
 /* ============================================
-   TEXT CONTENT — левая часть
-   Фиксированная max-width чтобы текст не
-   наезжал на картинки.
+   TEXT CONTENT
+   Figma: текст до left≈579px → ~39.3% от 1472
+   Даём немного меньше чтобы не заходил на
+   girlImg (left=48%).
    ============================================ */
 .textContent {
-    flex: 0 0 auto;
-    width: min(519px, 50%);
+    width: 38%;
     min-height: 466px;
     display: flex;
     flex-direction: column;
     gap: 32px;
     position: relative;
     z-index: 3;
+    flex-shrink: 0;
 }
 
 .title {
@@ -84,74 +85,75 @@
 
 /* ============================================
    IMAGES CONTAINER
-   Просто резервирует место справа — картинки
-   внутри него абсолютно позиционированы
-   относительно .heroBlock через % его ширины.
+   Просто резервирует оставшееся место.
+   Картинки — абсолютно внутри .heroBlock.
    ============================================ */
 .imagesContainer {
     flex: 1;
-    min-height: 466px;
     position: relative;
+    min-height: 557px;
 }
 
 /* ============================================
    КАРТИНКИ
-   Позиционируются в % от ширины .heroBlock
-   (у которого position:relative).
-   Это гарантирует корректное масштабирование
-   на любом экране.
+   Координаты из Фигмы пересчитаны в %
+   от размеров .heroBlock (1472 × 557):
 
-   Оригинальные пиксели из Фигмы (при блоке 1472px):
-     flower2: right=510  → right = 510/1472 = 34.6%
-              top=12     → top = 12/557 = 2.1%
-              width=514  → width = 514/1472 = 34.9%
+   flower1: left=579→39.33%, top=269→48.29%,
+            width=259→17.60%, rotate=-14.74deg
 
-     girlImg: right=771  → right = 771/1472 = 52.4%
-              top=0 (выходит за верх)
-              width=549  → width = 549/1472 = 37.3%
+   girlImg: left=707→48.03%, top=0→0%,
+            width=549→37.30%, height=557→100%
 
-     flower1: right=1179 → right = 1179/1472 = 80.1%
-              top=329    → bottom вместо top
-              width=259  → width = 259/1472 = 17.6%
+   flower2: left=982→66.71%, top=-15→-2.69%,
+            width=514→34.92%
    ============================================ */
 
-/* flower2 — большой пазл, фон (z-index: 0) */
+/* flower1 — маленький пазл, повёрнут -14.74° */
+.flower1 {
+    position: absolute;
+    left: 7%;
+    top: 46.2%;
+    width: 29.50%;
+    height: auto;
+    object-fit: contain;
+    transform-origin: center center;
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+    z-index: 1;
+}
+
+/* girlImg — персонаж, начинается с верха блока */
+.girlImg {
+    position: absolute;
+    left: 11.03%;
+    top: -7%;
+    width: 80%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    z-index: 2;
+}
+
+/* flower2 — большой пазл, выходит за верхний край */
 .flower2 {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 37%;
+    left: 46.71%;
+    top: -10.69%;
+    /* top=-15px → -15/557 */
+    width: 61%;
     height: auto;
     object-fit: contain;
     z-index: 0;
 }
 
-/* girlImg — персонаж, поверх пазла (z-index: 2) */
-.girlImg {
-    position: absolute;
-    top: -27px; /* выходит за верхний край heroBlock */
-    right: 4%;
-    width: 40%;
-    height: auto;
-    object-fit: contain;
-    z-index: 2;
-}
-
-/* flower1 — маленький пазл, левее и ниже (z-index: 1) */
-.flower1 {
-    position: absolute;
-    bottom: -27px; /* выходит за нижний край */
-    right: 38%;
-    width: 18%;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
-    z-index: 1;
-}
-
-/* Для chess и cuboro персонаж чуть ниже */
+/* ============================================
+   ВАРИАЦИИ ДЛЯ КУРСОВ
+   .imagesLower — chess и cuboro
+   ============================================ */
 .imagesLower .girlImg {
-    top: 20px;
+    top: 18.67%;
+    /* 104/557 */
+    height: auto;
 }
 
 /* ============================================
@@ -206,8 +208,13 @@
     transition: all 0.2s ease;
 }
 
-.navButtonPrev { left: 0; }
-.navButtonNext { right: 0; }
+.navButtonPrev {
+    left: 0;
+}
+
+.navButtonNext {
+    right: 0;
+}
 
 .navButtonPrev img,
 .navButtonNext img {
@@ -258,14 +265,15 @@
     }
 }
 
+/* На планшете — колонка, картинки компактнее */
 @media (max-width: 900px) {
     .heroBlock {
         width: calc(100% - 40px);
+        height: auto;
+        min-height: 480px;
         flex-direction: column;
-        padding: 28px 24px;
-        gap: 0;
-        /* На мобиле даём место картинкам сверху */
-        padding-top: 200px;
+        padding: 28px 24px 220px;
+        /* место для картинок снизу */
     }
 
     .textContent {
@@ -273,24 +281,27 @@
         min-height: auto;
     }
 
-    /* На мобиле картинки вверху блока */
-    .flower2 {
-        top: -10px;
-        right: -10px;
-        width: 55%;
+    /* Перепозиционируем картинки для вертикального лэйаута */
+    .flower1 {
+        left: 5%;
+        top: auto;
+        bottom: 20px;
+        width: 22%;
     }
 
     .girlImg {
-        top: -10px;
-        right: 2%;
-        width: 58%;
+        left: 20%;
+        top: auto;
+        bottom: 0;
+        width: 50%;
+        height: auto;
     }
 
-    .flower1 {
-        bottom: auto;
-        top: 120px;
-        right: 52%;
-        width: 26%;
+    .flower2 {
+        left: 58%;
+        top: auto;
+        bottom: -10px;
+        width: 42%;
     }
 
     .carouselSection {
@@ -312,15 +323,21 @@
         width: calc(100% - 24px);
         margin-top: 12px;
         border-radius: 20px;
-        padding: 160px 16px 20px;
+        padding: 24px 16px 180px;
     }
 
-    .flower2 {
-        width: 65%;
+    .flower1 {
+        width: 28%;
     }
 
     .girlImg {
-        width: 68%;
+        width: 58%;
+        left: 18%;
+    }
+
+    .flower2 {
+        width: 50%;
+        left: 52%;
     }
 
     .carouselSection {

@@ -1,81 +1,53 @@
-/* ============================================
-   FAQ ITEM - Один элемент аккордеона
-   ============================================ */
 .faqItem {
-  width: 800px;
-  
-  /* Динамическая высота в зависимости от открытия */
+  width: 100%;
+  /* было 800px */
   min-height: auto;
-  
   display: flex;
   flex-direction: column;
-  
-  /* Gap между элементами внутри */
-  gap: 0; /* Контролируем вручную через margin */
+  gap: 0;
 }
 
-/* ============================================
-   QUESTION CONTAINER - Контейнер вопроса + кнопки
-   ============================================ */
 .questionContainer {
-  width: 788.88px; 
-  height: 67.88px;
-  
+  width: 100%;
+  /* было 788px */
+  min-height: 67px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  gap: 92px;
+  gap: 20px;
 }
 
-/* ============================================
-   QUESTION - Текст вопроса
-   ============================================ */
 .question {
-  width: 629px;
-  height: 28px;
-  
+  flex: 1;
+  /* было width: 629px — теперь занимает всё доступное */
+  min-width: 0;
   margin: 0;
-  
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: 24px;
+  font-size: clamp(16px, 1.5vw, 24px);
   line-height: 100%;
-  letter-spacing: 0.72px; /* 3% от 24px */
-  text-align: left; 
-  
+  letter-spacing: 0.72px;
+  text-align: left;
   color: #000000;
-  
   display: flex;
   align-items: center;
-  
-  /* если  длинный текст */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* Разрешаем перенос — длинные вопросы не обрезаются */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
-/* ============================================
-   TOGGLE BUTTON - Кнопка открытия/закрытия
-   ============================================ */
 .toggleButton {
-  width: 48px; 
+  width: 48px;
   height: 48px;
-  
   padding: 0;
-  
   background: transparent;
   border: none;
-  
   cursor: pointer;
-  
-  /* Переход для вращения */
   transition: transform 0.3s ease;
-  
   display: flex;
   align-items: center;
   justify-content: center;
-  
   flex-shrink: 0;
 }
 
@@ -94,28 +66,18 @@
   opacity: 0.7;
 }
 
-/* ============================================
-   ANSWER - Ответ (показывается при открытии)
-   ============================================ */
 .answer {
-  width: 769px;
+  width: 100%;
+  /* было 769px */
   min-height: 44px;
-  
-  /* Gap 8px сверху от вопроса */
   margin-top: 8px;
-  
-  /* Gap 16px снизу до линии */
   margin-bottom: 16px;
-  
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: clamp(13px, 1vw, 16px);
   line-height: 140%;
-  letter-spacing: 0.48px; /* 3% от 16px */
-  
+  letter-spacing: 0.48px;
   color: #3E4044;
-  
-  /* Анимация появления */
   animation: slideDown 0.3s ease;
 }
 
@@ -124,71 +86,30 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* ============================================
-   DIVIDER - Разделительная линия
-   ============================================ */
 .divider {
-  width: 800px;
+  width: 100%;
+  /* было 800px */
   height: 0;
-  
-  /* Отступ сверху (если ответ закрыт) */
   margin-top: 16px;
-  
   border: none;
   border-top: 1px solid #21242B;
 }
 
-/* Если ответ открыт, отступ уже есть в .answer */
-.answer ~ .divider {
+.answer~.divider {
   margin-top: 0;
 }
 
-/* ============================================
-   АДАПТИВНОСТЬ
-   ============================================ */
-
-@media (max-width: 1024px) {
-  .faqItem {
-    width: 100%;
-  }
-  
-  .questionContainer {
-    width: 100%;
-    gap: 20px;
-  }
-  
-  .question {
-    width: auto;
-    flex: 1;
-    font-size: 20px;
-  }
-  
-  .answer {
-    width: 100%;
-  }
-  
-  .divider {
-    width: 100%;
-  }
-}
-
+/* ── Адаптивность ── */
 @media (max-width: 768px) {
-  .question {
-    font-size: 18px;
-  }
-  
   .toggleButton {
     width: 36px;
     height: 36px;
-  }
-  
-  .answer {
-    font-size: 14px;
   }
 }

@@ -5,9 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { LoginModal } from '../ui/LoginModal';
 import { useAuth } from '../../context/AuthContext';
-import { LogoutConfirmModal } from '../ui/LogoutConfirmModal';
 
 import logo from '../../assets/logoMM.png';
+import { LogoutConfirmModal } from '../ui/LogoutConfirmModal';
 
 // ============================================
 // НАВИГАЦИЯ ЛК (видна только залогиненным)
@@ -163,22 +163,36 @@ export const Header: FC = () => {
     const handleCloseModal = () => setIsLoginModalOpen(false);
 
     // TODO: заменить на реальный API-запрос
+    // Для тестирования: логин 'parent' даёт роль родителя, остальные — ребёнок
     const handleLogin = (_login: string, _password: string) => {
+        const isParent = _login === 'parent';
         login({
             id: 'mock-id',
-            name: 'Василий',
-            surname: 'Пупкин',
-            patronymic: 'Мупкин',
+            name: isParent ? 'Папа' : 'Василий',
+            surname: isParent ? 'Васи Пупкина' : 'Пупкин',
+            patronymic: isParent ? '' : 'Мупкин',
             username: _login,
             email: 'test@example.com',
-            role: 'child',
+            role: isParent ? 'parent' : 'child',
+            phone: '+7 904 076 94 72',
+            ...(isParent && {
+                children: [
+                    {
+                        id: 'child-1',
+                        name: 'Вася',
+                        fullName: 'Пупкин Василий Мупкин',
+                        classNumber: 9,
+                        schoolName: 'Школа №1',
+                    },
+                ],
+            }),
         });
         setIsLoginModalOpen(false);
         navigate('/cabinet/schedule');
     };
 
     const handleLogout = () => {
-        // открываем подтверждение выхода
+        // Открываем подтверждение вместо немедленного выхода
         setIsDropdownOpen(false);
         setIsLogoutConfirmOpen(true);
     };
@@ -307,7 +321,8 @@ export const Header: FC = () => {
                 onLogin={handleLogin}
             />
 
-            <LogoutConfirmModal 
+            {/* Модалка подтверждения выхода */}
+            <LogoutConfirmModal
                 isOpen={isLogoutConfirmOpen}
                 onConfirm={handleLogoutConfirm}
                 onCancel={handleLogoutCancel}

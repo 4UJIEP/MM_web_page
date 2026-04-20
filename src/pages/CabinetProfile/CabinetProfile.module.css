@@ -34,7 +34,8 @@
 .title {
   width: 107px;
   height: 28px;
-  margin: 0 0 10px 9px; /* отступ снизу 10px до разделителя, 9px слева (73-64) */
+  margin: 0 0 10px 9px;
+  /* отступ снизу 10px до разделителя, 9px слева (73-64) */
 
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -72,7 +73,8 @@
   padding: 17px 0 0 29px;
   /* отступ снизу: разделитель2 top:321, аватарка top:115+189=304 → ~17px */
   margin-bottom: 17px;
-  gap: 45px; /* отступ между аватаркой и инфо — 45px из Figma */
+  gap: 45px;
+  /* отступ между аватаркой и инфо — 45px из Figma */
 }
 
 /* ============================================
@@ -197,7 +199,8 @@
   flex-direction: column;
   width: 239px;
   gap: 32px;
-  padding: 16px 0 19px 0; /* 16 сверху, 19 снизу до разделителя3 */
+  padding: 16px 0 19px 0;
+  /* 16 сверху, 19 снизу до разделителя3 */
 }
 
 /* «Курсы» — w:239 h:28 Roboto 500 24px #21242B */
@@ -269,6 +272,7 @@
    АДАПТИВНОСТЬ
    ============================================ */
 @media (max-width: 1200px) {
+
   .infoLabel,
   .infoValueName,
   .infoValue {
@@ -311,4 +315,35 @@
   .infoValue {
     font-size: 20px;
   }
+}
+
+/* ============================================
+   ДЛЯ РОДИТЕЛЯ — секции рядом
+   ============================================ */
+.parentSections {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.section_inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Аватарка ребёнка в строке курса */
+.childAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #016AEE;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }

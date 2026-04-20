@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CabinetSchedule.module.css';
+import { useAuth } from '../../context/AuthContext';
 import { MonthPicker } from '../../components/ui/MonthPicker';
 import { LessonModal } from '../../components/ui/LessonModal';
 
@@ -8,7 +10,7 @@ import locationIcon from '../../assets/icons/location.png';
 import arrowDownIcon from '../../assets/icons/angle-down.png';
 
 // ============================================
-// TYPES
+// TYPES — не меняем, как и было
 // ============================================
 
 interface Lesson {
@@ -19,6 +21,8 @@ interface Lesson {
   time: string;
   teacher: string;
   location: string;
+  /** Имя ребёнка — заполняется только для родителя */
+  childName?: string;
 }
 
 interface DayData {
@@ -38,21 +42,15 @@ const MONTH_NAMES_SHORT = [
   'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
 ];
 
-/**
- * Возвращает дату понедельника для недели, содержащей date.
- * getDay(): 0=Вс, 1=Пн, ..., 6=Сб
- * Формула: если Вс → сдвиг -6, иначе → 1 - dow
- */
 function getMondayOf(date: Date): Date {
   const d = new Date(date);
-  const dow = d.getDay(); // 0=Вс
+  const dow = d.getDay();
   const diff = dow === 0 ? -6 : 1 - dow;
   d.setDate(d.getDate() + diff);
   d.setHours(0, 0, 0, 0);
   return d;
 }
 
-/** Возвращает 7 объектов Date — Пн..Вс */
 function getWeekDays(monday: Date): Date[] {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(monday);
@@ -92,24 +90,26 @@ function getDateKey(date: Date): string {
 // ============================================
 
 const MOCK_LESSONS: Record<string, Lesson[]> = {
-  '2026-04-12': [
+  '2026-03-13': [
     {
       id: '1',
       courseName: 'Математика',
       classLabel: '9 класс',
-      date: '12 апреля, 2026',
+      date: '13 марта, 2026',
       time: '10:00',
       teacher: 'Гарцева Карина Александровна',
       location: 'Главный корпус, ул. Фрунзе, 6',
+      childName: 'Вася',
     },
     {
       id: '2',
       courseName: 'Шахматы',
       classLabel: '9 класс',
-      date: '12 апреля, 2026',
+      date: '13 марта, 2026',
       time: '13:00',
       teacher: 'Фаткудинов Владислав Константинович',
       location: 'Главный корпус, ул. Фрунзе, 6',
+      childName: 'Вася',
     },
   ],
 };
@@ -150,9 +150,10 @@ interface DayColumnProps {
   dayName: string;
   data: DayData;
   onOpenLesson: (lessonId: string) => void;
+  isParent: boolean;
 }
 
-const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson }) => {
+const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson, isParent }) => {
   const today = isToday(data.day);
   return (
     <div className={`${styles.dayColumn} ${today ? styles.dayColumnToday : ''}`}>
@@ -165,7 +166,10 @@ const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson }) => {
       <div className={styles.dayContent}>
         {data.lessons.map((lesson) => (
           <div key={lesson.id} className={styles.lessonGroup}>
-            <p className={styles.courseLabel}>{lesson.courseName}</p>
+            {/* Для родителя — имя ребёнка, для ребёнка — название курса */}
+            <p className={styles.courseLabel}>
+              {isParent ? (lesson.childName ?? lesson.courseName) : lesson.courseName}
+            </p>
             <LessonCard lesson={lesson} onOpen={onOpenLesson} />
           </div>
         ))}
@@ -179,6 +183,9 @@ const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson }) => {
 // ============================================
 
 export const CabinetSchedule: FC = () => {
+  const { user } = useAuth();
+  const isParent = user?.role === 'parent';
+
   const [monday, setMonday] = useState<Date>(() => getMondayOf(new Date()));
 
   // null = модалка закрыта, string = id открытого урока
@@ -211,6 +218,7 @@ export const CabinetSchedule: FC = () => {
   };
 
 
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -222,6 +230,7 @@ export const CabinetSchedule: FC = () => {
           <MonthPicker
             month={monday.getMonth()}
             year={monday.getFullYear()}
+            selectedDate={monday}
             onChange={handleDatePicked}
           />
 
@@ -261,6 +270,7 @@ export const CabinetSchedule: FC = () => {
               dayName={day}
               data={weekData[index]}
               onOpenLesson={setOpenLessonId}
+              isParent={isParent}
             />
           ))}
         </div>

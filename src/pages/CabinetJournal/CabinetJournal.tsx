@@ -1,10 +1,11 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './CabinetJournal.module.css';
 import { MonthPicker } from '../../components/ui/MonthPicker';
-
-import appIcon from '../../assets/icons/app.png';
 import { JournalLessonModal } from '../../components/ui/JournalLessonModal';
+import { useAuth } from '../../context/AuthContext';
+
+import appIcon from '../../assets/icons/folder.png';
 import arrowDownIcon from '../../assets/icons/angle-down.png';
 
 // ============================================
@@ -13,38 +14,139 @@ import arrowDownIcon from '../../assets/icons/angle-down.png';
 
 interface CourseTab {
     id: string;
-    label: string;  // «Математика| 9 класс»
+    /** Для ребёнка: «Математика| 9 класс»
+        Для родителя: «Вася | Математика| 9 класс» */
+    label: string;
+    /** Только отображение в дропдауне (без имени ребёнка) */
+    courseLabel: string;
+    isActive?: boolean;
 }
 
 interface JournalLesson {
     id: string;
     topic: string;
     teacher: string;
-    date: string;       // «7 Марта, 2026 16:00 - 18:00»
+    /** ISO-строка или «7 Марта, 2026» для сравнения */
+    dateRaw: Date;
+    dateLabel: string;
     isPresent: boolean;
-    materials: string[];   // названия файлов
+    materials: string[];
     homework: string;
 }
 
 // ============================================
-// MOCK DATA
-// TODO: заменить на fetch /api/journal?courseId=...&month=...
+// HELPERS
 // ============================================
 
-const MOCK_TABS: CourseTab[] = [
-    { id: '1', label: 'Математика| 9 класс' },
-    { id: '2', label: 'Шахматы| 9 класс' },
+function isPast(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+}
+
+// ============================================
+// MOCK DATA
+// TODO: заменить на fetch /api/journal?tabId=...&month=...
+// ============================================
+
+const CHILD_TABS: CourseTab[] = [
+    { id: '1', label: 'Математика| 9 класс', courseLabel: 'Математика | 9 класс' },
+    { id: '2', label: 'Шахматы| 9 класс', courseLabel: 'Шахматы | 9 класс' },
 ];
 
-const MOCK_LESSONS: JournalLesson[] = Array.from({ length: 12 }, (_, i) => ({
-    id: String(i + 1),
-    topic: 'Решение простых задач. Графический диктант.',
-    teacher: 'Гарцева Карина Александровна',
-    date: '7 Марта, 2026 16:00 - 18:00',
-    isPresent: true,
-    materials: ['Файл-nn-nn.pdf'],
-    homework: 'Дома надо дэшку сделать',
-}));
+const PARENT_TABS: CourseTab[] = [
+    { id: '1', label: 'Вася | Математика| 9 класс', courseLabel: 'Математика | 9 класс' },
+    { id: '2', label: 'Вася | Шахматы| 9 класс', courseLabel: 'Шахматы | 9 класс' },
+];
+
+// Генерируем уроки: первые 6 — прошедшие, остальные — будущие
+const today = new Date();
+const MOCK_LESSONS: JournalLesson[] = Array.from({ length: 12 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (11 - i) * 7); // каждые 7 дней
+    return {
+        id: String(i + 1),
+        topic: 'Решение простых задач. Графический диктант.',
+        teacher: 'Гарцева Карина Александровна',
+        dateRaw: d,
+        dateLabel: `${d.getDate()} ${['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'][d.getMonth()]} ${d.getFullYear()}, 16:00 - 18:00`,
+        isPresent: true,
+        materials: ['Файл-nn-nn.pdf'],
+        homework: 'Дома надо дэшку сделать',
+    };
+});
+
+// ============================================
+// PARENT DROPDOWN — заменяет вкладки для родителя
+// ============================================
+
+interface ParentDropdownProps {
+    tabs: CourseTab[];
+    activeId: string;
+    onSelect: (id: string) => void;
+}
+
+const ParentDropdown: FC<ParentDropdownProps> = ({ tabs, activeId, onSelect }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    const activeTab = tabs.find(t => t.id === activeId) ?? tabs[0];
+
+    // Закрытие по клику вне
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, [isOpen]);
+
+    return (
+        <div className={styles.dropdownWrap} ref={ref}>
+            {/* Активная вкладка-кнопка — w:316 h:44 br:16 bg:#9492922B */}
+            <button
+                className={styles.dropdownTrigger}
+                onClick={() => setIsOpen(o => !o)}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
+            >
+                <img src={appIcon} alt="" className={styles.tabIcon} />
+                {/* Текст — Inter 500 16px #21242B */}
+                <span className={styles.dropdownTriggerText}>{activeTab.label}</span>
+                <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={`${styles.dropdownArrow} ${isOpen ? styles.dropdownArrowOpen : ''}`}
+                />
+            </button>
+
+            {/* Плашка выбора — w:258 h:89 br:8 bg:#fff shadow */}
+            {isOpen && (
+                <div className={styles.dropdownMenu} role="listbox">
+                    <div className={styles.dropdownList}>
+                        {tabs.map((tab, i) => (
+                            <button
+                                key={tab.id}
+                                className={styles.dropdownItem}
+                                role="option"
+                                aria-selected={tab.id === activeId}
+                                onClick={() => { onSelect(tab.id); setIsOpen(false); }}
+                            >
+                                {/* Первый элемент — активный цвет #21242B, остальные — #3E4044CC */}
+                                <span className={i === 0 && tab.id === activeId
+                                    ? styles.dropdownItemTextActive
+                                    : styles.dropdownItemTextInactive
+                                }>
+                                    {tab.courseLabel}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
 
 // ============================================
 // LESSON CARD
@@ -55,63 +157,62 @@ interface LessonCardProps {
     onClick: () => void;
 }
 
-const LessonCard: FC<LessonCardProps> = ({ lesson, onClick }) => (
-    <div className={styles.lessonCard} onClick={onClick} role="button" tabIndex={0} style={{ cursor: 'pointer' }}>
+const LessonCard: FC<LessonCardProps> = ({ lesson, onClick }) => {
+    const past = isPast(lesson.dateRaw);
 
-        {/* Тема */}
-        <p className={styles.lessonTopic}>{lesson.topic}</p>
+    return (
+        <div
+            className={`${styles.lessonCard} ${past ? styles.lessonCardPast : ''}`}
+            onClick={onClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onClick()}
+        >
+            <p className={styles.lessonTopic}>{lesson.topic}</p>
+            <p className={styles.lessonTeacher}>{lesson.teacher}</p>
 
-        {/* Учитель */}
-        <p className={styles.lessonTeacher}>{lesson.teacher}</p>
-
-        {/* Дата + посещаемость */}
-        <div className={styles.lessonMeta}>
-            <span className={styles.lessonDate}>{lesson.date}</span>
-            <div className={styles.attendance}>
-                {/* Чекбокс посещения */}
-                <div className={`${styles.checkbox} ${lesson.isPresent ? styles.checkboxChecked : ''}`}>
-                    {lesson.isPresent && (
-                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
-                            <path d="M1 5l3.5 3.5L11 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    )}
+            <div className={styles.lessonMeta}>
+                <span className={styles.lessonDate}>{lesson.dateLabel}</span>
+                <div className={styles.attendance}>
+                    <div className={`${styles.checkbox} ${lesson.isPresent ? styles.checkboxChecked : ''}`}>
+                        {lesson.isPresent && (
+                            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
+                                <path d="M1 5l3.5 3.5L11 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        )}
+                    </div>
+                    <span className={styles.attendanceLabel}>Посещение</span>
                 </div>
-                <span className={styles.attendanceLabel}>Посещение</span>
             </div>
+
+            {lesson.materials.length > 0 && (
+                <div className={styles.materials}>
+                    {lesson.materials.map((f, i) => <span key={i} className={styles.fileChip}>{f}</span>)}
+                </div>
+            )}
+
+            {lesson.homework && <p className={styles.homework}>{lesson.homework}</p>}
+
+            {lesson.materials.length > 0 && (
+                <div className={styles.materials}>
+                    {lesson.materials.map((f, i) => <span key={i} className={styles.fileChip}>{f}</span>)}
+                </div>
+            )}
         </div>
-
-        {/* Материалы */}
-        {lesson.materials.length > 0 && (
-            <div className={styles.materials}>
-                {lesson.materials.map((file, i) => (
-                    <span key={i} className={styles.fileChip}>{file}</span>
-                ))}
-            </div>
-        )}
-
-        {/* Домашнее задание */}
-        {lesson.homework && (
-            <p className={styles.homework}>{lesson.homework}</p>
-        )}
-
-        {/* Файл ДЗ */}
-        {lesson.materials.length > 0 && (
-            <div className={styles.materials}>
-                {lesson.materials.map((file, i) => (
-                    <span key={i} className={styles.fileChip}>{file}</span>
-                ))}
-            </div>
-        )}
-
-    </div>
-);
+    );
+};
 
 // ============================================
 // MAIN PAGE
 // ============================================
 
 export const CabinetJournal: FC = () => {
-    const [activeTabId, setActiveTabId] = useState(MOCK_TABS[0].id);
+    const { user } = useAuth();
+    const isParent = user?.role === 'parent';
+
+    const tabs = isParent ? PARENT_TABS : CHILD_TABS;
+
+    const [activeTabId, setActiveTabId] = useState(tabs[0].id);
     const [openLessonId, setOpenLessonId] = useState<string | null>(null);
     const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
@@ -121,98 +222,76 @@ export const CabinetJournal: FC = () => {
         setYear(date.getFullYear());
     };
 
-    // TODO: фильтровать MOCK_LESSONS по activeTabId и month/year
+    // TODO: фильтровать по activeTabId и month/year из API
     const lessons = MOCK_LESSONS;
 
     return (
-        // Секция — w:1600 h:888 bg:#F5F7FA
         <section className={styles.section}>
-
-            {/* Контейнер — w:1472 top:61 left:64 gap:16 */}
             <div className={styles.container}>
 
-                {/* ── Заголовок + линия ─────────────────── */}
-                {/* w:1472 h:37 gap:9 */}
+                {/* ── Заголовок + линия ─────────────── */}
                 <div className={styles.titleBlock}>
-                    {/* Журнал — Roboto 500 24px #21242B letter-spacing 3% */}
                     <h1 className={styles.title}>Журнал</h1>
-                    {/* Линия — border: 2px solid #3E404433 */}
                     <hr className={styles.divider} />
                 </div>
 
-                {/* ── Вкладки курсов ────────────────────── */}
-                {/* w:1472 h:44 gap:4 */}
+                {/* ── Вкладки / дропдаун ────────────── */}
                 <div className={styles.tabs}>
-                    {MOCK_TABS.map((tab) => {
-                        const isActive = tab.id === activeTabId;
-                        return (
-                            <button
-                                key={tab.id}
-                                className={isActive ? styles.tabActive : styles.tabInactive}
-                                onClick={() => setActiveTabId(tab.id)}
-                                aria-pressed={isActive}
-                            >
-                                {/* Иконка 24×24 */}
-                                <img
-                                    src={appIcon}
-                                    alt=""
-                                    className={styles.tabIcon}
-                                />
-                                {/* Текст — Inter 500 16px letter-spacing 3% */}
-                                <span className={isActive ? styles.tabTextActive : styles.tabTextInactive}>
-                                    {tab.label}
-                                </span>
-                            </button>
-                        );
-                    })}
+                    {isParent ? (
+                        /* Родитель — дропдаун с «Вася | Курс» */
+                        <ParentDropdown
+                            tabs={tabs}
+                            activeId={activeTabId}
+                            onSelect={setActiveTabId}
+                        />
+                    ) : (
+                        /* Ребёнок — обычные вкладки */
+                        tabs.map((tab) => {
+                            const isActive = tab.id === activeTabId;
+                            return (
+                                <button
+                                    key={tab.id}
+                                    className={isActive ? styles.tabActive : styles.tabInactive}
+                                    onClick={() => setActiveTabId(tab.id)}
+                                    aria-pressed={isActive}
+                                >
+                                    <img src={appIcon} alt="" className={styles.tabIcon} />
+                                    <span className={isActive ? styles.tabTextActive : styles.tabTextInactive}>
+                                        {tab.label}
+                                    </span>
+                                </button>
+                            );
+                        })
+                    )}
                 </div>
 
-                {/* ── Выбор месяца (MonthPicker) ─────────── */}
-                {/* w:1463 h:32 justify-content:space-between */}
+                {/* ── Выбор месяца ──────────────────── */}
                 <div className={styles.calendarRow}>
                     <MonthPicker
                         month={month}
                         year={year}
+                        selectedDate={new Date(year, month, 1)}
                         onChange={handleMonthPick}
                     />
-
-                    {/* Навигация по месяцам */}
                     <div className={styles.monthNav}>
                         <button
                             className={styles.arrowBtn}
-                            onClick={() => {
-                                const d = new Date(year, month - 1, 1);
-                                setMonth(d.getMonth());
-                                setYear(d.getFullYear());
-                            }}
+                            onClick={() => { const d = new Date(year, month - 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
                             aria-label="Предыдущий месяц"
                         >
-                            <img
-                                src={arrowDownIcon}
-                                alt=""
-                                className={`${styles.arrowIcon} ${styles.arrowLeft}`}
-                            />
+                            <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowLeft}`} />
                         </button>
                         <button
                             className={styles.arrowBtn}
-                            onClick={() => {
-                                const d = new Date(year, month + 1, 1);
-                                setMonth(d.getMonth());
-                                setYear(d.getFullYear());
-                            }}
+                            onClick={() => { const d = new Date(year, month + 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
                             aria-label="Следующий месяц"
                         >
-                            <img
-                                src={arrowDownIcon}
-                                alt=""
-                                className={`${styles.arrowIcon} ${styles.arrowRight}`}
-                            />
+                            <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowRight}`} />
                         </button>
                     </div>
                 </div>
 
-                {/* ── Карточки уроков ───────────────────── */}
-                {/* w:1472 h:611 gap:16, 4 колонки */}
+                {/* ── Карточки уроков ───────────────── */}
                 <div className={styles.grid}>
                     {lessons.map((lesson) => (
                         <LessonCard
@@ -224,11 +303,11 @@ export const CabinetJournal: FC = () => {
                 </div>
 
             </div>
+
             <JournalLessonModal
                 lessonId={openLessonId}
                 onClose={() => setOpenLessonId(null)}
             />
-
         </section>
     );
 };

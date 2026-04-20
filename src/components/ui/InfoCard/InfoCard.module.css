@@ -1,154 +1,103 @@
-/* ============================================
-   CARD - Карточка (577×835)
-   ============================================ */
 .card {
-  width: 577px;
-  height: 835px;
+  /* Было: фиксированные 577px × 835px.
+       Теперь: ширина по слайду карусели, высота по контенту.
+       flex-shrink: 0 оставляем — карусель должна не сжимать карточку. */
+  width: 100%;
+  min-height: 500px;
   padding: 22px 29px;
   background: linear-gradient(206.12deg, #BCDFFF 1%, #68B5FF 99.24%);
   border-radius: 32px;
-  
-  flex-shrink: 0; /* Не сжимается в карусели */
-  
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
-/* ============================================
-   CONTENT - Контейнер текста (519×594)
-   ============================================ */
+/* Все внутренние блоки — 100% вместо фиксированных 519px */
 .content {
-  width: 519px;
-  min-height: 594px;
-  
-  
-  
+  width: 100%;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ============================================
-   HEADER SECTION - Заголовок + Введение (519×230)
-   ============================================ */
 .headerSection {
-  width: 519px;
-  min-height: 230px;
-  
+  width: 100%;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
-/* ============================================
-   TITLE - Заголовок (519×28)
-   ============================================ */
 .title {
-  width: 519px;
-  height: 28px;
-  
+  width: 100%;
   margin: 0;
-  
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: 24px;
+  font-size: clamp(18px, 1.5vw, 24px);
   line-height: 100%;
-  letter-spacing: 0.72px; /* 3% от 24px */
-  
+  letter-spacing: 0.72px;
   color: #21242B;
-  
   display: flex;
   align-items: center;
 }
 
-/* ============================================
-   INTRO - Вступительный текст (519×170)
-   ============================================ */
 .intro {
-  width: 519px;
-  min-height: 170px;
-  
+  width: 100%;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ============================================
-   INTRO PARAGRAPH - Параграф введения
-   ============================================ */
 .introParagraph {
-  width: 519px;
-  
+  width: 100%;
   margin: 0;
-  
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: clamp(13px, 1vw, 16px);
   line-height: 140%;
   letter-spacing: 0.48px;
-  
   color: #21242B;
 }
 
-/* ============================================
-   TOPICS SECTION - Список тем (519×348)
-   ============================================ */
 .topicsSection {
-  width: 519px;
-  min-height: 348px;
-  
+  width: 100%;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ============================================
-   TOPICS TITLE - Заголовок списка (519×46)
-   ============================================ */
 .topicsTitle {
-  width: 519px;
-  height: 46px;
-  
+  width: 100%;
   margin: 0;
-  
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: clamp(15px, 1.2vw, 20px);
   line-height: 100%;
   letter-spacing: 0.6px;
-  
   color: #21242B;
-  
   display: flex;
   align-items: center;
 }
 
-/* ============================================
-   TOPICS LIST - Список тем (519×286)
-   ============================================ */
 .topicsList {
-  width: 519px;
-  min-height: 286px;
-  
+  width: 100%;
+  min-height: auto;
   margin: 0;
   padding: 0;
   list-style: none;
-  
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Небольшой gap между темами */
+  gap: 4px;
 }
 
-/* ============================================
-   TOPIC ITEM - Один элемент списка
-   ============================================ */
 .topicItem {
-  width: 519px;
-  
+  width: 100%;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: clamp(13px, 1vw, 16px);
   line-height: 140%;
   letter-spacing: 0.48px;
-  
   color: #21242B;
 }

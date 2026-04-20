@@ -1,8 +1,20 @@
-import type { FC, ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 
+// ============================================
+// TYPES
+// ============================================
 
 export type UserRole = 'parent' | 'child' | 'teacher';
+
+export interface ChildInfo {
+    id: string;
+    name: string;        // имя ребёнка для отображения
+    fullName: string;    // ФИО ребёнка
+    classNumber: number;
+    schoolName: string;
+    avatarUrl?: string;
+}
 
 export interface AuthUser {
     id: string;
@@ -14,6 +26,13 @@ export interface AuthUser {
     role: UserRole;
     /** URL аватарки (опционально) */
     avatarUrl?: string;
+    /** Телефон пользователя */
+    phone?: string;
+    /**
+     * Только для role === 'parent' — список детей.
+     * TODO: заполняется из GET /api/profile после авторизации.
+     */
+    children?: ChildInfo[];
 }
 
 interface AuthContextValue {
@@ -23,7 +42,15 @@ interface AuthContextValue {
     logout: () => void;
 }
 
+// ============================================
+// CONTEXT
+// ============================================
+
 const AuthContext = createContext<AuthContextValue | null>(null);
+
+// ============================================
+// PROVIDER
+// ============================================
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -54,8 +81,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
-// Хук для удобного доступа к контексту аутентификации
-
+// ============================================
+// HOOK
+// ============================================
 
 export const useAuth = (): AuthContextValue => {
     const ctx = useContext(AuthContext);

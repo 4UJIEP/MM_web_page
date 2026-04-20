@@ -4,7 +4,8 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(62, 64, 68, 0.15); /* #3E404426 */
+    background: rgba(62, 64, 68, 0.15);
+    /* #3E404426 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,16 +14,21 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* ============================================
    MODAL — w:604 h:180 br:16 bg:#fff
    ============================================ */
 .modal {
-    width: 604px;
-    height: 180px;
+    width: min(604px, 100%);
+    min-height: 180px;
     border-radius: 16px;
     background: #FFFFFF;
     box-sizing: border-box;
@@ -31,8 +37,15 @@
 }
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ============================================
@@ -58,7 +71,8 @@
 
     display: flex;
     align-items: center;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* ============================================
@@ -67,8 +81,8 @@
 .actions {
     position: absolute;
     top: 97px;
-    left: 311px;
-    width: 240px;
+    right: 24px;
+    width: auto;
     height: 44px;
     display: flex;
     align-items: center;
@@ -178,4 +192,31 @@
 
 .btnStay:hover {
     opacity: 0.7;
+}
+
+/* ── Адаптивность ── */
+@media (max-width: 640px) {
+    .overlay {
+        padding: 16px;
+    }
+
+    .modal {
+        min-height: auto;
+        padding-bottom: 24px;
+    }
+
+    .question {
+        position: static;
+        width: 100%;
+        padding: 20px 16px 0;
+        font-size: 18px;
+    }
+
+    .actions {
+        position: static;
+        width: 100%;
+        padding: 16px;
+        justify-content: center;
+        margin-top: 12px;
+    }
 }
