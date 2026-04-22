@@ -7,10 +7,16 @@ import { useAuth } from '../../context/AuthContext';
 
 import appIcon from '../../assets/icons/folder.png';
 import arrowDownIcon from '../../assets/icons/angle-down.png';
+import sortIcon from '../../assets/icons/sorting.png';
+import radio from '../../assets/icons/pointIcon.png';
+import radioEmpty from '../../assets/icons/pointIconEmpty.png';
+
 
 // ============================================
 // TYPES
 // ============================================
+
+type SortOrder = 'asc' | 'desc';
 
 interface CourseTab {
     id: string;
@@ -76,22 +82,31 @@ const MOCK_LESSONS: JournalLesson[] = Array.from({ length: 12 }, (_, i) => {
     };
 });
 
+const RadioIcon: FC<{ checked: boolean }> = ({ checked }) => (
+    <img
+        src={checked ? radio : radioEmpty}
+        alt=""
+        aria-hidden="true"
+        style={{ width: 18, height: 18, flexShrink: 0, objectFit: 'contain' }}
+    />
+);
+
 // ============================================
-// PARENT DROPDOWN — заменяет вкладки для родителя
+// COURSE DROPDOWN — выбор курса / ребёнка
 // ============================================
 
-interface ParentDropdownProps {
+interface CourseDropdownProps {
     tabs: CourseTab[];
     activeId: string;
     onSelect: (id: string) => void;
 }
 
-const ParentDropdown: FC<ParentDropdownProps> = ({ tabs, activeId, onSelect }) => {
+const CourseDropdown: FC<CourseDropdownProps> = ({ tabs, activeId, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const activeTab = tabs.find(t => t.id === activeId) ?? tabs[0];
 
-    // Закрытие по клику вне
+    // закрытие 
     useEffect(() => {
         if (!isOpen) return;
         const handler = (e: MouseEvent) => {
@@ -101,9 +116,15 @@ const ParentDropdown: FC<ParentDropdownProps> = ({ tabs, activeId, onSelect }) =
         return () => document.removeEventListener('mousedown', handler);
     }, [isOpen]);
 
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+        document.addEventListener('keydown', handler);
+        return () => document.removeEventListener('keydown', handler);
+    }, [isOpen]);
+
     return (
         <div className={styles.dropdownWrap} ref={ref}>
-            {/* Активная вкладка-кнопка — w:316 h:44 br:16 bg:#9492922B */}
             <button
                 className={styles.dropdownTrigger}
                 onClick={() => setIsOpen(o => !o)}
@@ -111,7 +132,6 @@ const ParentDropdown: FC<ParentDropdownProps> = ({ tabs, activeId, onSelect }) =
                 aria-expanded={isOpen}
             >
                 <img src={appIcon} alt="" className={styles.tabIcon} />
-                {/* Текст — Inter 500 16px #21242B */}
                 <span className={styles.dropdownTriggerText}>{activeTab.label}</span>
                 <img
                     src={arrowDownIcon}
@@ -120,33 +140,120 @@ const ParentDropdown: FC<ParentDropdownProps> = ({ tabs, activeId, onSelect }) =
                 />
             </button>
 
-            {/* Плашка выбора — w:258 h:89 br:8 bg:#fff shadow */}
             {isOpen && (
-                <div className={styles.dropdownMenu} role="listbox">
-                    <div className={styles.dropdownList}>
-                        {tabs.map((tab, i) => (
-                            <button
-                                key={tab.id}
-                                className={styles.dropdownItem}
-                                role="option"
-                                aria-selected={tab.id === activeId}
-                                onClick={() => { onSelect(tab.id); setIsOpen(false); }}
-                            >
-                                {/* Первый элемент — активный цвет #21242B, остальные — #3E4044CC */}
-                                <span className={i === 0 && tab.id === activeId
-                                    ? styles.dropdownItemTextActive
-                                    : styles.dropdownItemTextInactive
-                                }>
-                                    {tab.courseLabel}
-                                </span>
-                            </button>
-                        ))}
+                <div className={styles.courseMenu} role="listbox" aria-label="Выбор курса">
+                    <div className={styles.courseMenuInner}>
+                        {tabs.map((tab) => {
+                            const isActive = tab.id === activeId;
+                            return (
+                                <button
+                                    key={tab.id}
+                                    className={styles.courseMenuItem}
+                                    role="option"
+                                    aria-selected={isActive}
+                                    onClick={() => { onSelect(tab.id); setIsOpen(false); }}
+                                >
+                                    <RadioIcon checked={isActive} />
+                                    <span className={isActive ? styles.courseMenuItemTextActive : styles.courseMenuItemTextInactive}>
+                                        {tab.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             )}
         </div>
     );
 };
+
+
+// ============================================
+// SORT DROPDOWN — По возрастанию / по убыванию
+// ============================================
+
+interface SortDropdownProps {
+    value: SortOrder;
+    onChange: (v: SortOrder) => void;
+}
+
+const SortDropdown: FC<SortDropdownProps> = ({ value, onChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+        document.addEventListener('keydown', handler);
+        return () => document.removeEventListener('keydown', handler);
+    }, [isOpen]);
+
+    const options: { value: SortOrder; label: string }[] = [
+        { value: 'asc', label: 'По возрастанию' },
+        { value: 'desc', label: 'По убыванию' },
+    ];
+
+    const currentLabel = options.find(o => o.value === value)?.label ?? 'По возрастанию';
+
+    return (
+        <div className={styles.sortWrap} ref={ref}>
+            {/* Триггер — w:216 h:44 br:16 p:10 18 */}
+            <button
+                className={styles.sortTrigger}
+                onClick={() => setIsOpen(o => !o)}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
+                aria-label="Порядок сортировки"
+            >
+                <img
+                    src={sortIcon}
+                    alt=""
+                    className={styles.sortIcon}
+                />
+                <span className={styles.sortTriggerText}>{currentLabel}</span>
+                <img
+                    src={arrowDownIcon}
+                    alt=""
+                    className={`${styles.sortArrow} ${isOpen ? styles.sortArrowOpen : ''}`}
+                />
+            </button>
+
+            {isOpen && (
+                <div className={styles.sortMenu} role="listbox" aria-label="Порядок сортировки">
+                    <div className={styles.sortMenuInner}>
+                        {options.map((opt) => {
+                            const isActive = opt.value === value;
+                            return (
+                                <button
+                                    key={opt.value}
+                                    className={styles.sortMenuItem}
+                                    role="option"
+                                    aria-selected={isActive}
+                                    onClick={() => { onChange(opt.value); setIsOpen(false); }}
+                                >
+                                    <RadioIcon checked={isActive} />
+                                    <span className={isActive ? styles.sortMenuItemTextActive : styles.sortMenuItemTextInactive}>
+                                        {opt.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 
 // ============================================
 // LESSON CARD
@@ -216,6 +323,7 @@ export const CabinetJournal: FC = () => {
     const [openLessonId, setOpenLessonId] = useState<string | null>(null);
     const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
+    const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
     const handleMonthPick = (date: Date) => {
         setMonth(date.getMonth());
@@ -229,43 +337,41 @@ export const CabinetJournal: FC = () => {
         <section className={styles.section}>
             <div className={styles.container}>
 
-                {/* ── Заголовок + линия ─────────────── */}
+                {/* ── Заголовок ── */}
                 <div className={styles.titleBlock}>
                     <h1 className={styles.title}>Журнал</h1>
                     <hr className={styles.divider} />
                 </div>
 
-                {/* ── Вкладки / дропдаун ────────────── */}
-                <div className={styles.tabs}>
+                {/* ── Строка управления: курс слева + сортировка справа ── */}
+                <div className={styles.controlsRow}>
                     {isParent ? (
-                        /* Родитель — дропдаун с «Вася | Курс» */
-                        <ParentDropdown
-                            tabs={tabs}
-                            activeId={activeTabId}
-                            onSelect={setActiveTabId}
-                        />
+                        <CourseDropdown tabs={tabs} activeId={activeTabId} onSelect={setActiveTabId} />
                     ) : (
-                        /* Ребёнок — обычные вкладки */
-                        tabs.map((tab) => {
-                            const isActive = tab.id === activeTabId;
-                            return (
-                                <button
-                                    key={tab.id}
-                                    className={isActive ? styles.tabActive : styles.tabInactive}
-                                    onClick={() => setActiveTabId(tab.id)}
-                                    aria-pressed={isActive}
-                                >
-                                    <img src={appIcon} alt="" className={styles.tabIcon} />
-                                    <span className={isActive ? styles.tabTextActive : styles.tabTextInactive}>
-                                        {tab.label}
-                                    </span>
-                                </button>
-                            );
-                        })
+                        <div className={styles.tabs}>
+                            {tabs.map((tab) => {
+                                const isActive = tab.id === activeTabId;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        className={isActive ? styles.tabActive : styles.tabInactive}
+                                        onClick={() => setActiveTabId(tab.id)}
+                                        aria-pressed={isActive}
+                                    >
+                                        <img src={appIcon} alt="" className={styles.tabIcon} />
+                                        <span className={isActive ? styles.tabTextActive : styles.tabTextInactive}>
+                                            {tab.label}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
                     )}
+
+                    <SortDropdown value={sortOrder} onChange={setSortOrder} />
                 </div>
 
-                {/* ── Выбор месяца ──────────────────── */}
+                {/* ── Выбор месяца ── */}
                 <div className={styles.calendarRow}>
                     <MonthPicker
                         month={month}
@@ -291,7 +397,7 @@ export const CabinetJournal: FC = () => {
                     </div>
                 </div>
 
-                {/* ── Карточки уроков ───────────────── */}
+                {/* ── Карточки уроков ── */}
                 <div className={styles.grid}>
                     {lessons.map((lesson) => (
                         <LessonCard

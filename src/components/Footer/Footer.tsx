@@ -28,10 +28,15 @@ export const Footer: FC = () => {
         <div className={styles.rightColumn}>
           <h3 className={styles.rightHeading}>Остались вопросы? Напишите нам в группе в ВК или позвоните по номеру телефона</h3>
           <div className={styles.contactsColumn}>
-            <div className={styles.contactRow}>
-              <img className={styles.contactIcon} src={vkIcon} alt="VK icon" />
-              <span className={styles.contactText}>Малый матфак</span>
-            </div>
+              <a
+                href="https://vk.com/mm_omsu"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.contactRow}
+              >
+                <img className={styles.contactIcon} src={vkIcon} alt="VK icon" />
+                <span className={styles.contactText}>Малый матфак</span>
+              </a>
 
             <div className={styles.contactRow}>
               <img className={styles.contactIcon} src={appIcon} alt="Phone icon" />
@@ -41,7 +46,7 @@ export const Footer: FC = () => {
           <p className={styles.workTime}>Прием звонков: 9:00-14:00 и 19:00-21:00</p>
         </div>
         <div className={styles.bottom}>
-            <img src={logo} alt="Университет" className={styles.logo} />
+          <img src={logo} alt="Университет" className={styles.logo} />
         </div>
       </div>
     </footer>

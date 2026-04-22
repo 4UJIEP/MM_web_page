@@ -10,6 +10,9 @@ import { AuthProvider } from './context/AuthContext'
 import { CabinetSchedule } from './pages/CabinetSchedule'
 import { CabinetProfile } from './pages/CabinetProfile'
 import { CabinetJournal } from './pages/CabinetJournal/CabinetJournal'
+import { CabinetNotifications } from './pages/CabinetNotifications'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { NotFound } from './pages/NotFound'
 
 function App() {
   return (
@@ -26,11 +29,17 @@ function App() {
 
             {/*страницы курса*/}
             <Route path='/course/:slug' element={<CourseDetail />} />
-            {/* Личный кабинет */}
-            <Route path='/cabinet/schedule' element={<CabinetSchedule />} />
-            <Route path='/cabinet/profile' element={<CabinetProfile />} />
 
-            <Route path= '/cabinet/journal' element={<CabinetJournal />} />
+            {/* Личный кабинет — только для авторизованных */}
+            <Route element={<ProtectedRoute />}>
+              <Route path='/cabinet/schedule' element={<CabinetSchedule />} />
+              <Route path='/cabinet/profile' element={<CabinetProfile />} />
+              <Route path='/cabinet/journal' element={<CabinetJournal />} />
+              <Route path='/cabinet/notifications' element={<CabinetNotifications />} />
+            </Route>
+
+            {/* 404 */}
+            <Route path='*' element={<NotFound />} />
           </Routes>
           <Footer />
         </div>

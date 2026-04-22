@@ -1,0 +1,221 @@
+/* ============================================
+   SECTION — w:1600 h:1041 bg:#F5F7FA
+   ============================================ */
+.section {
+    width: 100%;
+    min-height: 1041px;
+    background: var(--Background, #F5F7FA);
+    display: flex;
+    justify-content: center;
+}
+
+/* ============================================
+   CONTAINER — top:60 left:64 gap между элементами
+   ============================================ */
+.container {
+    width: 1472px;
+    max-width: calc(100vw - 128px);
+    margin-top: 60px;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    /* gap не используем — отступы через margin у элементов */
+}
+
+/* ============================================
+   TITLE — w:163 h:28 top:60 left:80
+   Roboto 500 24px #333 letter-spacing 3%
+   ============================================ */
+.title {
+    width: 163px;
+    height: 28px;
+    margin: 0 0 10px 16px;
+    /* left:80 = container left:64 + 16 */
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: #333333;
+
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================
+   DIVIDER — w:1472 border: 2px solid #3E404433
+   ============================================ */
+.divider {
+    border: none;
+    border-top: 2px solid rgba(62, 64, 68, 0.2);
+    margin: 0;
+    width: 100%;
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ============================================
+   NOTIFICATION WRAP — w:1466 h:145 gap:15
+   top:114 left:67
+   ============================================ */
+.notifWrap {
+    width: 100%;
+    padding: 16px 3px;
+    /* top:114 - top(divider):98 ≈ 16px отступ сверху */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   NOTIFICATION INNER — w:1426 h:130 gap:8
+   ============================================ */
+.notifInner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ============================================
+   LABEL — w:1426 h:23
+   Roboto 500 20px #333 letter-spacing 3%
+   ============================================ */
+.notifLabel {
+    width: 100%;
+    height: 23px;
+    margin: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    vertical-align: middle;
+    color: #333333;
+
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================
+   BODY — w:1426 h:99 gap:16
+   ============================================ */
+.notifBody {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ============================================
+   TEXT — w:1426 h:66
+   Inter 400 16px #000 letter-spacing 3%
+   ============================================ */
+.notifText {
+    width: 100%;
+    margin: 0;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    vertical-align: middle;
+    color: #000000;
+
+    /* Ограничиваем по высоте как в Figma (h:66 ≈ 3 строки по 140%) */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ============================================
+   DATE CONTAINER — w:146 h:17 gap:4
+   ============================================ */
+.notifDate {
+    display: flex;
+    align-items: center;
+    width: 146px;
+    height: 17px;
+    gap: 4px;
+}
+
+/* Текст даты — w:130 h:17
+   Inter 500 12px #21B46E letter-spacing 3% */
+.notifDateText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--Green-800, #21B46E);
+    white-space: nowrap;
+}
+
+/* Иконка часов — w:12 h:12 */
+.notifDateIcon {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+    flex-shrink: 0;
+    /* Перекрашиваем в зелёный через filter */
+    filter: invert(55%) sepia(60%) saturate(500%) hue-rotate(110deg) brightness(90%);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.empty {
+    margin: 48px 0 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: rgba(33, 36, 43, 0.4);
+    text-align: center;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+@media (max-width: 1200px) {
+    .container {
+        max-width: calc(100vw - 64px);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: calc(100vw - 32px);
+        margin-top: 32px;
+    }
+
+    .title {
+        width: auto;
+        margin-left: 0;
+    }
+
+    .notifLabel {
+        font-size: 16px;
+    }
+
+    .notifText {
+        font-size: 14px;
+    }
+}

@@ -4,7 +4,8 @@ import styles from './CabinetProfile.module.css';
 import { useAuth } from '../../context/AuthContext';
 import type { ChildInfo } from '../../context/AuthContext';
 
-import arrowDownIcon from '../../assets/icons/angle-down.png';
+import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
+import folder from '../../assets/icons/folder.png';
 
 // ============================================
 // MOCK DATA
@@ -28,6 +29,7 @@ const MOCK_COURSES: CourseEnrollment[] = [
 
 const CourseRow: FC<{ course: CourseEnrollment }> = ({ course }) => (
   <div className={styles.courseRow}>
+    <img src={folder} alt="" className={styles.folderCourse} />
     <span className={styles.courseText}>
       {course.title} | {course.classLabel}
     </span>

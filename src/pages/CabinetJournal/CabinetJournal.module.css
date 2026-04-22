@@ -462,3 +462,209 @@
         align-items: flex-start;
     }
 }
+
+/* ============================================
+   СТРОКА УПРАВЛЕНИЯ (курс + сортировка)
+   ============================================ */
+.controlsRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+/* ============================================
+   COURSE DROPDOWN — дропдаун выбора курса/ребёнка
+   w:316 h:88 br:8 p:16 12 gap:12
+   ============================================ */
+
+/* Меню курсов */
+.courseMenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 316px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow:
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    animation: menuIn 0.15s ease;
+}
+
+/* Внутренний контейнер — p:16 12 gap:12 */
+.courseMenuInner {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Строка выбора — w:264 h:22 gap:10 */
+.courseMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    transition: opacity 0.15s ease;
+}
+
+.courseMenuItem:hover {
+    opacity: 0.75;
+}
+
+/* Активный элемент — Inter 500 16px #21242B */
+.courseMenuItemTextActive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Неактивный элемент — Inter 500 16px #3E4044CC */
+.courseMenuItemTextInactive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: rgba(62, 64, 68, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================
+   SORT DROPDOWN — дропдаун сортировки
+   trigger: w:216 h:44 br:16 p:10 18 gap:8
+   ============================================ */
+
+.sortWrap {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Кнопка-триггер — w:216 h:44 br:16 p:10 18 */
+.sortTrigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 216px;
+    height: 44px;
+    border-radius: 16px;
+    padding: 10px 18px;
+    box-sizing: border-box;
+    background: rgba(148, 146, 146, 0.17);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.sortTrigger:hover {
+    background: rgba(148, 146, 146, 0.25);
+}
+
+/* Текст — Inter 500 16px #21242B */
+.sortTriggerText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+    flex: 1;
+}
+
+.sortIcon {
+    width: 24;
+    height: 24;
+    object-fit: contain;
+    flex-shrink: 0;
+
+}
+
+/* Стрелка — w:14 h:7 */
+.sortArrow {
+    width: 14px;
+    height: 7px;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.sortArrowOpen {
+    transform: rotate(180deg);
+}
+
+/* Меню сортировки */
+.sortMenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    width: 216px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow:
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    animation: menuIn 0.15s ease;
+}
+
+.sortMenuInner {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sortMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    transition: opacity 0.15s ease;
+}
+
+.sortMenuItem:hover {
+    opacity: 0.75;
+}
+
+.sortMenuItemTextActive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+}
+
+.sortMenuItemTextInactive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: rgba(62, 64, 68, 0.8);
+    white-space: nowrap;
+}

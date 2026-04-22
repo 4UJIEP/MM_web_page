@@ -243,6 +243,12 @@
   gap: 8px;
 }
 
+.folderCourse {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 /* Текст курса — w:214 h:23 Roboto 500 20px #21242B letter-spacing 3% */
 .courseText {
   font-family: 'Roboto', sans-serif;
@@ -259,13 +265,11 @@
 /* Стрелка — w:14 h:7 angle:180deg (повёрнута вверх) #7A7A7A */
 .courseArrow {
   width: 14px;
-  height: 7px;
+  height: 100%;
   object-fit: contain;
   flex-shrink: 0;
-  /* angle:180 — стрелка смотрит вверх (раскрытие) */
-  transform: rotate(180deg);
-  /* Перекраска в #7A7A7A через CSS filter */
-  filter: invert(50%) sepia(0%) saturate(0%) brightness(80%);
+  
+  filter: brightness(0.129) sepia(1) hue-rotate(210deg) saturate(0.5);
 }
 
 /* ============================================
