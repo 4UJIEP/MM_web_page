@@ -13,11 +13,14 @@ import { CabinetJournal } from './pages/CabinetJournal/CabinetJournal'
 import { CabinetNotifications } from './pages/CabinetNotifications'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { NotFound } from './pages/NotFound'
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop'
+import { TeachersPage } from './pages/TeachersPage/TeachersPage'
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <div className="app">
           <Header />
           <Routes>
@@ -26,6 +29,7 @@ function App() {
             {/*Страница расписания */}
             <Route path='/schedule' element={<Schedule />} />
             <Route path='/courses' element={<Courses />} />
+            <Route path='/teachers' element={<TeachersPage />} />
 
             {/*страницы курса*/}
             <Route path='/course/:slug' element={<CourseDetail />} />

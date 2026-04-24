@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
 import { LoginModal } from '../ui/LoginModal';
 import { useAuth } from '../../context/AuthContext';
@@ -156,6 +156,7 @@ export const Header: FC = () => {
     const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
     const { user, isAuthenticated, login, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     // Ref на кнопку-триггер для вычисления позиции дропдауна
     const userButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -188,7 +189,8 @@ export const Header: FC = () => {
             }),
         });
         setIsLoginModalOpen(false);
-        navigate('/cabinet/schedule');
+        const from = (location.state as { from?: Location })?.from?.pathname;
+        navigate(from ?? '/cabinet/schedule');
     };
 
     const handleLogout = () => {
@@ -262,6 +264,7 @@ export const Header: FC = () => {
                                 {/* Кнопка — w:297 h:42 gap:11 */}
                                 <button
                                     className={styles.userBlock}
+                                    ref={userButtonRef}
                                     onClick={() => setIsDropdownOpen(o => !o)}
                                     aria-haspopup="menu"
                                     aria-expanded={isDropdownOpen}

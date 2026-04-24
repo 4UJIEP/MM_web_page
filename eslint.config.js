@@ -19,5 +19,9 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // запрещает console.log в продакшен коде
+      'no-console': ['warn', {allow: ['error']}],
+    },
   },
 ])

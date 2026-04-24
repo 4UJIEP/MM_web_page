@@ -6,6 +6,8 @@ import type { ChildInfo } from '../../context/AuthContext';
 
 import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
 import folder from '../../assets/icons/folder.png';
+import radio from '../../assets/icons/pointIcon.png';
+import radioEmpty from '../../assets/icons/pointIconEmpty.png';
 
 // ============================================
 // MOCK DATA
@@ -19,8 +21,8 @@ interface CourseEnrollment {
 }
 
 const MOCK_COURSES: CourseEnrollment[] = [
-  { id: '1', title: 'Математика', classLabel: '9 класс' },
-  { id: '2', title: 'Шахматы', classLabel: '9 класс' },
+  { id: '1', title: 'Вася | Математика| 9 класс', classLabel: 'Математика | 9 класс' },
+  { id: '2', title: 'Катя | Шахматы| 9 класс', classLabel: 'Шахматы | 9 класс' },
 ];
 
 // ============================================

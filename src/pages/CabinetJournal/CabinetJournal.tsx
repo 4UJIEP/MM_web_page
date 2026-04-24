@@ -6,7 +6,7 @@ import { JournalLessonModal } from '../../components/ui/JournalLessonModal';
 import { useAuth } from '../../context/AuthContext';
 
 import appIcon from '../../assets/icons/folder.png';
-import arrowDownIcon from '../../assets/icons/angle-down.png';
+import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
 import sortIcon from '../../assets/icons/sorting.png';
 import radio from '../../assets/icons/pointIcon.png';
 import radioEmpty from '../../assets/icons/pointIconEmpty.png';

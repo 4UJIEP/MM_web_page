@@ -43,6 +43,37 @@ interface AuthContextValue {
 }
 
 // ============================================
+// storage helpers
+// ============================================
+
+const STORAGE_KEY = 'mm_auth_user';
+
+function loadUserFromStorage(): AuthUser | null {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw) as AuthUser;
+    } catch {
+        // Повреждённые данные — сбрасываем
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+    }
+}
+
+
+function saveUserToStorage(userData: AuthUser): void {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+    } catch {
+        // localStorage недоступен (приватный режим с ограничениями) — игнорируем
+    }
+}
+
+function clearUserFromStorage(): void {
+    localStorage.removeItem(STORAGE_KEY);
+}
+
+// ============================================
 // CONTEXT
 // ============================================
 
@@ -57,13 +88,17 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<AuthUser | null>(null);
+    // Инициализируем состояние из localStorage — пользователь остаётся
+    // залогиненным после перезагрузки страницы
+    const [user, setUser] = useState<AuthUser | null>(loadUserFromStorage);
 
     const login = (userData: AuthUser) => {
+        saveUserToStorage(userData);
         setUser(userData);
     };
 
     const logout = () => {
+        clearUserFromStorage();
         setUser(null);
     };
 

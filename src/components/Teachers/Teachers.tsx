@@ -4,7 +4,7 @@ import { teachersData } from '../../data/teacher';
 import styles from './Teachers.module.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation} from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
