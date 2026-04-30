@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import styles from './Teachers.module.css';
+import styles from './TeachersPage.module.css';
 import { TeacherCard } from '../../components/ui/TeacherCard';
 import { teachersData } from '../../data/teacher';
 

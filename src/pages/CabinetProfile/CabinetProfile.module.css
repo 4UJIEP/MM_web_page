@@ -197,15 +197,13 @@
 .coursesBlock {
   display: flex;
   flex-direction: column;
-  width: 239px;
+  width: 100%;
   gap: 32px;
   padding: 16px 0 19px 0;
-  /* 16 сверху, 19 снизу до разделителя3 */
 }
 
 /* «Курсы» — w:239 h:28 Roboto 500 24px #21242B */
 .coursesTitle {
-  width: 239px;
   height: 28px;
   margin: 0;
 
@@ -268,7 +266,7 @@
   height: 100%;
   object-fit: contain;
   flex-shrink: 0;
-  
+
   filter: brightness(0.129) sepia(1) hue-rotate(210deg) saturate(0.5);
 }
 
@@ -326,8 +324,9 @@
    ============================================ */
 .parentSections {
   display: flex;
-  gap: 48px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
 }
 
 .section_inner {
@@ -350,4 +349,240 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* ============================================
+   CHILD SWITCHER
+   Figma: w:276 h:57 radius:16 gap:8
+   ============================================ */
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: fit-content;
+  height: 57px;
+  padding: 5px;
+  border-radius: 16px;
+  background: #F5F7FA;
+  box-sizing: border-box;
+}
+
+/* Общие стили кнопки переключателя */
+.switcherBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 128px;
+  height: 46px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.03em;
+  color: var(--Font, #21242B);
+
+  transition: background 0.2s;
+}
+
+/* Активная кнопка — Blue-400 */
+.switcherBtnActive {
+  background: var(--Blue-400, #BCDFFF);
+}
+
+/* Неактивная кнопка */
+.switcherBtnInactive {
+  background: transparent;
+}
+
+.switcherBtnInactive:hover {
+  background: rgba(0, 136, 255, 0.08);
+}
+
+/* Аватарка внутри кнопки 26×26 */
+.switcherAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #016AEE;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.switcherAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.switcherName {
+  line-height: 1;
+}
+
+/* ============================================
+   COURSES HEADER ROW — заголовок «Курсы» + switcher
+   ============================================ */
+.coursesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   COURSE CARD
+   Figma: w:1472 h:124 radius:16 bg:#FFFFFF
+   ============================================ */
+.courseCard {
+  width: 100%;
+  height: 124px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Внутренний контейнер
+   Figma: w:1413 h:87 top:18 left:29 justify:space-between
+   padding = top:18 left:29 → 18px 29px */
+.courseCardInner {
+  width: 100%;
+  height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 29px;
+  box-sizing: border-box;
+  gap: 32px;
+}
+
+/* Левая часть
+   Figma: w:476 h:76 gap:32 */
+.courseCardLeft {
+  width: 476px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex-shrink: 0;
+}
+
+/* Строка «Математика  9 класс»
+   Figma: w:476 h:22 */
+.courseCardTitle {
+  width: 476px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* «Математика» — Inter Bold 16px #21242B ls:3% */
+.courseSubject {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.03em;
+  color: #21242B;
+}
+
+/* «9 класс» — Inter Medium 16px #21242B ls:3% */
+.courseClass {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.03em;
+  color: #21242B;
+}
+
+/* Мета-строка «Вася | Вс, 10:00 - 12:00 | Преподаватель»
+   Figma: w:476 h:22 Inter Medium 16px #3E4044 ls:3% */
+.courseCardMeta {
+  width: 476px;
+  height: 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.03em;
+  color: #3E4044;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Кнопка «Перейти в журнал» + стрелка
+   Figma: w:168 h:22 gap:8
+   Текст: w:153 Inter Medium 16px #016AEE ls:3%
+   Стрелка: w:14 h:7 angle:90deg #016AEE */
+.journalLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.03em;
+  color: #016AEE;
+
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.journalLink:hover {
+  color: #0052CC;
+}
+
+/* Стрелка angle-down.png повёрнутая на -90deg → указывает вправо
+   Figma: w:14 h:7 */
+.journalArrow {
+  width: 14px;
+  height: 7px;
+  object-fit: contain;
+  transform: rotate(-90deg);
+  filter: invert(24%) sepia(98%) saturate(2000%) hue-rotate(210deg) brightness(90%);
+  flex-shrink: 0;
+}
+
+/* Список карточек курсов */
+.courseCardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.emptyCourses {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  color: #B3B3B3;
+  padding: 32px 0;
+  text-align: center;
 }

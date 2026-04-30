@@ -50,6 +50,22 @@ function isPast(date: Date): boolean {
     return date < today;
 }
 
+// Занятие на текущей неделе (Пн–Вс) → белая карточка
+function isThisWeek(date: Date): boolean {
+    const now = new Date();
+    // Начало текущей недели (понедельник)
+    const startOfWeek = new Date(now);
+    const day = now.getDay();
+    const diff = day === 0 ? -6 : 1 - day; // воскресенье = 0
+    startOfWeek.setDate(now.getDate() + diff);
+    startOfWeek.setHours(0, 0, 0, 0);
+    // Конец недели (воскресенье)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+    return date >= startOfWeek && date <= endOfWeek;
+}
+
 // ============================================
 // MOCK DATA
 // TODO: заменить на fetch /api/journal?tabId=...&month=...
@@ -267,16 +283,19 @@ interface LessonCardProps {
 const LessonCard: FC<LessonCardProps> = ({ lesson, onClick }) => {
     const past = isPast(lesson.dateRaw);
 
+    const thisWeek = isThisWeek(lesson.dateRaw);
+    // Белый — занятия текущей недели; голубой — всё остальное (прошедшие и будущие вне недели)
+    const cardClass = thisWeek ? styles.lessonCard : `${styles.lessonCard} ${styles.lessonCardBlue}`;
+
     return (
         <div
-            className={`${styles.lessonCard} ${past ? styles.lessonCardPast : ''}`}
+            className={cardClass}
             onClick={onClick}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onClick()}
         >
             <p className={styles.lessonTopic}>{lesson.topic}</p>
-            <p className={styles.lessonTeacher}>{lesson.teacher}</p>
 
             <div className={styles.lessonMeta}>
                 <span className={styles.lessonDate}>{lesson.dateLabel}</span>
@@ -333,6 +352,11 @@ export const CabinetJournal: FC = () => {
     // TODO: фильтровать по activeTabId и month/year из API
     const lessons = MOCK_LESSONS;
 
+    // Имя преподавателя берём из первого урока текущей выборки
+    const teacherName = lessons[0]?.teacher ?? '';
+
+    const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
     return (
         <section className={styles.section}>
             <div className={styles.container}>
@@ -371,30 +395,38 @@ export const CabinetJournal: FC = () => {
                     <SortDropdown value={sortOrder} onChange={setSortOrder} />
                 </div>
 
-                {/* ── Выбор месяца ── */}
+                {/* ── Строка месяца: MonthPicker слева, преподаватель справа ── */}
                 <div className={styles.calendarRow}>
-                    <MonthPicker
-                        month={month}
-                        year={year}
-                        selectedDate={new Date(year, month, 1)}
-                        onChange={handleMonthPick}
-                    />
-                    <div className={styles.monthNav}>
-                        <button
-                            className={styles.arrowBtn}
-                            onClick={() => { const d = new Date(year, month - 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
-                            aria-label="Предыдущий месяц"
-                        >
-                            <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowLeft}`} />
-                        </button>
-                        <button
-                            className={styles.arrowBtn}
-                            onClick={() => { const d = new Date(year, month + 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
-                            aria-label="Следующий месяц"
-                        >
-                            <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowRight}`} />
-                        </button>
+                    <div className={styles.calendarLeft}>
+                        <MonthPicker
+                            month={month}
+                            year={year}
+                            selectedDate={new Date(year, month, 1)}
+                            onChange={handleMonthPick}
+                        />
+                        <div className={styles.monthNav}>
+                            <button
+                                className={styles.arrowBtn}
+                                onClick={() => { const d = new Date(year, month - 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
+                                aria-label="Предыдущий месяц"
+                            >
+                                <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowLeft}`} />
+                            </button>
+                            <button
+                                className={styles.arrowBtn}
+                                onClick={() => { const d = new Date(year, month + 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
+                                aria-label="Следующий месяц"
+                            >
+                                <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowRight}`} />
+                            </button>
+                        </div>
                     </div>
+
+                    {/* Имя преподавателя справа
+                        Figma: w:319 h:23 Roboto 500 20px #21242B ls:3% */}
+                    {teacherName && (
+                        <span className={styles.teacherName}>{teacherName}</span>
+                    )}
                 </div>
 
                 {/* ── Карточки уроков ── */}

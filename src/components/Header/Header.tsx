@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { LoginModal } from '../ui/LoginModal';
 import { useAuth } from '../../context/AuthContext';
@@ -156,7 +156,6 @@ export const Header: FC = () => {
     const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
     const { user, isAuthenticated, login, logout } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
     // Ref на кнопку-триггер для вычисления позиции дропдауна
     const userButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -189,8 +188,7 @@ export const Header: FC = () => {
             }),
         });
         setIsLoginModalOpen(false);
-        const from = (location.state as { from?: Location })?.from?.pathname;
-        navigate(from ?? '/cabinet/schedule');
+        navigate('/cabinet/schedule');
     };
 
     const handleLogout = () => {
@@ -242,14 +240,28 @@ export const Header: FC = () => {
                         <nav className={styles.nav}>
                             {isAuthenticated
                                 ? cabinetNavItems.map((item) => (
-                                    <Link key={item.id} to={item.href} className={styles.navLink}>
+                                    <NavLink
+                                        key={item.id}
+                                        to={item.href}
+                                        end
+                                        className={({ isActive }) =>
+                                            isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                                        }
+                                    >
                                         {item.label}
-                                    </Link>
+                                    </NavLink>
                                 ))
                                 : publicNavItems.map((item) => (
-                                    <Link key={item.id} to={item.href} className={styles.navLink}>
+                                    <NavLink
+                                        key={item.id}
+                                        to={item.href}
+                                        end
+                                        className={({ isActive }) =>
+                                            isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                                        }
+                                    >
                                         {item.label}
-                                    </Link>
+                                    </NavLink>
                                 ))
                             }
                         </nav>
@@ -264,7 +276,6 @@ export const Header: FC = () => {
                                 {/* Кнопка — w:297 h:42 gap:11 */}
                                 <button
                                     className={styles.userBlock}
-                                    ref={userButtonRef}
                                     onClick={() => setIsDropdownOpen(o => !o)}
                                     aria-haspopup="menu"
                                     aria-expanded={isDropdownOpen}

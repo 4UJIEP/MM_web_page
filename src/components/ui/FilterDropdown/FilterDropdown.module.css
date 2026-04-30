@@ -1,0 +1,231 @@
+/* ============================================
+   FILTER BUTTON — кнопка-триггер дропдауна
+   ============================================ */
+.filterButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    height: 36px;
+    padding: 0 12px;
+
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 99px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.filterButton:hover {
+    border-color: #0088FF;
+}
+
+/* Кнопка с выбранными значениями */
+.filterButtonActive {
+    border-color: #0088FF;
+    color: #0088FF;
+}
+
+/* Кнопка пока открыт дропдаун */
+.filterButtonOpen {
+    border-color: #0088FF;
+    background: #F0F7FF;
+}
+
+/* ── Левая часть кнопки (иконка + текст) ── */
+.filterLeft {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filterIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.filterText {
+    line-height: 1;
+}
+
+/* ── Стрелка ──────────────────────────────── */
+.arrow {
+    flex-shrink: 0;
+    color: #888888;
+    transition: transform 0.2s ease;
+}
+
+.arrowUp {
+    transform: rotate(180deg);
+    color: #0088FF;
+}
+
+/* ============================================
+   DROPDOWN — выпадающая плашка
+   Figma: w:251 h:269 radius:8 shadow x2
+   padding: 16px 12px  gap:18
+   ============================================ */
+.dropdown {
+    position: absolute;
+    z-index: 1000;
+
+    width: 251px;
+
+    padding: 16px 12px;
+    box-sizing: border-box;
+
+    background: #FFFFFF;
+    border-radius: 8px;
+
+    /* Два box-shadow из Figma */
+    box-shadow:
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ============================================
+   OPTIONS LIST — прокручиваемый список
+   Figma: w:79 h:191 gap:12
+   Показываем max 7 позиций, остальное скроллим
+   ============================================ */
+.optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    max-height: 191px;
+    overflow-y: auto;
+
+    /* Кастомный скроллбар (Figma: bar 3px solid #00000033, h:70) */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.20) transparent;
+}
+
+.optionsList::-webkit-scrollbar {
+    width: 3px;
+}
+
+.optionsList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.20);
+    border-radius: 99px;
+}
+
+/* ============================================
+   OPTION ROW — строка одного варианта
+   Figma: w:76 h:17  gap:10
+   ============================================ */
+.optionRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 17px;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.optionRow:hover .optionLabel {
+    color: #0088FF;
+}
+
+/* Прячем нативный чекбокс — используем кастомный */
+.hiddenInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* ============================================
+   CHECKBOX — кастомный чекбокс
+   Figma: w:16 h:16 radius:5 border:1px #00000033
+   ============================================ */
+.checkbox {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    background: #FFFFFF;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.checkboxChecked {
+    border-color: #0088FF;
+    background: #EBF5FF;
+}
+
+/* ============================================
+   OPTION LABEL — текст варианта
+   Figma: Inter Regular 14px #535353 lh:100%
+   ============================================ */
+.optionLabel {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #535353;
+
+    transition: color 0.15s;
+}
+
+/* ============================================
+   APPLY BUTTON — кнопка «Готово»
+   Figma: w:227 h:28 radius:8 bg:#0088FF
+   padding: 8px 10px 8px 6px
+   Inter Bold 10px #FFFFFF
+   ============================================ */
+.applyButton {
+    width: 100%;
+    height: 28px;
+
+    padding: 8px 10px 8px 6px;
+    box-sizing: border-box;
+
+    background: #0088FF;
+    border: none;
+    border-radius: 8px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #FFFFFF;
+
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.applyButton:hover {
+    background: #006FCC;
+}
+
+.applyButton:active {
+    background: #005AAA;
+}

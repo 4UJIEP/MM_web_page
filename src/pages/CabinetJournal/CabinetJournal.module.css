@@ -259,6 +259,30 @@
     height: 32px;
 }
 
+/* Левая группа: MonthPicker + стрелки */
+.calendarLeft {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Имя преподавателя справа от месяца
+   Figma: w:319 h:23 Roboto 500 20px #21242B ls:3% */
+.teacherName {
+    height: 23px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
 .monthNav {
     display: flex;
     align-items: center;
@@ -323,10 +347,13 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Прошедшие занятия — голубая заливка #D9EDFF */
-.lessonCardPast {
+/* Голубая карточка — все занятия НЕ на текущей неделе
+   (прошедшие и будущие вне текущей недели) */
+.lessonCardBlue {
     background: #D9EDFF;
 }
+
+/* Белая карточка (текущая неделя) — уже задана в .lessonCard */
 
 .lessonTopic {
     margin: 0;
@@ -337,14 +364,7 @@
     color: #21242B;
 }
 
-.lessonTeacher {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 1.4;
-    color: rgba(33, 36, 43, 0.65);
-}
+/* .lessonTeacher удалён — ФИО преподавателя теперь в строке месяца */
 
 .lessonMeta {
     display: flex;

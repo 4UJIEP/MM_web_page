@@ -7,17 +7,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  
-  background: rgba(62, 64, 68, 0.15); /* #3E404426 */
-  
+
+  background: rgba(62, 64, 68, 0.15);
+  /* #3E404426 */
+
   /* Центрирование модального окна */
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   /* Поверх всего */
   z-index: 9999;
-  
+
   /* Анимация появления */
   animation: fadeIn 0.3s ease;
 }
@@ -26,6 +27,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -37,25 +39,25 @@
 .modal {
   width: 600px;
   height: 630px;
-  
+
   /* Скругления */
   border-radius: 32px;
-  
+
   /* Фон */
   background: #FFFFFF;
-  
+
   /* Граница */
   border: 1px solid #D9D9D9;
-  
+
   /* Тень */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  
+
   /* Позиционирование для кнопки закрытия */
   position: relative;
-  
+
   /* Анимация появления */
   animation: slideIn 0.3s ease;
-  
+
   box-sizing: border-box;
 }
 
@@ -64,6 +66,7 @@
     opacity: 0;
     transform: translateY(-50px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -75,27 +78,27 @@
    ============================================ */
 .closeButton {
   position: absolute;
-  
+
   top: 27px;
   right: 40px;
-  
+
   /* Размеры */
   width: 44px;
   height: 44px;
-  
+
   padding: 10px;
-  
+
   background: transparent;
   border: none;
-  
+
   cursor: pointer;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   transition: opacity 0.2s ease;
-  
+
   box-sizing: border-box;
 }
 
@@ -119,7 +122,7 @@
   /* позиция */
   margin-top: 49px;
   margin-left: 50px;
-  
+
   /* Gap между элементами */
   display: flex;
   flex-direction: column;
@@ -132,18 +135,19 @@
 .title {
   width: 500px;
   height: 56px;
-  
+
   margin: 0;
-  
+
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 48px;
   line-height: 100%;
-  letter-spacing: 1.44px; /* 3% от 48px */
+  letter-spacing: 1.44px;
+  /* 3% от 48px */
   text-align: center;
-  
+
   color: #21242B;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,7 +159,7 @@
 .formContainer {
   width: 500px;
   height: 404px;
-  
+
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -166,10 +170,11 @@
    ============================================ */
 .inputGroup {
   width: 500px;
-  
+
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Gap между label и input */
+  gap: 8px;
+  /* Gap между label и input */
 }
 
 /* ============================================
@@ -178,15 +183,15 @@
 .label {
   width: 500px;
   height: 28px;
-  
+
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 140%;
   letter-spacing: 0;
-  
+
   color: #1E1E1E;
-  
+
   display: flex;
   align-items: center;
 }
@@ -198,28 +203,30 @@
   width: 500px;
   height: 60px;
   min-width: 120px;
-  
+
   padding: 16px;
-  
+
   background: #FFFFFF;
   border: 1px solid #D9D9D9;
-  border-radius: 8px; /* Radius/200 */
-  
+  border-radius: 8px;
+  /* Radius/200 */
+
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
   letter-spacing: 0;
-  
+
   color: #1E1E1E;
-  
+
   box-sizing: border-box;
-  
+
   transition: border-color 0.2s ease;
 }
 
 .input::placeholder {
-  color: #B3B3B3; /* Цвет placeholder из Figma */
+  color: #B3B3B3;
+  /* Цвет placeholder из Figma */
 }
 
 .input:focus {
@@ -233,7 +240,7 @@
 .forgotPassword {
   width: 500px;
   height: 22px;
-  
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -245,16 +252,16 @@
 .forgotLink {
   width: auto;
   height: 22px;
-  
+
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 16px; 
+  font-size: 16px;
   line-height: 140%;
   letter-spacing: 0;
-  
+
   color: #1E1E1E;
   text-decoration: underline;
-  
+
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -293,25 +300,26 @@
 .submitButton {
   width: 500px;
   height: 60px;
-  
+
   padding: 0;
-  
-  background: #21242B; /* Чёрная кнопка */
+
+  background: #21242B;
+  /* Чёрная кнопка */
   border: none;
   border-radius: 8px;
-  
+
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 100%;
   letter-spacing: 0;
-  
+
   color: #FFFFFF;
-  
+
   cursor: pointer;
-  
+
   transition: all 0.2s ease;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,7 +341,7 @@
 .agreementContainer {
   width: 377px;
   height: auto;
-  
+
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -345,11 +353,11 @@
 .checkbox {
   width: 34px;
   height: 34px;
-  
+
   padding: 8px;
-  
+
   cursor: pointer;
-  
+
   flex-shrink: 0;
 }
 
@@ -358,15 +366,15 @@
    ============================================ */
 .agreementText {
   width: 335px;
-  
+
   font-family: 'Museo Sans Cyrl', sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 130%;
   letter-spacing: 0;
-  
+
   color: #000000;
-  
+
   cursor: pointer;
   margin-top: 5px;
 }
@@ -374,7 +382,7 @@
 .agreementText .link {
   color: #000000;
   text-decoration: underline;
-  
+
   transition: opacity 0.2s ease;
 }
 
@@ -393,18 +401,18 @@
     height: auto;
     padding: 30px 20px;
   }
-  
+
   .container {
     width: 100%;
     height: auto;
     margin: 0;
   }
-  
+
   .title {
     width: 100%;
     font-size: 36px;
   }
-  
+
   .formContainer,
   .inputGroup,
   .label,
@@ -413,12 +421,84 @@
   .submitButton {
     width: 100%;
   }
-  
+
   .agreementContainer {
     width: 100%;
   }
-  
+
   .agreementText {
     width: calc(100% - 42px);
+  }
+}
+
+/* ============================================
+   INPUT ERROR STATE — красная рамка поля
+   ============================================ */
+.inputError {
+  border-color: #E53935 !important;
+  background: #FFF8F8;
+}
+
+.inputError:focus {
+  border-color: #E53935 !important;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12);
+}
+
+/* ============================================
+   ERROR TEXT — сообщение об ошибке под полем
+   ============================================ */
+.errorText {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #E53935;
+  margin-top: -4px;
+  /* компенсируем gap inputGroup */
+}
+
+/* ============================================
+   CHECKBOX ERROR STATE
+   ============================================ */
+.checkboxError {
+  outline: 2px solid #E53935;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ============================================
+   AGREEMENT RIGHT — обёртка для label + ошибки
+   ============================================ */
+.agreementRight {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ============================================
+   SUBMIT BUTTON LOADING STATE
+   ============================================ */
+.submitButtonLoading {
+  cursor: wait;
+  opacity: 0.85;
+}
+
+/* ============================================
+   SPINNER — анимированный круг в кнопке
+   ============================================ */
+.spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -1,10 +1,12 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './CabinetProfile.module.css';
 import { useAuth } from '../../context/AuthContext';
 import type { ChildInfo } from '../../context/AuthContext';
 
 import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
+import arrowRightIcon from '../../assets/icons/angle-down.png';
 import folder from '../../assets/icons/folder.png';
 import radio from '../../assets/icons/pointIcon.png';
 import radioEmpty from '../../assets/icons/pointIconEmpty.png';
@@ -16,37 +18,91 @@ import radioEmpty from '../../assets/icons/pointIconEmpty.png';
 
 interface CourseEnrollment {
   id: string;
-  title: string;
-  classLabel: string;
+  childId: string;          // к какому ребёнку привязан курс
+  subject: string;          // «Математика»
+  classLabel: string;       // «9 класс»
+  schedule: string;         // «Вс, 10:00 - 12:00»
+  teacher: string;          // «Гарцева Карина Александровна»
 }
 
 const MOCK_COURSES: CourseEnrollment[] = [
-  { id: '1', title: 'Вася | Математика| 9 класс', classLabel: 'Математика | 9 класс' },
-  { id: '2', title: 'Катя | Шахматы| 9 класс', classLabel: 'Шахматы | 9 класс' },
+  { id: '1', childId: 'child-1', subject: 'Математика', classLabel: '9 класс', schedule: 'Вс, 10:00 - 12:00', teacher: 'Гарцева Карина Александровна' },
+  { id: '2', childId: 'child-1', subject: 'Куборо', classLabel: '9 класс', schedule: 'Сб, 13:00 - 15:00', teacher: 'Иван Иванович Сидоров' },
+  { id: '3', childId: 'child-2', subject: 'Шахматы', classLabel: '3 класс', schedule: 'Сб, 10:00 - 11:30', teacher: 'Карелина Раиса Олеговна' },
 ];
 
 // ============================================
 // SUB-COMPONENTS
 // ============================================
 
+// ── Переключатель детей ──────────────────────
+// Figma: w:276 h:57 radius:16 gap:8
+// Активная кнопка: bg:#BCDFFF radius:10
+// Неактивная: bg:#F5F7FA radius:10
+interface ChildSwitcherProps {
+  children: ChildInfo[];
+  activeId: string;
+  onSelect: (id: string) => void;
+}
+
+const ChildSwitcher: FC<ChildSwitcherProps> = ({ children, activeId, onSelect }) => (
+  <div className={styles.switcher}>
+    {children.map((child) => (
+      <button
+        key={child.id}
+        className={`${styles.switcherBtn} ${child.id === activeId ? styles.switcherBtnActive : styles.switcherBtnInactive}`}
+        onClick={() => onSelect(child.id)}
+        aria-pressed={child.id === activeId}
+      >
+        {/* Аватарка 26×26 */}
+        <div className={styles.switcherAvatar}>
+          {child.name[0]}
+        </div>
+        <span className={styles.switcherName}>{child.name}</span>
+      </button>
+    ))}
+  </div>
+);
+
+// ── Карточка одного курса ────────────────────
+// Figma: w:1472 h:124 radius:16 bg:#FFFFFF
+// Внутри: w:1413 h:87 justify-content:space-between
+interface CourseCardProps {
+  course: CourseEnrollment;
+  childName: string;
+  onJournal: () => void;
+}
+
+const CourseCard: FC<CourseCardProps> = ({ course, childName, onJournal }) => (
+  <div className={styles.courseCard}>
+    <div className={styles.courseCardInner}>
+      {/* Левая часть — название + детали */}
+      <div className={styles.courseCardLeft}>
+        <div className={styles.courseCardTitle}>
+          <span className={styles.courseSubject}>{course.subject}</span>
+          <span className={styles.courseClass}>{course.classLabel}</span>
+        </div>
+        <div className={styles.courseCardMeta}>
+          {childName} | {course.schedule} | {course.teacher}
+        </div>
+      </div>
+      {/* Правая часть — ссылка на журнал
+           Figma: w:168 h:22 gap:8 | текст #016AEE + стрелка angle-down -90deg */}
+      <button className={styles.journalLink} onClick={onJournal}>
+        Перейти в журнал
+        <img src={arrowRightIcon} alt="" className={styles.journalArrow} aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+);
+
+// Старая строка курса (для роли «ребёнок»)
 const CourseRow: FC<{ course: CourseEnrollment }> = ({ course }) => (
   <div className={styles.courseRow}>
     <img src={folder} alt="" className={styles.folderCourse} />
     <span className={styles.courseText}>
-      {course.title} | {course.classLabel}
+      {course.subject} | {course.classLabel}
     </span>
-    <img src={arrowDownIcon} alt="" className={styles.courseArrow} />
-  </div>
-);
-
-// Карточка ребёнка для родителя
-const ChildRow: FC<{ child: ChildInfo }> = ({ child }) => (
-  <div className={styles.courseRow}>
-    {/* Аватарка ребёнка-заглушка */}
-    <div className={styles.childAvatar}>
-      {child.name[0]}
-    </div>
-    <span className={styles.courseText}>{child.name}</span>
     <img src={arrowDownIcon} alt="" className={styles.courseArrow} />
   </div>
 );
@@ -60,6 +116,14 @@ export const CabinetProfile: FC = () => {
   const navigate = useNavigate();
 
   const isParent = user?.role === 'parent';
+
+  // Активный ребёнок в переключателе (первый по умолчанию)
+  const firstChildId = user?.children?.[0]?.id ?? '';
+  const [activeChildId, setActiveChildId] = useState(firstChildId);
+
+  // Курсы активного ребёнка
+  const activeCourses = MOCK_COURSES.filter((c) => c.childId === activeChildId);
+  const activeChild = user?.children?.find((c) => c.id === activeChildId);
 
   const fullName = user
     ? `${user.name} ${user.surname} ${user.patronymic}`.trim()
@@ -108,35 +172,40 @@ export const CabinetProfile: FC = () => {
 
           {/* Для родителя — две секции: Курсы и Дети */}
           {isParent ? (
+            /* ── Родитель: переключатель детей + карточки курсов ── */
             <div className={styles.parentSections}>
 
-              {/* Курсы ребёнка */}
-              <div className={styles.section_inner}>
+              {/* Заголовок + переключатель */}
+              <div className={styles.coursesHeader}>
                 <h2 className={styles.coursesTitle}>Курсы</h2>
-                <div className={styles.coursesList}>
-                  {MOCK_COURSES.map((course) => (
-                    <CourseRow key={course.id} course={course} />
-                  ))}
-                </div>
+                {user?.children && user.children.length > 0 && (
+                  <ChildSwitcher
+                    children={user.children}
+                    activeId={activeChildId}
+                    onSelect={setActiveChildId}
+                  />
+                )}
               </div>
 
-              {/* Дети */}
-              {user?.children && user.children.length > 0 && (
-                <div className={styles.section_inner}>
-                  <h2 className={styles.coursesTitle}>
-                    {user.children.length === 1 ? 'Ребёнок' : 'Дети'}
-                  </h2>
-                  <div className={styles.coursesList}>
-                    {user.children.map((child) => (
-                      <ChildRow key={child.id} child={child} />
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Карточки курсов активного ребёнка */}
+              <div className={styles.courseCardsList}>
+                {activeCourses.length > 0 ? (
+                  activeCourses.map((course) => (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      childName={activeChild?.name ?? ''}
+                      onJournal={() => navigate('/cabinet/journal')}
+                    />
+                  ))
+                ) : (
+                  <p className={styles.emptyCourses}>Курсы не найдены</p>
+                )}
+              </div>
 
             </div>
           ) : (
-            /* Для ребёнка — только курсы */
+            /* ── Ребёнок: только свои курсы ── */
             <>
               <h2 className={styles.coursesTitle}>Курсы</h2>
               <div className={styles.coursesList}>
