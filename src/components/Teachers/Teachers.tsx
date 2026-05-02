@@ -1,4 +1,5 @@
 import { useRef, type FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TeacherCard } from '../ui/TeacherCard';
 import { teachersData } from '../../data/teacher';
 import styles from './Teachers.module.css';
@@ -14,18 +15,17 @@ import arrowLeft from '../../assets/arrow-left.png';
 
 
 export const Teachers: FC = () => {
+  const navigate = useNavigate();
   // реф для управления Swiper
   const swiperRef = useRef<SwiperType | null>(null);
   // Обработчик клика на кнопку "Курсы преподавателя"
   const handleCoursesClick = (teacherId: string) => {
-    console.log('Курсы преподавателя:', teacherId);
-    // navigate(`/teachers/${teacherId}`)
+    navigate(`/teachers/${teacherId}`);
   };
 
   // Обработчик клика на "Смотреть всех преподавателей"
   const handleViewAllClick = () => {
-    console.log('Смотреть всех преподавателей');
-    // navigate('/teachers')
+    navigate('/teachers');
   };
 
   const handlePrevClick = () => {

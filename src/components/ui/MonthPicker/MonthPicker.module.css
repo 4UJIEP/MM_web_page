@@ -6,6 +6,41 @@
   display: inline-block;
 }
 
+/* Обёртка пилюли со стрелками — стрелки по бокам от текста,
+   не наезжают при длинных названиях месяца */
+.pillRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Кнопка-стрелка навигации по месяцам */
+.navArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.navArrow:hover {
+  background: rgba(62, 64, 68, 0.08);
+}
+
+.navArrowIcon {
+  width: 14px;
+  height: 7px;
+  object-fit: contain;
+  opacity: 0.6;
+}
+
 /* ============================================
    PILL — кнопка-триггер
    w:124 h:32 gap:4 border-radius:16 padding:4
@@ -13,7 +48,6 @@
 .pill {
   display: flex;
   align-items: center;
-  width: 124px;
   height: 32px;
   gap: 4px;
   border-radius: 16px;

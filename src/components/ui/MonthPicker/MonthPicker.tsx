@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './MonthPicker.module.css';
 
 import calendarIcon from '../../../assets/icons/Icon.png'; // заменить на иконку календаря когда будет
+import arrowIcon from '../../../assets/icons/angle-down.png';
 
 // ============================================
 // TYPES
@@ -24,6 +25,9 @@ interface MonthPickerProps {
    * Если не передан — выделяется неделя сегодняшнего дня.
    */
   selectedDate?: Date;
+  /** Навигация по месяцам — стрелки встроены в пилюлю */
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 // ============================================
@@ -143,17 +147,15 @@ const CalendarPopup: FC<CalendarPopupProps> = ({ month, year, selectedDate, onCh
   };
 
   const handleDayClick = (cell: typeof cells[0]) => {
-    // ✅ Передаём точную дату — CabinetSchedule сам найдёт нужный понедельник
+    //Передаём точную дату — CabinetSchedule сам найдёт нужный понедельник
     const clicked = new Date(cell.year, cell.month, cell.date);
     onChange(clicked);
     onClose();
   };
 
   return (
-    // w:318 h:308 br:12 border: 1px solid #D9D9D9 bg:#fff p:16
-    <div className={styles.popup}>
 
-      {/* w:286 h:36 gap:16 */}
+    <div className={styles.popup}>
       <div className={styles.popupHeader}>
 
         {/* Стрелка назад — w:36 h:36 */}
@@ -248,7 +250,7 @@ const CalendarPopup: FC<CalendarPopupProps> = ({ month, year, selectedDate, onCh
 // MONTH PILL + обёртка
 // ============================================
 
-export const MonthPicker: FC<MonthPickerProps> = ({ month, year, onChange, selectedDate }) => {
+export const MonthPicker: FC<MonthPickerProps> = ({ month, year, onChange, selectedDate, onPrev, onNext }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -265,18 +267,41 @@ export const MonthPicker: FC<MonthPickerProps> = ({ month, year, onChange, selec
 
   return (
     <div className={styles.root} ref={ref}>
-      {/* Pill — w:124 h:32 gap:4 br:16 p:4 */}
-      <button
-        className={styles.pill}
-        onClick={() => setIsOpen(o => !o)}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-      >
-        <img src={calendarIcon} alt="" className={styles.pillIcon} />
-        <span className={styles.pillLabel}>
-          {MONTH_NAMES[month]} {year}
-        </span>
-      </button>
+      {/* Пилюля: [←] [🗓 Месяц Год] [→]
+          Стрелки рядом с текстом — не наезжают при длинных названиях */}
+      <div className={styles.pillRow}>
+        {onPrev && (
+          <button
+            className={styles.navArrow}
+            onClick={onPrev}
+            aria-label="Предыдущий месяц"
+          >
+            <img src={arrowIcon} alt="" className={styles.navArrowIcon} style={{ transform: 'rotate(90deg)' }} />
+          </button>
+        )}
+
+        <button
+          className={styles.pill}
+          onClick={() => setIsOpen(o => !o)}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+        >
+          <img src={calendarIcon} alt="" className={styles.pillIcon} />
+          <span className={styles.pillLabel}>
+            {MONTH_NAMES[month]} {year}
+          </span>
+        </button>
+
+        {onNext && (
+          <button
+            className={styles.navArrow}
+            onClick={onNext}
+            aria-label="Следующий месяц"
+          >
+            <img src={arrowIcon} alt="" className={styles.navArrowIcon} style={{ transform: 'rotate(-90deg)' }} />
+          </button>
+        )}
+      </div>
 
       {isOpen && (
         <CalendarPopup

@@ -395,32 +395,17 @@ export const CabinetJournal: FC = () => {
                     <SortDropdown value={sortOrder} onChange={setSortOrder} />
                 </div>
 
-                {/* ── Строка месяца: MonthPicker слева, преподаватель справа ── */}
+                {/* ── Строка месяца: MonthPicker со встроенными стрелками слева,
+                       имя преподавателя справа ── */}
                 <div className={styles.calendarRow}>
-                    <div className={styles.calendarLeft}>
-                        <MonthPicker
-                            month={month}
-                            year={year}
-                            selectedDate={new Date(year, month, 1)}
-                            onChange={handleMonthPick}
-                        />
-                        <div className={styles.monthNav}>
-                            <button
-                                className={styles.arrowBtn}
-                                onClick={() => { const d = new Date(year, month - 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
-                                aria-label="Предыдущий месяц"
-                            >
-                                <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowLeft}`} />
-                            </button>
-                            <button
-                                className={styles.arrowBtn}
-                                onClick={() => { const d = new Date(year, month + 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
-                                aria-label="Следующий месяц"
-                            >
-                                <img src={arrowDownIcon} alt="" className={`${styles.arrowIcon} ${styles.arrowRight}`} />
-                            </button>
-                        </div>
-                    </div>
+                    <MonthPicker
+                        month={month}
+                        year={year}
+                        selectedDate={new Date(year, month, 1)}
+                        onChange={handleMonthPick}
+                        onPrev={() => { const d = new Date(year, month - 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
+                        onNext={() => { const d = new Date(year, month + 1, 1); setMonth(d.getMonth()); setYear(d.getFullYear()); }}
+                    />
 
                     {/* Имя преподавателя справа
                         Figma: w:319 h:23 Roboto 500 20px #21242B ls:3% */}
