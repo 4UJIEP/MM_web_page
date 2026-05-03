@@ -22,13 +22,15 @@ interface CourseEnrollment {
   subject: string;          // «Математика»
   classLabel: string;       // «9 класс»
   schedule: string;         // «Вс, 10:00 - 12:00»
+  location: string;         // «Главный корпус, ул. Фрунзе, 6, ауд. 205»
   teacher: string;          // «Гарцева Карина Александровна»
+  teacherPhone: string;     // «+7 (999)-999-99-99»
 }
 
 const MOCK_COURSES: CourseEnrollment[] = [
-  { id: '1', childId: 'child-1', subject: 'Математика', classLabel: '9 класс', schedule: 'Вс, 10:00 - 12:00', teacher: 'Гарцева Карина Александровна' },
-  { id: '2', childId: 'child-1', subject: 'Куборо', classLabel: '9 класс', schedule: 'Сб, 13:00 - 15:00', teacher: 'Иван Иванович Сидоров' },
-  { id: '3', childId: 'child-2', subject: 'Шахматы', classLabel: '3 класс', schedule: 'Сб, 10:00 - 11:30', teacher: 'Карелина Раиса Олеговна' },
+  { id: '1', childId: 'child-1', subject: 'Математика', classLabel: '9 класс', schedule: 'Вс, 10:00 - 12:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-999-99-99' },
+  { id: '2', childId: 'child-1', subject: 'Куборо', classLabel: '9 класс', schedule: 'Сб, 13:00 - 15:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', teacher: 'Иван Иванович Сидоров', teacherPhone: '+7 (999)-999-99-99' },
+  { id: '3', childId: 'child-2', subject: 'Шахматы', classLabel: '3 класс', schedule: 'Сб, 10:00 - 11:30', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', teacher: 'Карелина Раиса Олеговна', teacherPhone: '+7 (999)-999-99-99' },
 ];
 
 // ============================================
@@ -69,25 +71,41 @@ const ChildSwitcher: FC<ChildSwitcherProps> = ({ children, activeId, onSelect })
 // Внутри: w:1413 h:87 justify-content:space-between
 interface CourseCardProps {
   course: CourseEnrollment;
-  childName: string;
+  childName?: string;
   onJournal: () => void;
 }
 
-const CourseCard: FC<CourseCardProps> = ({ course, childName, onJournal }) => (
+const CourseCard: FC<CourseCardProps> = ({ course, onJournal }) => (
   <div className={styles.courseCard}>
     <div className={styles.courseCardInner}>
-      {/* Левая часть — название + детали */}
+      {/* Левая часть — название + 4 строки деталей */}
       <div className={styles.courseCardLeft}>
+        {/* Заголовок: «Математика  9 класс» */}
         <div className={styles.courseCardTitle}>
           <span className={styles.courseSubject}>{course.subject}</span>
           <span className={styles.courseClass}>{course.classLabel}</span>
         </div>
-        <div className={styles.courseCardMeta}>
-          {childName} | {course.schedule} | {course.teacher}
+        {/* Детали курса */}
+        <div className={styles.courseDetails}>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>ФИО преподавателя</span>
+            <span className={styles.courseDetailValue}>{course.teacher}</span>
+          </div>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>Номер телефона преподавателя</span>
+            <span className={styles.courseDetailValue}>{course.teacherPhone}</span>
+          </div>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>Место проведения</span>
+            <span className={styles.courseDetailValue}>{course.location}</span>
+          </div>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>День и время проведения</span>
+            <span className={styles.courseDetailValue}>{course.schedule}</span>
+          </div>
         </div>
       </div>
-      {/* Правая часть — ссылка на журнал
-           Figma: w:168 h:22 gap:8 | текст #016AEE + стрелка angle-down -90deg */}
+      {/* Кнопка «Перейти в журнал» */}
       <button className={styles.journalLink} onClick={onJournal}>
         Перейти в журнал
         <img src={arrowRightIcon} alt="" className={styles.journalArrow} aria-hidden="true" />
@@ -194,7 +212,6 @@ export const CabinetProfile: FC = () => {
                     <CourseCard
                       key={course.id}
                       course={course}
-                      childName={activeChild?.name ?? ''}
                       onJournal={() => navigate('/cabinet/journal')}
                     />
                   ))
@@ -205,15 +222,24 @@ export const CabinetProfile: FC = () => {
 
             </div>
           ) : (
-            /* ── Ребёнок: только свои курсы ── */
-            <>
+            /* ── Ребёнок: собственные курсы, переключатель не нужен ── */
+            <div className={styles.parentSections}>
               <h2 className={styles.coursesTitle}>Курсы</h2>
-              <div className={styles.coursesList}>
-                {MOCK_COURSES.map((course) => (
-                  <CourseRow key={course.id} course={course} />
-                ))}
+              <div className={styles.courseCardsList}>
+                {MOCK_COURSES.filter((c) => c.childId === 'child-1').length > 0 ? (
+                  MOCK_COURSES.filter((c) => c.childId === 'child-1').map((course) => (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      childName={user?.name ?? ''}
+                      onJournal={() => navigate('/cabinet/journal')}
+                    />
+                  ))
+                ) : (
+                  <p className={styles.emptyCourses}>Курсы не найдены</p>
+                )}
               </div>
-            </>
+            </div>
           )}
 
         </div>
