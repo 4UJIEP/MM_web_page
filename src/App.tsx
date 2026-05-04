@@ -27,7 +27,6 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <div>Проверка backend...</div>
         <div className="app">
           <Header />
           <Routes>
