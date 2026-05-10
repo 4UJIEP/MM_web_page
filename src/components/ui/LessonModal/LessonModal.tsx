@@ -14,6 +14,8 @@ export interface LessonDetail {
     teacher: string;
     teacherPhone: string;
     location: string;
+    /** Только для преподавателя — число учеников в группе */
+    studentsCount?: number;
 }
 
 interface LessonModalProps {
@@ -29,26 +31,15 @@ interface LessonModalProps {
 // ============================================
 
 const MOCK_DETAILS: Record<string, LessonDetail> = {
-    '1': {
-        id: '1',
-        courseName: 'Математика',
-        classLabel: '9 класс',
-        date: '13 марта, 2026',
-        timeRange: '10:00–12:00',
-        teacher: 'Гарцева Карина Александровна',
-        teacherPhone: '+7 (999)-899-99-99',
-        location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205',
-    },
-    '2': {
-        id: '2',
-        courseName: 'Шахматы',
-        classLabel: '9 класс',
-        date: '13 марта, 2026',
-        timeRange: '13:00–15:00',
-        teacher: 'Фаткудинов Владислав Константинович',
-        teacherPhone: '+7 (999)-899-99-99',
-        location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205',
-    },
+    // Уроки ребёнка / родителя
+    '1': { id: '1', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205' },
+    '2': { id: '2', courseName: 'Шахматы', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '13:00–15:00', teacher: 'Фаткудинов Владислав Константинович', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205' },
+    // Уроки преподавателя
+    't1': { id: 't1', courseName: 'Куборо', classLabel: '9 класс', date: '12 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 11 },
+    't2': { id: 't2', courseName: 'Математика', classLabel: '8 класс', date: '12 марта, 2026', timeRange: '13:00–15:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 12 },
+    't3': { id: 't3', courseName: 'Шахматы', classLabel: '8 класс', date: '12 марта, 2026', timeRange: '15:30–17:30', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 7 },
+    't4': { id: 't4', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 25 },
+    't5': { id: 't5', courseName: 'Шахматы', classLabel: '6 класс', date: '13 марта, 2026', timeRange: '14:00–16:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 5 },
 };
 
 async function fetchLessonDetail(id: string): Promise<LessonDetail> {
@@ -164,14 +155,23 @@ export const LessonModal: FC<LessonModalProps> = ({ lessonId, onClose }) => {
                                 label="Дата проведения"
                                 value={`${detail.date}, ${detail.timeRange}`}
                             />
-                            <InfoCard
-                                label="ФИО преподавателя"
-                                value={detail.teacher}
-                            />
-                            <InfoCard
-                                label="Номер телефона преподавателя"
-                                value={detail.teacherPhone}
-                            />
+                            {detail.studentsCount !== undefined ? (
+                                <InfoCard
+                                    label="Учеников в группе"
+                                    value={String(detail.studentsCount)}
+                                />
+                            ) : (
+                                <>
+                                    <InfoCard
+                                        label="ФИО преподавателя"
+                                        value={detail.teacher}
+                                    />
+                                    <InfoCard
+                                        label="Номер телефона преподавателя"
+                                        value={detail.teacherPhone}
+                                    />
+                                </>
+                            )}
                             <InfoCard
                                 label="Место проведения"
                                 value={detail.location}

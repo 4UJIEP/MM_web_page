@@ -41,7 +41,7 @@ export const LoginModal: FC<LoginModalProps> = ({
     if (onLogin) {
       onLogin(login, password);
     }
-
+    // Убрать потом - сейчас для проверки работы
     console.log('Login:', login, 'Password:', password);
   };
 

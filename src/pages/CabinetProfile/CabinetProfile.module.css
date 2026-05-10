@@ -364,7 +364,8 @@
   height: 57px;
   padding: 5px;
   border-radius: 16px;
-  background: #F5F7FA;
+  /* Figma: #E5E6E9 — серый трек переключателя */
+  background: #E5E6E9;
   box-sizing: border-box;
 }
 
@@ -397,13 +398,13 @@
   background: var(--Blue-400, #BCDFFF);
 }
 
-/* Неактивная кнопка */
+/* Неактивная кнопка — Figma: var(--Background, #F5F7FA) */
 .switcherBtnInactive {
-  background: transparent;
+  background: #F5F7FA;
 }
 
 .switcherBtnInactive:hover {
-  background: rgba(0, 136, 255, 0.08);
+  background: #E8F4FF;
 }
 
 /* Аватарка внутри кнопки 26×26 */
@@ -537,10 +538,10 @@
 /* Метка: «ФИО преподавателя» — серый Inter Regular 14px */
 .courseDetailLabel {
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
   line-height: 140%;
-  color: #3E4044;
+  color: #6B6F76;
   white-space: nowrap;
   min-width: 240px;
   flex-shrink: 0;
@@ -610,4 +611,55 @@
   color: #B3B3B3;
   padding: 32px 0;
   text-align: center;
+}
+
+/* ============================================
+   GROUPS BADGE — «5 групп» справа от заголовка
+   Figma: w:85 h:28 radius:8 bg:#D9EDFF
+   Roboto 500 20px #3E4044 ls:3%
+   ============================================ */
+.groupsBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #D9EDFF;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.03em;
+  color: #3E4044;
+  white-space: nowrap;
+}
+
+/* ============================================
+   COURSE FILES — прикреплённые файлы
+   ============================================ */
+.courseFiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.courseFile {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #D9EDFF;
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #016AEE;
+  cursor: pointer;
+}
+
+.courseFile:hover {
+  background: #BCDFFF;
 }

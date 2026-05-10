@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+
 import styles from './Header.module.css';
 import { LoginModal } from '../ui/LoginModal';
 import { useAuth } from '../../context/AuthContext';
@@ -14,6 +15,15 @@ import { LogoutConfirmModal } from '../ui/LogoutConfirmModal';
 // ============================================
 
 const cabinetNavItems = [
+    { id: 'profile', label: 'Профиль', href: '/cabinet/profile' },
+    { id: 'schedule', label: 'Расписание', href: '/cabinet/schedule' },
+    { id: 'journal', label: 'Журнал', href: '/cabinet/journal' },
+    { id: 'notifications', label: 'Уведомления', href: '/cabinet/notifications' },
+];
+
+// Для преподавателя — те же разделы, но без лишних пунктов.
+// Журнал у преподавателя — список групп и посещаемость.
+const teacherNavItems = [
     { id: 'profile', label: 'Профиль', href: '/cabinet/profile' },
     { id: 'schedule', label: 'Расписание', href: '/cabinet/schedule' },
     { id: 'journal', label: 'Журнал', href: '/cabinet/journal' },
@@ -162,33 +172,70 @@ export const Header: FC = () => {
     const handleLoginClick = () => setIsLoginModalOpen(true);
     const handleCloseModal = () => setIsLoginModalOpen(false);
 
-    // TODO: заменить на реальный API-запрос
-    // Для тестирования: логин 'parent' даёт роль родителя, остальные — ребёнок
+    const location = useLocation();
+
     const handleLogin = (_login: string, _password: string) => {
-        const isParent = _login === 'parent';
-        login({
-            id: 'mock-id',
-            name: isParent ? 'Папа' : 'Василий',
-            surname: isParent ? 'Васи Пупкина' : 'Пупкин',
-            patronymic: isParent ? '' : 'Мупкин',
-            username: _login,
-            email: 'test@example.com',
-            role: isParent ? 'parent' : 'child',
-            phone: '+7 904 076 94 72',
-            ...(isParent && {
+
+        // ── DEMO-режим (без бека) ────────────────────────────────────
+        // Три логина для демонстрации трёх ролей.
+        // Пароль любой.
+        // Удалить и заменить на реальный API когда бек будет готов.
+        const DEMO_USERS: Record<string, Parameters<typeof login>[0]> = {
+            teacher: {
+                id: 'demo-teacher',
+                name: 'Препод',
+                surname: 'Преподаватель',
+                patronymic: 'Преподавательевич',
+                username: 'teacher',
+                email: 'teacher@matfak.ru',
+                role: 'teacher',
+                phone: '+7 (999) 000-00-00',
+            },
+            parent: {
+                id: 'demo-parent',
+                name: 'Папа',
+                surname: 'Васи Пупкина',
+                patronymic: '',
+                username: 'parent',
+                email: 'parent@matfak.ru',
+                role: 'parent',
+                phone: '+7 904 076 94 72',
                 children: [
-                    {
-                        id: 'child-1',
-                        name: 'Вася',
-                        fullName: 'Пупкин Василий Мупкин',
-                        classNumber: 9,
-                        schoolName: 'Школа №1',
-                    },
+                    { id: 'child-1', name: 'Вася', fullName: 'Пупкин Василий Мупкин', classNumber: 9, schoolName: 'Школа №1' },
+                    { id: 'child-2', name: 'Катя', fullName: 'Пупкина Катерина Мупкина', classNumber: 3, schoolName: 'Школа №1' },
                 ],
-            }),
-        });
+            },
+            child: {
+                id: 'demo-child',
+                name: 'Василий',
+                surname: 'Пупкин',
+                patronymic: 'Мупкин',
+                username: 'child',
+                email: 'child@matfak.ru',
+                role: 'child',
+                phone: '',
+            },
+        };
+
+        const demoUser = DEMO_USERS[_login];
+        if (demoUser) {
+            login(demoUser);
+        } else {
+            // Если логин не из списка — входим как ребёнок с введённым именем
+            login({
+                id: 'demo-child',
+                name: _login,
+                surname: '',
+                patronymic: '',
+                username: _login,
+                email: '',
+                role: 'child',
+            });
+        }
+
         setIsLoginModalOpen(false);
-        navigate('/cabinet/schedule');
+        const from = (location.state as { from?: Location })?.from?.pathname;
+        navigate(from ?? '/cabinet/schedule');
     };
 
     const handleLogout = () => {
@@ -239,7 +286,7 @@ export const Header: FC = () => {
 
                         <nav className={styles.nav}>
                             {isAuthenticated
-                                ? cabinetNavItems.map((item) => (
+                                ? (user?.role === 'teacher' ? teacherNavItems : cabinetNavItems).map((item) => (
                                     <NavLink
                                         key={item.id}
                                         to={item.href}

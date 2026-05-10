@@ -19,10 +19,13 @@ interface Lesson {
   classLabel: string;
   date: string;
   time: string;
+  timeEnd?: string;         // «12:00» — для отображения диапазона
   teacher: string;
   location: string;
   /** Имя ребёнка — заполняется только для родителя */
   childName?: string;
+  /** Число учеников в группе — только для преподавателя */
+  studentsCount?: number;
 }
 
 interface DayData {
@@ -91,26 +94,22 @@ function getDateKey(date: Date): string {
 
 const MOCK_LESSONS: Record<string, Lesson[]> = {
   '2026-03-13': [
-    {
-      id: '1',
-      courseName: 'Математика',
-      classLabel: '9 класс',
-      date: '13 марта, 2026',
-      time: '10:00',
-      teacher: 'Гарцева Карина Александровна',
-      location: 'Главный корпус, ул. Фрунзе, 6',
-      childName: 'Вася',
-    },
-    {
-      id: '2',
-      courseName: 'Шахматы',
-      classLabel: '9 класс',
-      date: '13 марта, 2026',
-      time: '13:00',
-      teacher: 'Фаткудинов Владислав Константинович',
-      location: 'Главный корпус, ул. Фрунзе, 6',
-      childName: 'Вася',
-    },
+    { id: '1', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', childName: 'Вася' },
+    { id: '2', courseName: 'Шахматы', classLabel: '9 класс', date: '13 марта, 2026', time: '13:00', timeEnd: '15:00', teacher: 'Фаткудинов Владислав Константинович', location: 'Главный корпус, ул. Фрунзе, 6', childName: 'Вася' },
+  ],
+};
+
+// Mock-данные для роли преподавателя
+// TODO: заменить на GET /api/teacher/schedule?week=YYYY-MM-DD
+const MOCK_TEACHER_LESSONS: Record<string, Lesson[]> = {
+  '2026-03-12': [
+    { id: 't1', courseName: 'Куборо', classLabel: '9 класс', date: '12 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 11 },
+    { id: 't2', courseName: 'Математика', classLabel: '8 класс', date: '12 марта, 2026', time: '13:00', timeEnd: '15:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 12 },
+    { id: 't3', courseName: 'Шахматы', classLabel: '8 класс', date: '12 марта, 2026', time: '15:30', timeEnd: '17:30', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 7 },
+  ],
+  '2026-03-13': [
+    { id: 't4', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 25 },
+    { id: 't5', courseName: 'Шахматы', classLabel: '6 класс', date: '13 марта, 2026', time: '14:00', timeEnd: '16:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 5 },
   ],
 };
 
@@ -124,7 +123,6 @@ interface LessonCardProps {
 }
 
 const LessonCard: FC<LessonCardProps> = ({ lesson, onOpen }) => (
-  // Клик открывает модалку с деталями — id урока передаём наверх
   <div
     className={styles.lessonCard}
     onClick={() => onOpen(lesson.id)}
@@ -133,12 +131,23 @@ const LessonCard: FC<LessonCardProps> = ({ lesson, onOpen }) => (
     aria-label={`Открыть подробности: ${lesson.courseName}`}
     onKeyDown={(e) => e.key === 'Enter' && onOpen(lesson.id)}
   >
+    {/* Строка 1: «Курс | Класс» */}
+    <p className={styles.lessonCourseName}>
+      {lesson.courseName}
+      <span className={styles.lessonDot}> | </span>
+      {lesson.classLabel}
+    </p>
+    {/* Строка 2: дата и время */}
     <div className={styles.lessonMeta}>
-      <span className={styles.lessonClass}>{lesson.classLabel}</span>
-      <span className={styles.lessonDot}>·</span>
-      <span className={styles.lessonDateTime}>{lesson.date}, {lesson.time}</span>
+      <span className={styles.lessonDateTime}>
+        {lesson.date}, {lesson.time}{lesson.timeEnd ? ` - ${lesson.timeEnd}` : ''}
+      </span>
     </div>
-    <p className={styles.lessonTeacher}>{lesson.teacher}</p>
+    {/* Строка 3: число учеников (только для преподавателя) */}
+    {lesson.studentsCount !== undefined && (
+      <p className={styles.lessonStudents}>{lesson.studentsCount} учеников</p>
+    )}
+    {/* Строка 4: место */}
     <div className={styles.lessonLocation}>
       <img src={locationIcon} alt="" className={styles.locationIcon} />
       <span className={styles.locationText}>{lesson.location}</span>
@@ -151,9 +160,10 @@ interface DayColumnProps {
   data: DayData;
   onOpenLesson: (lessonId: string) => void;
   isParent: boolean;
+  isTeacher: boolean;
 }
 
-const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson, isParent }) => {
+const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson, isParent, isTeacher }) => {
   const today = isToday(data.day);
   return (
     <div className={`${styles.dayColumn} ${today ? styles.dayColumnToday : ''}`}>
@@ -166,10 +176,12 @@ const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson, isParent }
       <div className={styles.dayContent}>
         {data.lessons.map((lesson) => (
           <div key={lesson.id} className={styles.lessonGroup}>
-            {/* Для родителя — имя ребёнка, для ребёнка — название курса */}
-            <p className={styles.courseLabel}>
-              {isParent ? (lesson.childName ?? lesson.courseName) : lesson.courseName}
-            </p>
+            {/* Для родителя — имя ребёнка, для ребёнка/учителя — название курса */}
+            {!isTeacher && (
+              <p className={styles.courseLabel}>
+                {isParent ? (lesson.childName ?? lesson.courseName) : lesson.courseName}
+              </p>
+            )}
             <LessonCard lesson={lesson} onOpen={onOpenLesson} />
           </div>
         ))}
@@ -185,16 +197,20 @@ const DayColumn: FC<DayColumnProps> = ({ dayName, data, onOpenLesson, isParent }
 export const CabinetSchedule: FC = () => {
   const { user } = useAuth();
   const isParent = user?.role === 'parent';
+  const isTeacher = user?.role === 'teacher';
 
   const [monday, setMonday] = useState<Date>(() => getMondayOf(new Date()));
 
   // null = модалка закрыта, string = id открытого урока
   const [openLessonId, setOpenLessonId] = useState<string | null>(null);
 
+  // Преподаватель видит свои занятия с числом учеников
+  const lessonSource = isTeacher ? MOCK_TEACHER_LESSONS : MOCK_LESSONS;
+
   const weekDays = getWeekDays(monday);
   const weekData: DayData[] = weekDays.map((day) => ({
     day,
-    lessons: MOCK_LESSONS[getDateKey(day)] ?? [],
+    lessons: lessonSource[getDateKey(day)] ?? [],
   }));
 
   const goToPrevWeek = () => {
@@ -271,6 +287,7 @@ export const CabinetSchedule: FC = () => {
               data={weekData[index]}
               onOpenLesson={setOpenLessonId}
               isParent={isParent}
+              isTeacher={isTeacher}
             />
           ))}
         </div>

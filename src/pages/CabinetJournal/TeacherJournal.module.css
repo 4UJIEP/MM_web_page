@@ -1,0 +1,702 @@
+/* ============================================
+   TEACHER JOURNAL — TeacherJournal.module.css
+   ============================================ */
+
+.section {
+    width: 100%;
+    min-height: 888px;
+    background: var(--Background, #F5F7FA);
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 1472px;
+    max-width: calc(100vw - 128px);
+    margin-top: 61px;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Заголовок ── */
+.titleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+}
+
+.title {
+    height: 28px;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    display: flex;
+    align-items: center;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid rgba(62, 64, 68, 0.2);
+    margin: 0;
+    width: 100%;
+}
+
+/* ── Строка управления ── */
+.controlsRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ============================================
+   COURSE DROPDOWN
+   ============================================ */
+
+.dropdownWrap {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownTrigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 240px;
+    width: max-content;
+    height: 44px;
+    border-radius: 16px;
+    padding: 10px 18px;
+    box-sizing: border-box;
+    background: rgba(148, 146, 146, 0.17);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.dropdownTrigger:hover {
+    background: rgba(148, 146, 146, 0.25);
+}
+
+.dropdownIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.dropdownText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+}
+
+.dropdownArrow {
+    width: 14px;
+    height: 7px;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.dropdownArrowOpen {
+    transform: rotate(180deg);
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 240px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    box-shadow:
+        0px 4px 12px 0px rgba(0, 0, 0, 0.12),
+        0px 0px 1px 0px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    animation: menuIn 0.15s ease;
+}
+
+@keyframes menuIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownMenuInner {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dropdownMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    transition: opacity 0.15s ease;
+}
+
+.dropdownMenuItem:hover {
+    opacity: 0.75;
+}
+
+.dropdownMenuItemActive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+}
+
+.dropdownMenuItemInactive {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    color: rgba(62, 64, 68, 0.8);
+    white-space: nowrap;
+}
+
+/* ============================================
+   ATTENDANCE TABLE
+   ============================================ */
+
+.tableContainer {
+    width: 100%;
+    border-radius: 16px;
+    border: 0.6px solid rgba(62, 64, 68, 0.5);
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+.tableScroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* ── Заголовок таблицы ── */
+.headerRow {
+    background: var(--Background, #F5F7FA);
+}
+
+.headerRow th {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    color: rgba(33, 36, 43, 0.7);
+    text-align: center;
+    padding: 0;
+    height: 70px;
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.15);
+    white-space: nowrap;
+}
+
+/* Колонка «Ученик» — фиксированная ширина */
+.thStudent {
+    width: 160px;
+    min-width: 160px;
+    text-align: left !important;
+    padding-left: 20px !important;
+    border-top-left-radius: 16px;
+}
+
+/* Колонки дат */
+.thDate {
+    width: 80px;
+    min-width: 72px;
+}
+
+/* Колонка «Итого» */
+.thTotal {
+    width: 100px;
+    min-width: 90px;
+    border-top-right-radius: 16px;
+}
+
+/* ── Строки тела ── */
+.bodyRow {
+    background: #FFFFFF;
+    transition: background 0.1s ease;
+}
+
+.bodyRow:hover {
+    background: rgba(1, 106, 238, 0.03);
+}
+
+.bodyRowEven {
+    background: #FAFBFC;
+}
+
+.bodyRowEven:hover {
+    background: rgba(1, 106, 238, 0.04);
+}
+
+.bodyRow td {
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.1);
+    height: 62px;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.bodyRow:last-child td {
+    border-bottom: none;
+}
+
+/* ── Ячейка ученика ── */
+.tdStudent {
+    padding-left: 16px !important;
+    padding-right: 8px !important;
+}
+
+.studentCell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.avatarPlaceholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #D1E8FF;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='13' r='6' fill='%23016AEE' opacity='.4'/%3E%3Cellipse cx='18' cy='27' rx='11' ry='6' fill='%23016AEE' opacity='.3'/%3E%3C/svg%3E");
+    background-size: cover;
+}
+
+.studentName {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #21242B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Ячейка посещаемости ── */
+.tdCell {
+    text-align: center;
+}
+
+.cellInner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* Кнопка-чекбокс */
+.checkBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: opacity 0.15s ease;
+}
+
+.checkBtn:hover {
+    opacity: 0.75;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid rgba(33, 36, 43, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.checkboxChecked {
+    background: #016AEE;
+    border-color: #016AEE;
+}
+
+/* Поле ввода оценки */
+.scoreInput {
+    width: 28px;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #21B46E;
+    text-align: center;
+    padding: 0;
+    outline: none;
+    /* убираем стрелки спиннера */
+    -moz-appearance: textfield;
+}
+
+.scoreInput::-webkit-outer-spin-button,
+.scoreInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.scoreInput::placeholder {
+    color: rgba(33, 36, 43, 0.35);
+    font-weight: 400;
+}
+
+.scoreDash {
+    width: 28px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(33, 36, 43, 0.35);
+    text-align: center;
+    display: inline-block;
+}
+
+/* ── Итоговая ячейка ── */
+.tdTotal {
+    text-align: center;
+}
+
+.totalCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.totalPresent {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(33, 36, 43, 0.6);
+}
+
+.totalScore {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #21B46E;
+    background: rgba(33, 180, 110, 0.1);
+    border-radius: 6px;
+    padding: 2px 7px;
+    min-width: 22px;
+    text-align: center;
+}
+
+/* ============================================
+   НИЖНИЙ БЛОК — Разделитель + Занятия
+   ============================================ */
+
+/* Разделитель между таблицей и нижним блоком */
+/* mt:34px | border:2px solid #3E404433 */
+.sectionDivider {
+    border: none;
+    border-top: 2px solid rgba(62, 64, 68, 0.2);
+    margin: 34px 0 0 0;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.lessonsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* между заголовком и сеткой карточек */
+    margin-top: 24px;
+    /* отступ от разделителя */
+}
+
+/* Заголовок секции — w:1472 h:32 space-between */
+.lessonsSectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 32px;
+}
+
+/* Левый контейнер — w:146 h:31 br:16 p:4px 4px 4px 16px gap:4px */
+.semesterWrap {
+    display: flex;
+    align-items: center;
+    width: 146px;
+    height: 31px;
+    border-radius: 16px;
+    padding: 4px 4px 4px 16px;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+/* Текст «1 полугодие» — Roboto 500 20px #21242B lh:100% ls:3% */
+.semesterLabel {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+}
+
+/* Правый контейнер-кнопка — w:218 h:32 br:16 p:4px 16px 4px 4px gap:4px */
+.addLessonBtn {
+    display: flex;
+    align-items: center;
+    width: 218px;
+    height: 32px;
+    border-radius: 16px;
+    padding: 4px 16px 4px 4px;
+    gap: 4px;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.addLessonBtn:hover {
+    background: rgba(1, 106, 238, 0.06);
+}
+
+/* Иконка плюс — w:24 h:24 */
+.addLessonIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: invert(27%) sepia(95%) saturate(2000%) hue-rotate(200deg) brightness(100%) contrast(100%);
+}
+
+/* Текст «Добавить занятие» — Roboto 500 20px #016AEE lh:100% ls:3% */
+.addLessonText {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Blue-800, #016AEE);
+    white-space: nowrap;
+}
+
+/* Сетка карточек — gap:16px, 4 колонки по 360px */
+.lessonsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 360px);
+    gap: 16px;
+    width: 100%;
+}
+
+/* ── Карточка занятия ──
+   w:360 h:132 br:16 border:1px #3E404480 bg:#D9EDFF */
+.lessonCard {
+    width: 360px;
+    height: 132px;
+    border-radius: 16px;
+    border: 1px solid rgba(62, 64, 68, 0.5);
+    background: var(--Blue-300, #D9EDFF);
+    box-sizing: border-box;
+    padding: 18px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.lessonCard:hover {
+    box-shadow: 0 4px 14px rgba(1, 106, 238, 0.18);
+    transform: translateY(-1px);
+}
+
+/* Обёртка темы — w:328 h:44 gap:5px */
+.lessonCardTopicWrap {
+    width: 328px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+/* Тема — Inter 500 16px #21242B lh:140% ls:3% */
+.lessonCardTopic {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Обёртка даты — w:328 h:17 gap:6px, mt:11px (top:73 - top:18 - h:44 = 11) */
+.lessonCardDateWrap {
+    width: 328px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-top: 11px;
+}
+
+/* Дата — w:177 h:17 Inter 500 12px #21242B lh:140% ls:3% */
+.lessonCardDate {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+}
+
+/* Разделитель — w:352 border:2px #EAF5FF, mt:12px (top:103 - 73 - 17 = ~13px) */
+.lessonCardDivider {
+    width: calc(100% + 8px);
+    margin-left: -4px;
+    height: 0;
+    border-top: 2px solid var(--Blue-200, #EAF5FF);
+    flex-shrink: 0;
+    margin-top: 12px;
+}
+
+/* Мета — w:328 h:17 space-between, mt:4px (top:107 - 103 - 2 = ~4px) */
+.lessonCardMeta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 328px;
+    height: 17px;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+/* Присутствие — w:148 h:17 gap:4px */
+.lessonCardAttend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 148px;
+    height: 17px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: rgba(62, 64, 68, 0.5);
+    white-space: nowrap;
+}
+
+/* Файлы — w:27 h:17 gap:4px */
+.lessonCardMaterials {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 27px;
+    height: 17px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: rgba(62, 64, 68, 0.5);
+}
+
+/* Иконки в мета — w:16 h:16 */
+.lessonCardMetaIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+
+/* ── Адаптивность ── */
+@media (max-width: 1200px) {
+    .container {
+        max-width: calc(100vw - 64px);
+    }
+
+    .lessonsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        max-width: calc(100vw - 40px);
+        margin-top: 32px;
+    }
+
+    .lessonsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        max-width: calc(100vw - 24px);
+    }
+
+    .lessonsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .lessonsSectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

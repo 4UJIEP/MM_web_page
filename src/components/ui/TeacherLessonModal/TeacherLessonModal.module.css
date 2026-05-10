@@ -1,0 +1,676 @@
+/* ============================================
+   OVERLAY
+   ============================================ */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(62, 64, 68, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.18s ease;
+    overflow-y: auto;
+    padding: 24px 16px;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   MODAL — w:705 h:603 br:16
+   ============================================ */
+.modal {
+    position: relative;
+    width: 705px;
+    min-height: 603px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+    padding: 81px 39px 39px 39px;
+    box-sizing: border-box;
+    gap: 0;
+    animation: slideIn 0.18s ease;
+    flex-shrink: 0;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Кнопка × — позиционируется в правом верхнем углу ── */
+.closeBtn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+    padding: 0;
+}
+
+.closeBtn:hover {
+    background: rgba(62, 64, 68, 0.08);
+}
+
+/* ============================================
+   HEADER BLOCK — w:598 h:82 gap:32
+   Тема + вкладки
+   ============================================ */
+.headerBlock {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex-shrink: 0;
+}
+
+/* Тема — Roboto 500 24px #21242B lh:100% ls:3% */
+.topic {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    width: 598px;
+    max-width: 100%;
+}
+
+/* ── Вкладки — w:417 h:22 gap:16 ── */
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    /* нижняя граница общая — нет, каждая вкладка сама рисует подчёркивание */
+}
+
+/* Каждая вкладка — Inter 400 16px lh:140% ls:3% */
+.tab {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 6px 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+    white-space: nowrap;
+    transition: color 0.15s ease;
+}
+
+.tab:hover {
+    color: #016AEE;
+}
+
+/* Активная вкладка — #016AEE */
+.tabActive {
+    color: var(--Blue-800, #016AEE);
+}
+
+/* Подчёркивание активной вкладки — border:1px #016AEE */
+.tabUnderline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid var(--Blue-800, #016AEE);
+    display: block;
+}
+
+/* ============================================
+   TAB CONTENT
+   ============================================ */
+.tabContent {
+    margin-top: 16px;
+    flex: 1;
+}
+
+/* ============================================
+   ATTENDANCE TABLE
+   w:627 br:16 border:0.6px #3E404480 bg:#fff
+   ============================================ */
+.table {
+    width: 627px;
+    max-width: 100%;
+    border-radius: 16px;
+    border: 0.6px solid rgba(62, 64, 68, 0.5);
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+/* Заголовок — w:627 h:70 br-top:16 bg:#F5F7FA
+   Flex-структура зеркалит строки тела:
+   [tdStudent 241px] [divider] [tdPresent flex:1] [divider] [tdScore 192px] */
+.tableHeader {
+    width: 100%;
+    height: 70px;
+    background: var(--Background, #F5F7FA);
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    /* Разделительная линия снизу заголовка */
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.5);
+}
+
+/* «Ученик» — занимает ту же ширину что tdStudent (241px), текст по центру */
+.thStudent {
+    width: 241px;
+    min-width: 241px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+    box-sizing: border-box;
+}
+
+/* Разделитель заголовка — зеркалит colDivider */
+.thDivider {
+    width: 0;
+    height: 100%;
+    border-left: 0.6px solid rgba(62, 64, 68, 0.5);
+    flex-shrink: 0;
+}
+
+/* «Был» — занимает flex:1 как tdPresent, текст по центру */
+.thPresent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+
+/* «Балл» — занимает 192px как tdScore, текст по центру */
+.thScore {
+    width: 192px;
+    min-width: 192px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+
+/* Тело таблицы */
+.tableBody {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Строка ученика */
+.tableRow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 72px;
+    position: relative;
+}
+
+.tableRowBorder {
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.5);
+}
+
+/* Вертикальный разделитель — angle:90deg border:0.6px #3E404480 */
+.colDivider {
+    width: 0;
+    height: 100%;
+    border-left: 0.6px solid rgba(62, 64, 68, 0.5);
+    flex-shrink: 0;
+}
+
+/* Колонка «Ученик» — w:241px (left разделителя из дизайна) */
+.tdStudent {
+    width: 241px;
+    min-width: 241px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-left: 32px;
+    box-sizing: border-box;
+}
+
+/* Фото — w:42 h:42 */
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.avatarPlaceholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #D1E8FF;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42'%3E%3Ccircle cx='21' cy='15' r='7' fill='%23016AEE' opacity='.4'/%3E%3Cellipse cx='21' cy='32' rx='13' ry='7' fill='%23016AEE' opacity='.3'/%3E%3C/svg%3E");
+    background-size: cover;
+}
+
+/* Имя — Roboto 500 20px #21242B lh:100% ls:3% */
+.studentName {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Колонка «Был» — от 241px до 435px = 194px */
+.tdPresent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Чекбокс */
+.checkBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: opacity 0.15s ease;
+}
+
+.checkBtn:hover {
+    opacity: 0.75;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(62, 64, 68, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+}
+
+/* Заполненный чекбокс — фиолетовый как в дизайне (#6750A4) */
+.checkboxChecked {
+    background: #6750A4;
+    border-color: #6750A4;
+}
+
+/* Колонка «Балл» — от 435px до конца 627px = 192px */
+.tdScore {
+    width: 192px;
+    min-width: 192px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Поле оценки — br:8 border:0.6px #3E404480 */
+.scoreBox {
+    width: 52px;
+    height: 32px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(62, 64, 68, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.scoreInput {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #21B46E;
+    text-align: center;
+    padding: 0;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.scoreInput::-webkit-outer-spin-button,
+.scoreInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.scoreInput::placeholder {
+    color: rgba(33, 36, 43, 0.35);
+    font-weight: 400;
+}
+
+.scoreDash {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(33, 36, 43, 0.35);
+}
+
+/* ============================================
+   FILES TAB — w:618 h:370 gap:16
+   ============================================ */
+.filesTab {
+    width: 618px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Внешний контейнер секции — w:618 br:16 bg:#F5F7FA */
+.fileSection {
+    width: 618px;
+    max-width: 100%;
+    border-radius: 16px;
+    background: var(--Background, #F5F7FA);
+    padding: 16px 9px;
+    box-sizing: border-box;
+}
+
+/* Внутренний контейнер — w:600 gap:8 */
+.fileSectionInner {
+    width: 600px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Карточка с заголовком и файлами — w:600 br:7 bg:#fff */
+.fileSectionCard {
+    width: 100%;
+    border-radius: 7px;
+    background: #FFFFFF;
+    padding: 16px 16px 12px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Заголовок секции — Roboto 500 20px #21242B lh:100% ls:3% */
+.fileSectionTitle {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    display: block;
+}
+
+/* Строка файла — w:573 h:33 br:8 border:0.6px #00000033 p:8 10 8 8 */
+.fileRow {
+    width: 100%;
+    height: 33px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 10px 8px 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Иконка файла — w:16 h:16 */
+.fileRowIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Имя файла — Inter 500 12px #000 lh:140% ls:3%, занимает оставшееся место */
+.fileRowName {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Размер файла — Inter 500 12px #3E4044 w:40 */
+.fileRowSize {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Кнопка удаления */
+.fileRowDelete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+}
+
+.fileRowDelete:hover {
+    opacity: 1;
+}
+
+/* Кнопка загрузки — w:600 h:32 br:8 border:0.6px #00000033 p:8 10 8 8 */
+.uploadBtn {
+    width: 100%;
+    height: 32px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 10px 8px 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    background: transparent;
+}
+
+.uploadBtn:hover {
+    background: rgba(1, 106, 238, 0.04);
+}
+
+/* Иконка upload — w:16 h:16 */
+.uploadIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+/* «Загрузить файл» — Inter 400 16px #3E4044 lh:140% ls:3% */
+.uploadText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+}
+
+/* Скрытый input */
+.uploadInput {
+    display: none;
+}
+
+.emptyText {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(33, 36, 43, 0.4);
+    margin: 0;
+}
+
+/* ============================================
+   INFO TAB
+   ============================================ */
+.infoTab {
+    width: 627px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.infoRow {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    background: #FAFBFC;
+    border-radius: 10px;
+}
+
+.infoLabel {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(33, 36, 43, 0.55);
+    letter-spacing: 0.03em;
+}
+
+.infoValue {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #21242B;
+    line-height: 1.5;
+}
+
+/* ============================================
+   STATES
+   ============================================ */
+.loading {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: rgba(33, 36, 43, 0.5);
+    padding: 60px;
+    text-align: center;
+}
+
+.error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #E24B4A;
+    padding: 60px;
+    text-align: center;
+}
+
+/* ── Адаптивность ── */
+@media (max-width: 740px) {
+    .modal {
+        width: min(705px, 100%);
+        padding: 64px 20px 24px 20px;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+    .filesTab,
+    .infoTab {
+        width: 100%;
+    }
+
+    .topic {
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .thStudent {
+        left: 60px;
+    }
+
+    .thPresent {
+        left: 55%;
+    }
+
+    .thScore {
+        left: 78%;
+    }
+
+    .tdStudent {
+        width: 50%;
+        min-width: unset;
+        padding-left: 16px;
+    }
+
+    .tdScore {
+        width: auto;
+        flex: 1;
+    }
+}

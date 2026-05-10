@@ -4,6 +4,7 @@ import styles from './CabinetJournal.module.css';
 import { MonthPicker } from '../../components/ui/MonthPicker';
 import { JournalLessonModal } from '../../components/ui/JournalLessonModal';
 import { useAuth } from '../../context/AuthContext';
+import { TeacherJournal } from './TeacherJournal';
 
 import appIcon from '../../assets/icons/folder.png';
 import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
@@ -334,8 +335,13 @@ const LessonCard: FC<LessonCardProps> = ({ lesson, onClick }) => {
 
 export const CabinetJournal: FC = () => {
     const { user } = useAuth();
-    const isParent = user?.role === 'parent';
 
+    // Журнал преподавателя — отдельный вид
+    if (user?.role === 'teacher') {
+        return <TeacherJournal />;
+    }
+
+    const isParent = user?.role === 'parent';
     const tabs = isParent ? PARENT_TABS : CHILD_TABS;
 
     const [activeTabId, setActiveTabId] = useState(tabs[0].id);
@@ -369,28 +375,8 @@ export const CabinetJournal: FC = () => {
 
                 {/* ── Строка управления: курс слева + сортировка справа ── */}
                 <div className={styles.controlsRow}>
-                    {isParent ? (
-                        <CourseDropdown tabs={tabs} activeId={activeTabId} onSelect={setActiveTabId} />
-                    ) : (
-                        <div className={styles.tabs}>
-                            {tabs.map((tab) => {
-                                const isActive = tab.id === activeTabId;
-                                return (
-                                    <button
-                                        key={tab.id}
-                                        className={isActive ? styles.tabActive : styles.tabInactive}
-                                        onClick={() => setActiveTabId(tab.id)}
-                                        aria-pressed={isActive}
-                                    >
-                                        <img src={appIcon} alt="" className={styles.tabIcon} />
-                                        <span className={isActive ? styles.tabTextActive : styles.tabTextInactive}>
-                                            {tab.label}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    )}
+                    {/* Для всех ролей — выпадающий список курса */}
+                    <CourseDropdown tabs={tabs} activeId={activeTabId} onSelect={setActiveTabId} />
 
                     <SortDropdown value={sortOrder} onChange={setSortOrder} />
                 </div>

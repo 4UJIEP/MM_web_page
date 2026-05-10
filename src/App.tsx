@@ -16,13 +16,8 @@ import { NotFound } from './pages/NotFound'
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop'
 import { TeachersPage } from './pages/TeachersPage/TeachersPage'
 import { useEffect } from 'react'
-import {testLogin} from "./api/auth";
 
 function App() {
-  useEffect(() => {
-    testLogin();
-  }, []);
-
   return (
     <AuthProvider>
       <BrowserRouter>

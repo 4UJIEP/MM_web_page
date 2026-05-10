@@ -34,6 +34,29 @@ const MOCK_COURSES: CourseEnrollment[] = [
 ];
 
 // ============================================
+// TEACHER COURSES — курсы которые ведёт преподаватель
+// TODO: заменить на GET /api/teacher/courses
+// ============================================
+
+interface TeacherCourse {
+  id: string;
+  subject: string;
+  classLabel: string;
+  studentsCount: number;
+  schedule: string;
+  location: string;
+  files?: string[];
+}
+
+const MOCK_TEACHER_COURSES: TeacherCourse[] = [
+  { id: 't1', subject: 'Математика', classLabel: '9 класс', studentsCount: 25, schedule: 'Вс, 10:00 - 12:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', files: ['Файл-nn-nn.pdf'] },
+  { id: 't2', subject: 'Математика', classLabel: '8 класс', studentsCount: 12, schedule: 'Сб, 13:00 - 15:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 712', files: ['Файл-nn-nn.pdf'] },
+  { id: 't3', subject: 'Шахматы', classLabel: '6 класс', studentsCount: 5, schedule: 'Вс, 14:00 - 16:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 806', files: ['Файл-nn-nn.pdf'] },
+  { id: 't4', subject: 'Шахматы', classLabel: '8 класс', studentsCount: 7, schedule: 'Сб, 15:30 - 17:30', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 310', files: ['Файл-nn-nn.pdf'] },
+  { id: 't5', subject: 'Куборо', classLabel: '4 класс', studentsCount: 11, schedule: 'Сб, 10:00 - 12:00', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 712', files: ['Файл-nn-nn.pdf'] },
+];
+
+// ============================================
 // SUB-COMPONENTS
 // ============================================
 
@@ -71,7 +94,6 @@ const ChildSwitcher: FC<ChildSwitcherProps> = ({ children, activeId, onSelect })
 // Внутри: w:1413 h:87 justify-content:space-between
 interface CourseCardProps {
   course: CourseEnrollment;
-  childName?: string;
   onJournal: () => void;
 }
 
@@ -125,6 +147,57 @@ const CourseRow: FC<{ course: CourseEnrollment }> = ({ course }) => (
   </div>
 );
 
+// ── Карточка курса преподавателя ─────────────
+// Figma: градиент #F5F7FA→#BCDFFF, строки с деталями
+
+interface TeacherCourseCardProps {
+  course: TeacherCourse;
+  onJournal: () => void;
+}
+
+const TeacherCourseCard: FC<TeacherCourseCardProps> = ({ course, onJournal }) => (
+  <div className={styles.courseCard}>
+    <div className={styles.courseCardInner}>
+      <div className={styles.courseCardLeft}>
+        {/* Заголовок */}
+        <div className={styles.courseCardTitle}>
+          <span className={styles.courseSubject}>{course.subject}</span>
+          <span className={styles.courseClass}>{course.classLabel}</span>
+        </div>
+        {/* Детали */}
+        <div className={styles.courseDetails}>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>Количество учеников в группе</span>
+            <span className={styles.courseDetailValue}>{course.studentsCount} учеников</span>
+          </div>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>Место проведения</span>
+            <span className={styles.courseDetailValue}>{course.location}</span>
+          </div>
+          <div className={styles.courseDetailRow}>
+            <span className={styles.courseDetailLabel}>День и время проведения</span>
+            <span className={styles.courseDetailValue}>{course.schedule}</span>
+          </div>
+          {course.files && course.files.length > 0 && (
+            <div className={styles.courseDetailRow}>
+              <span className={styles.courseDetailLabel}>Прикреплённые файлы</span>
+              <div className={styles.courseFiles}>
+                {course.files.map((f) => (
+                  <span key={f} className={styles.courseFile}>{f}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <button className={styles.journalLink} onClick={onJournal}>
+        Перейти в журнал
+        <img src={arrowRightIcon} alt="" className={styles.journalArrow} aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+);
+
 // ============================================
 // MAIN COMPONENT
 // ============================================
@@ -134,6 +207,7 @@ export const CabinetProfile: FC = () => {
   const navigate = useNavigate();
 
   const isParent = user?.role === 'parent';
+  const isTeacher = user?.role === 'teacher';
 
   // Активный ребёнок в переключателе (первый по умолчанию)
   const firstChildId = user?.children?.[0]?.id ?? '';
@@ -189,7 +263,27 @@ export const CabinetProfile: FC = () => {
         <div className={styles.coursesBlock}>
 
           {/* Для родителя — две секции: Курсы и Дети */}
-          {isParent ? (
+          {isTeacher ? (
+            /* ── Преподаватель: список своих групп ── */
+            <div className={styles.parentSections}>
+              <div className={styles.coursesHeader}>
+                <h2 className={styles.coursesTitle}>Курсы</h2>
+                {/* Бейдж с числом групп — Figma: bg:#D9EDFF radius:8 Roboto 500 20px */}
+                <span className={styles.groupsBadge}>
+                  {MOCK_TEACHER_COURSES.length} групп
+                </span>
+              </div>
+              <div className={styles.courseCardsList}>
+                {MOCK_TEACHER_COURSES.map((course) => (
+                  <TeacherCourseCard
+                    key={course.id}
+                    course={course}
+                    onJournal={() => navigate('/cabinet/journal')}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : isParent ? (
             /* ── Родитель: переключатель детей + карточки курсов ── */
             <div className={styles.parentSections}>
 
@@ -231,7 +325,6 @@ export const CabinetProfile: FC = () => {
                     <CourseCard
                       key={course.id}
                       course={course}
-                      childName={user?.name ?? ''}
                       onJournal={() => navigate('/cabinet/journal')}
                     />
                   ))
