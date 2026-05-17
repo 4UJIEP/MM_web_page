@@ -167,7 +167,34 @@
     border-radius: 16px;
     border: 0.6px solid rgba(62, 64, 68, 0.5);
     background: #FFFFFF;
+    /* Фиксированная высота с прокруткой тела — заголовок 70px виден всегда */
+    max-height: 384px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Тело таблицы прокручивается при переполнении */
+.tableBodyScroll {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tableBodyScroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tableBodyScroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tableBodyScroll::-webkit-scrollbar-thumb {
+    background: rgba(62, 64, 68, 0.2);
+    border-radius: 2px;
+}
+
+.tableBodyScroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(62, 64, 68, 0.4);
 }
 
 /* Заголовок — w:627 h:70 br-top:16 bg:#F5F7FA
@@ -673,4 +700,123 @@
         width: auto;
         flex: 1;
     }
+}
+
+/* ============================================
+   КНОПКИ ФУТЕРА
+   w:336 h:42 gap:16 — прижаты вправо
+   ============================================ */
+.footerBtns {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+    flex-shrink: 0;
+}
+
+/* Отмена — w:100 h:42 br:8 bg:#E5E6E9 shadow */
+.btnCancel {
+    width: 100px;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    background: #E5E6E9;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    color: var(--Color-2, #3E4044);
+    transition: opacity 0.15s ease;
+}
+
+.btnCancel:hover {
+    opacity: 0.8;
+}
+
+/* Сохранить изменения — w:220 h:42 br:8 bg:#D9EDFF shadow */
+.btnSave {
+    width: 225px;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    background: var(--Blue-300, #D9EDFF);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    color: var(--Blue-800, #016AEE);
+    transition: opacity 0.15s ease;
+}
+
+.btnSave:hover {
+    opacity: 0.85;
+}
+
+/* ============================================
+   РЕДАКТИРУЕМЫЙ ЗАГОЛОВОК (тема занятия)
+   ============================================ */
+.topicInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid rgba(62, 64, 68, 0.2);
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    padding: 0 0 6px 0;
+    margin-bottom: 8px;
+    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.topicInput:focus {
+    border-bottom-color: #016AEE;
+}
+
+.topicInput::placeholder {
+    color: rgba(33, 36, 43, 0.3);
+}
+
+/* ============================================
+   РЕДАКТИРУЕМЫЕ ПОЛЯ INFO TAB
+   ============================================ */
+.infoEditInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(62, 64, 68, 0.25);
+    background: transparent;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #21242B;
+    padding: 4px 0 6px 0;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.infoEditInput:focus {
+    border-bottom-color: #016AEE;
+}
+
+.infoEditInput::placeholder {
+    color: rgba(33, 36, 43, 0.3);
 }

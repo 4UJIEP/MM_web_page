@@ -1,0 +1,725 @@
+/* ============================================
+   OVERLAY
+   ============================================ */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(62, 64, 68, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.18s ease;
+    overflow-y: auto;
+    padding: 24px 16px;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   MODAL — w:705 br:16
+   ============================================ */
+.modal {
+    position: relative;
+    width: 705px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 39px 32px 39px;
+    box-sizing: border-box;
+    gap: 0;
+    animation: slideIn 0.18s ease;
+    flex-shrink: 0;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Кнопка × */
+.closeBtn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+    padding: 0;
+}
+
+.closeBtn:hover {
+    background: rgba(62, 64, 68, 0.08);
+}
+
+/* ============================================
+   НАЗВАНИЕ ЗАНЯТИЯ (редактируемое)
+   ============================================ */
+.topicWrap {
+    width: 100%;
+    margin-bottom: 24px;
+    /* Нижняя граница как у обычного input */
+    border-bottom: 1.5px solid rgba(62, 64, 68, 0.2);
+    padding-bottom: 8px;
+}
+
+.topicInput {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    padding: 0;
+}
+
+.topicInput::placeholder {
+    color: rgba(33, 36, 43, 0.3);
+}
+
+/* ============================================
+   ВКЛАДКИ
+   ============================================ */
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.tab {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 6px 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+    white-space: nowrap;
+    transition: color 0.15s ease;
+}
+
+.tab:hover {
+    color: #016AEE;
+}
+
+.tabActive {
+    color: var(--Blue-800, #016AEE);
+}
+
+.tabUnderline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid var(--Blue-800, #016AEE);
+    display: block;
+}
+
+/* ============================================
+   КОНТЕНТ ВКЛАДКИ
+   ============================================ */
+.tabContent {
+    width: 100%;
+    flex: 1;
+}
+
+/* ============================================
+   ТАБЛИЦА ПОСЕЩАЕМОСТИ — w:627 max-h:384
+   ============================================ */
+.table {
+    width: 627px;
+    max-width: 100%;
+    border-radius: 16px;
+    border: 0.6px solid rgba(62, 64, 68, 0.5);
+    background: #FFFFFF;
+    max-height: 384px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Заголовок — h:70 bg:#F5F7FA */
+.tableHeader {
+    width: 100%;
+    height: 70px;
+    background: var(--Background, #F5F7FA);
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.5);
+}
+
+.thStudent {
+    width: 241px;
+    min-width: 241px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+
+.thDivider {
+    width: 0;
+    height: 100%;
+    border-left: 0.6px solid rgba(62, 64, 68, 0.5);
+    flex-shrink: 0;
+}
+
+.thPresent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+
+.thScore {
+    width: 192px;
+    min-width: 192px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+
+/* Тело */
+.tableBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableBodyScroll {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tableBodyScroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tableBodyScroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tableBodyScroll::-webkit-scrollbar-thumb {
+    background: rgba(62, 64, 68, 0.2);
+    border-radius: 2px;
+}
+
+.tableBodyScroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(62, 64, 68, 0.4);
+}
+
+/* Строка */
+.tableRow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 72px;
+    position: relative;
+}
+
+.tableRowBorder {
+    border-bottom: 0.6px solid rgba(62, 64, 68, 0.5);
+}
+
+.colDivider {
+    width: 0;
+    height: 100%;
+    border-left: 0.6px solid rgba(62, 64, 68, 0.5);
+    flex-shrink: 0;
+}
+
+.tdStudent {
+    width: 241px;
+    min-width: 241px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-left: 32px;
+    box-sizing: border-box;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.avatarPlaceholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #D1E8FF;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42'%3E%3Ccircle cx='21' cy='15' r='7' fill='%23016AEE' opacity='.4'/%3E%3Cellipse cx='21' cy='32' rx='13' ry='7' fill='%23016AEE' opacity='.3'/%3E%3C/svg%3E");
+    background-size: cover;
+}
+
+.studentName {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tdPresent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: opacity 0.15s ease;
+}
+
+.checkBtn:hover {
+    opacity: 0.75;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(62, 64, 68, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+}
+
+.checkboxChecked {
+    background: #6750A4;
+    border-color: #6750A4;
+}
+
+.tdScore {
+    width: 192px;
+    min-width: 192px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scoreBox {
+    width: 52px;
+    height: 32px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(62, 64, 68, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.scoreInput {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #21B46E;
+    text-align: center;
+    padding: 0;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.scoreInput::-webkit-outer-spin-button,
+.scoreInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.scoreInput::placeholder {
+    color: rgba(33, 36, 43, 0.35);
+    font-weight: 400;
+}
+
+.scoreDash {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(33, 36, 43, 0.35);
+}
+
+/* ============================================
+   FILES TAB — w:618 gap:16
+   ============================================ */
+.filesTab {
+    width: 618px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fileSection {
+    width: 618px;
+    max-width: 100%;
+    border-radius: 16px;
+    background: var(--Background, #F5F7FA);
+    padding: 16px 9px;
+    box-sizing: border-box;
+}
+
+.fileSectionInner {
+    width: 600px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fileSectionCard {
+    width: 100%;
+    border-radius: 7px;
+    background: #FFFFFF;
+    padding: 16px 16px 12px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fileSectionTitle {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    color: var(--Font, #21242B);
+    display: block;
+}
+
+.fileRow {
+    width: 100%;
+    height: 33px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 10px 8px 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fileRowIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.fileRowName {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fileRowSize {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.fileRowDelete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+}
+
+.fileRowDelete:hover {
+    opacity: 1;
+}
+
+.uploadBtn {
+    width: 100%;
+    height: 32px;
+    border-radius: 8px;
+    border: 0.6px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 10px 8px 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    background: transparent;
+}
+
+.uploadBtn:hover {
+    background: rgba(1, 106, 238, 0.04);
+}
+
+.uploadIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.uploadText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    color: var(--Color-2, #3E4044);
+}
+
+.uploadInput {
+    display: none;
+}
+
+.emptyText {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(33, 36, 43, 0.4);
+    margin: 0;
+}
+
+/* ============================================
+   INFO TAB — поля формы
+   ============================================ */
+.infoTab {
+    width: 627px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.infoField {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Метка поля — Roboto 500 14px */
+.infoLabel {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(33, 36, 43, 0.55);
+    letter-spacing: 0.03em;
+}
+
+/* Поле ввода */
+.infoInput {
+    width: 100%;
+    height: 38px;
+    border: none;
+    border-bottom: 1px solid rgba(62, 64, 68, 0.25);
+    background: transparent;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #21242B;
+    padding: 0 0 6px 0;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.infoInput:focus {
+    border-bottom-color: #016AEE;
+}
+
+.infoInput::placeholder {
+    color: rgba(33, 36, 43, 0.3);
+}
+
+/* Поле с иконкой слева */
+.infoInputWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.infoInputIcon {
+    position: absolute;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.infoInputWithIcon {
+    padding-left: 22px;
+}
+
+/* ============================================
+   КНОПКИ ФУТЕРА
+   w:292 h:42 gap:16 — прижаты вправо
+   ============================================ */
+.footerBtns {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+}
+
+/* Отмена — w:100 h:42 br:8 bg:#E5E6E9 shadow */
+.btnCancel {
+    width: 100px;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    background: #E5E6E9;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    color: var(--Color-2, #3E4044);
+    transition: opacity 0.15s ease;
+}
+
+.btnCancel:hover {
+    opacity: 0.8;
+}
+
+/* Создать занятие — w:176 h:42 br:8 bg:#D9EDFF shadow */
+.btnSubmit {
+    width: 176px;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    background: var(--Blue-300, #D9EDFF);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.03em;
+    text-align: center;
+    color: var(--Blue-800, #016AEE);
+    transition: opacity 0.15s ease;
+}
+
+.btnSubmit:hover {
+    opacity: 0.85;
+}
+
+/* ── Адаптивность ── */
+@media (max-width: 740px) {
+    .modal {
+        width: min(705px, 100%);
+        padding: 40px 20px 24px 20px;
+    }
+
+    .table,
+    .filesTab,
+    .infoTab {
+        width: 100%;
+    }
+
+    .topicInput {
+        font-size: 18px;
+    }
+}

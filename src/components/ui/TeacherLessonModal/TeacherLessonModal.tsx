@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './TeacherLessonModal.module.css';
 import fileIcon from '../../../assets/icons/folder.png';
 import uploadIcon from '../../../assets/icons/app.png';
@@ -104,7 +104,7 @@ const AttendanceTable: FC<AttendanceTableProps> = ({ students, onTogglePresent, 
         </div>
 
         {/* Строки учеников */}
-        <div className={styles.tableBody}>
+        <div className={`${styles.tableBody} ${styles.tableBodyScroll}`}>
             {students.map((student, idx) => (
                 <div
                     key={student.id}
@@ -319,25 +319,43 @@ const FilesTab: FC<FilesTabProps> = ({
 );
 
 // ============================================
-// INFO TAB
+// INFO TAB — редактируемые поля
 // ============================================
 
-const InfoTab: FC<{ detail: TeacherLessonDetail }> = ({ detail }) => (
+interface InfoTabProps {
+    detail: TeacherLessonDetail;
+    editDate: string;
+    editDescription: string;
+    onDateChange: (v: string) => void;
+    onDescChange: (v: string) => void;
+}
+
+const InfoTab: FC<InfoTabProps> = ({ detail, editDate, editDescription, onDateChange, onDescChange }) => (
     <div className={styles.infoTab}>
         <div className={styles.infoRow}>
+            <span className={styles.infoLabel}>Описание к занятию</span>
+            <input
+                type="text"
+                className={styles.infoEditInput}
+                value={editDescription}
+                onChange={e => onDescChange(e.target.value)}
+                placeholder="Введите описание"
+            />
+        </div>
+        <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Дата проведения</span>
-            <span className={styles.infoValue}>{detail.date}</span>
+            <input
+                type="text"
+                className={styles.infoEditInput}
+                value={editDate}
+                onChange={e => onDateChange(e.target.value)}
+                placeholder="дд.мм.гггг чч:мм – чч:мм"
+            />
         </div>
         <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Преподаватель</span>
             <span className={styles.infoValue}>{detail.teacher}</span>
         </div>
-        {detail.description && (
-            <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Описание</span>
-                <span className={styles.infoValue}>{detail.description}</span>
-            </div>
-        )}
         {detail.homework && (
             <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Домашнее задание</span>
@@ -354,9 +372,12 @@ const InfoTab: FC<{ detail: TeacherLessonDetail }> = ({ detail }) => (
 interface TeacherLessonModalProps {
     lessonId: string | null;
     onClose: () => void;
+    /** Если передать — используется вместо fetch (локальные данные карточки) */
+    initialDetail?: TeacherLessonDetail | null;
+    onSave?: (lessonId: string, data: { students: TeacherLessonStudent[]; lessonFiles: TeacherLessonFile[]; homeworkFiles: TeacherLessonFile[]; topic: string; date: string; description: string }) => void;
 }
 
-export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onClose }) => {
+export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onClose, onSave, initialDetail }) => {
     const [detail, setDetail] = useState<TeacherLessonDetail | null>(null);
     const [students, setStudents] = useState<TeacherLessonStudent[]>([]);
     const [lessonFiles, setLessonFiles] = useState<{ name: string; size: string }[]>([]);
@@ -364,23 +385,58 @@ export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onCl
     const [activeTab, setActiveTab] = useState<TabId>('attendance');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    // Редактируемые поля
+    const [editTopic, setEditTopic] = useState('');
+    const [editDate, setEditDate] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    // Показываем кнопки только при наличии изменений
+    const [isDirty, setIsDirty] = useState(false);
+    // Снапшот оригинальных данных при открытии — для сброса
+    const originalRef = useRef<{
+        topic: string; date: string; description: string;
+        students: TeacherLessonStudent[];
+        lessonFiles: { name: string; size: string }[];
+        homeworkFiles: { name: string; size: string }[];
+    } | null>(null);
 
-    // Загрузка данных
+    // Загрузка данных — сначала смотрим на initialDetail, потом fetch
     useEffect(() => {
-        if (!lessonId) { setDetail(null); setStudents([]); setError(null); return; }
-        setIsLoading(true);
-        setError(null);
+        if (!lessonId) {
+            setDetail(null); setStudents([]); setError(null);
+            setEditTopic(''); setEditDate(''); setEditDescription('');
+            setIsDirty(false); originalRef.current = null;
+            return;
+        }
         setActiveTab('attendance');
-        fetchTeacherLessonDetail(lessonId)
-            .then(d => {
-                setDetail(d);
-                setStudents(d.students);
-                setLessonFiles(d.files);
-                setHomeworkFiles(d.homeworkFiles);
-            })
-            .catch(() => setError('Не удалось загрузить данные занятия'))
-            .finally(() => setIsLoading(false));
-    }, [lessonId]);
+        setError(null);
+
+        const applyDetail = (d: TeacherLessonDetail) => {
+            setDetail(d);
+            setStudents(d.students);
+            setLessonFiles(d.files);
+            setHomeworkFiles(d.homeworkFiles);
+            setEditTopic(d.topic);
+            setEditDate(d.date);
+            setEditDescription(d.description);
+            setIsDirty(false);
+            originalRef.current = {
+                topic: d.topic, date: d.date, description: d.description,
+                students: d.students,
+                lessonFiles: d.files,
+                homeworkFiles: d.homeworkFiles,
+            };
+        };
+
+        if (initialDetail) {
+            applyDetail(initialDetail);
+        } else {
+            setIsLoading(true);
+            fetchTeacherLessonDetail(lessonId)
+                .then(applyDetail)
+                .catch(() => setError('Не удалось загрузить данные занятия'))
+                .finally(() => setIsLoading(false));
+        }
+    }, [lessonId, initialDetail]);
 
     // Закрытие по Escape
     useEffect(() => {
@@ -390,7 +446,31 @@ export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onCl
         return () => document.removeEventListener('keydown', handler);
     }, [lessonId, onClose]);
 
+    const markDirty = useCallback(() => setIsDirty(true), []);
+
     if (!lessonId) return null;
+
+    const handleCancel = () => {
+        // Откатываем к снапшоту
+        const orig = originalRef.current;
+        if (orig) {
+            setEditTopic(orig.topic);
+            setEditDate(orig.date);
+            setEditDescription(orig.description);
+            setStudents(orig.students);
+            setLessonFiles(orig.lessonFiles);
+            setHomeworkFiles(orig.homeworkFiles);
+        }
+        setIsDirty(false);
+    };
+
+    const handleSave = () => {
+        if (onSave && lessonId) {
+            onSave(lessonId, { students, lessonFiles, homeworkFiles, topic: editTopic, date: editDate, description: editDescription });
+        }
+        setIsDirty(false);
+        onClose();
+    };
 
     const handleTogglePresent = (studentId: string) => {
         setStudents(prev =>
@@ -400,12 +480,14 @@ export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onCl
                     : s
             )
         );
+        markDirty();
     };
 
     const handleScoreChange = (studentId: string, score: number | null) => {
         setStudents(prev =>
             prev.map(s => s.id === studentId ? { ...s, score } : s)
         );
+        markDirty();
     };
 
     return (
@@ -435,8 +517,15 @@ export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onCl
                         {/* Заголовок + вкладки — w:598 h:82 top:81 left:39 gap:32 */}
                         <div className={styles.headerBlock}>
 
-                            {/* Тема — Roboto 500 24px #21242B lh:100% ls:3% */}
-                            <h2 className={styles.topic}>{detail.topic}</h2>
+                            {/* Тема — редактируемый input */}
+                            <input
+                                type="text"
+                                className={styles.topicInput}
+                                value={editTopic}
+                                onChange={e => { setEditTopic(e.target.value); markDirty(); }}
+                                placeholder="Название занятия"
+                                aria-label="Название занятия"
+                            />
 
                             {/* Вкладки — w:417 h:22 gap:16 */}
                             <div className={styles.tabs} role="tablist">
@@ -471,29 +560,53 @@ export const TeacherLessonModal: FC<TeacherLessonModalProps> = ({ lessonId, onCl
                                 <FilesTab
                                     lessonFiles={lessonFiles}
                                     homeworkFiles={homeworkFiles}
-                                    onDeleteLesson={idx =>
-                                        setLessonFiles(prev => prev.filter((_, i) => i !== idx))
-                                    }
-                                    onDeleteHomework={idx =>
-                                        setHomeworkFiles(prev => prev.filter((_, i) => i !== idx))
-                                    }
+                                    onDeleteLesson={idx => {
+                                        setLessonFiles(prev => prev.filter((_, i) => i !== idx));
+                                        markDirty();
+                                    }}
+                                    onDeleteHomework={idx => {
+                                        setHomeworkFiles(prev => prev.filter((_, i) => i !== idx));
+                                        markDirty();
+                                    }}
                                     onUploadLesson={files => {
                                         Array.from(files).forEach(f =>
                                             setLessonFiles(prev => [...prev, { name: f.name, size: `${(f.size / 1024).toFixed(0)} КБ` }])
                                         );
+                                        markDirty();
                                     }}
                                     onUploadHomework={files => {
                                         Array.from(files).forEach(f =>
                                             setHomeworkFiles(prev => [...prev, { name: f.name, size: `${(f.size / 1024).toFixed(0)} КБ` }])
                                         );
+                                        markDirty();
                                     }}
                                 />
                             )}
                             {activeTab === 'info' && (
-                                <InfoTab detail={detail} />
+                                <InfoTab
+                                    detail={detail}
+                                    editDate={editDate}
+                                    editDescription={editDescription}
+                                    onDateChange={v => { setEditDate(v); markDirty(); }}
+                                    onDescChange={v => { setEditDescription(v); markDirty(); }}
+                                />
                             )}
                         </div>
                     </>
+                )}
+
+                {/* Кнопки — появляются только при наличии изменений */}
+                {detail && !isLoading && isDirty && (
+                    <div className={styles.footerBtns}>
+                        {/* Отмена — откатывает к оригиналу */}
+                        <button className={styles.btnCancel} onClick={handleCancel}>
+                            Отмена
+                        </button>
+                        {/* Сохранить изменения */}
+                        <button className={styles.btnSave} onClick={handleSave}>
+                            Сохранить изменения
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

@@ -1,7 +1,10 @@
 import type { FC } from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './TeacherJournal.module.css';
 import { TeacherLessonModal } from '../../components/ui/TeacherLessonModal';
+import type { TeacherLessonDetail } from '../../components/ui/TeacherLessonModal';
+import { CreateLessonModal } from '../../components/ui/CreateLessonModal';
 
 import folderIcon from '../../assets/icons/folder.png';
 import personIcon from '../../assets/icons/person.png';
@@ -41,6 +44,8 @@ interface AttendanceCell {
     score: number | null;
 }
 
+type Semester = 1 | 2;
+
 interface LessonCard {
     id: string;
     topic: string;
@@ -48,6 +53,9 @@ interface LessonCard {
     presentCount: number;
     totalCount: number;
     materialsCount: number;
+    semester: Semester;
+    /** Полные данные для модала — хранятся локально, TODO: заменить на API */
+    detail?: import('../../components/ui/TeacherLessonModal').TeacherLessonDetail;
 }
 
 // ============================================
@@ -89,13 +97,14 @@ const INITIAL_ATTENDANCE: AttendanceCell[] = STUDENTS.flatMap((s, si) =>
     }))
 );
 
-const LESSON_CARDS: LessonCard[] = Array.from({ length: 16 }, (_, i) => ({
+const INITIAL_LESSON_CARDS: LessonCard[] = Array.from({ length: 16 }, (_, i) => ({
     id: `lc${i + 1}`,
     topic: 'Решение простых задач. Графический диктант.',
     dateLabel: '7 Марта, 2026 16:00 - 18:00',
     presentCount: 5,
     totalCount: 6,
     materialsCount: 2,
+    semester: (i < 8 ? 1 : 2) as Semester,
 }));
 
 // ============================================
@@ -180,6 +189,43 @@ const CourseDropdown: FC<CourseDropdownProps> = ({ groups, activeId, onSelect })
 };
 
 // ============================================
+// TOTAL TOOLTIP — через portal, обходит overflow:hidden таблицы
+// ============================================
+
+const TotalTooltipHeader: FC = () => {
+    const labelRef = useRef<HTMLSpanElement>(null);
+    const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+
+    const show = () => {
+        if (!labelRef.current) return;
+        const r = labelRef.current.getBoundingClientRect();
+        setPos({
+            // Тултип появляется НАД текстом, выравнивается по правому краю ячейки
+            top: r.top + window.scrollY - 82 - 12,
+            left: r.right + window.scrollX - 296,
+        });
+    };
+
+    const hide = () => setPos(null);
+
+    return (
+        <div className={styles.totalHeaderWrap} onMouseEnter={show} onMouseLeave={hide}>
+            <span ref={labelRef} className={styles.totalHeaderLabel}>Итого</span>
+
+            {pos !== null && createPortal(
+                <div
+                    className={styles.tooltipPortal}
+                    style={{ top: pos.top, left: pos.left }}
+                >
+                    Левая колонка отвечает за количество посещённых занятий, правая колонка отвечает за количество баллов.
+                </div>,
+                document.body
+            )}
+        </div>
+    );
+};
+
+// ============================================
 // ATTENDANCE TABLE
 // ============================================
 
@@ -228,8 +274,10 @@ const AttendanceTable: FC<AttendanceTableProps> = ({
                                 </th>
                             ))}
 
-                            {/* Итого */}
-                            <th className={styles.thTotal}>Итого</th>
+                            {/* Итого — с тултипом через portal (обходим overflow:hidden) */}
+                            <th className={styles.thTotal}>
+                                <TotalTooltipHeader />
+                            </th>
                         </tr>
                     </thead>
 
@@ -376,6 +424,72 @@ export const TeacherJournal: FC = () => {
     const [activeGroupId, setActiveGroupId] = useState(COURSE_GROUPS[0].id);
     const [attendance, setAttendance] = useState<AttendanceCell[]>(INITIAL_ATTENDANCE);
     const [openLessonId, setOpenLessonId] = useState<string | null>(null);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [lessonCards, setLessonCards] = useState<LessonCard[]>(INITIAL_LESSON_CARDS);
+    const nextCardId = useRef(INITIAL_LESSON_CARDS.length + 1);
+    // Хранилище деталей каждой карточки (lessonId -> detail)
+    const [detailsMap, setDetailsMap] = useState<Record<string, TeacherLessonDetail>>({});
+    // Фильтр по полугодию
+    const [activeSemester, setActiveSemester] = useState<Semester>(1);
+    // Toast-уведомление
+    const [toastVisible, setToastVisible] = useState(false);
+    const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Toast-уведомление
+    const showToast = useCallback(() => {
+        setToastVisible(true);
+        if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+        toastTimerRef.current = setTimeout(() => setToastVisible(false), 3000);
+    }, []);
+
+    // Обработчик сохранения изменений из TeacherLessonModal
+    const handleLessonSave = useCallback((
+        lessonId: string,
+        data: { students: { id: string; name: string; isPresent: boolean; score: number | null }[]; lessonFiles: { name: string; size: string }[]; homeworkFiles: { name: string; size: string }[]; topic: string; date: string; description: string }
+    ) => {
+        // Обновляем карточку в сетке
+        setLessonCards(prev => prev.map(card =>
+            card.id === lessonId
+                ? {
+                    ...card,
+                    topic: data.topic || card.topic,
+                    dateLabel: data.date || card.dateLabel,
+                    presentCount: data.students.filter(s => s.isPresent).length,
+                    materialsCount: data.lessonFiles.length + data.homeworkFiles.length,
+                }
+                : card
+        ));
+        // Обновляем детали для следующего открытия
+        setDetailsMap(prev => {
+            const existing = prev[lessonId];
+            return {
+                ...prev,
+                [lessonId]: {
+                    ...(existing ?? { id: lessonId, teacher: '', homework: '' }),
+                    topic: data.topic,
+                    date: data.date,
+                    description: data.description,
+                    students: data.students,
+                    files: data.lessonFiles,
+                    homeworkFiles: data.homeworkFiles,
+                } as TeacherLessonDetail,
+            };
+        });
+        showToast();
+    }, [showToast]);
+
+    const handleCreateSubmit = useCallback((data: { form: { topic: string; date: string; lessonFiles: unknown[]; homeworkFiles: unknown[] }; students: unknown[] }) => {
+        const newCard: LessonCard = {
+            id: `lc${nextCardId.current++}`,
+            topic: data.form.topic || 'Новое занятие',
+            dateLabel: data.form.date || 'Дата не указана',
+            presentCount: (data.students as { isPresent: boolean }[]).filter(s => s.isPresent).length,
+            totalCount: (data.students as unknown[]).length,
+            materialsCount: (data.form.lessonFiles as unknown[]).length + (data.form.homeworkFiles as unknown[]).length,
+            semester: activeSemester,
+        };
+        setLessonCards(prev => [newCard, ...prev]);
+    }, []);
 
     const handleTogglePresent = (studentId: string, lessonId: string) => {
         setAttendance(prev =>
@@ -430,38 +544,73 @@ export const TeacherJournal: FC = () => {
 
                 {/* ── Нижний блок: полугодие + занятия ── */}
                 <div className={styles.lessonsSection}>
-                    {/* Заголовок — w:1472 h:32 space-between mt:24px */}
+                    {/* Строка управления: табы полугодий + кнопка добавить */}
                     <div className={styles.lessonsSectionHeader}>
 
-                        {/* Левый контейнер — w:146 h:31 br:16 p:4px 4px 4px 16px gap:4px */}
-                        <div className={styles.semesterWrap}>
-                            <span className={styles.semesterLabel}>1 полугодие</span>
+                        {/* Переключатель полугодий */}
+                        <div className={styles.semesterTabs}>
+                            {([1, 2] as Semester[]).map(s => (
+                                <button
+                                    key={s}
+                                    className={`${styles.semesterTab} ${activeSemester === s ? styles.semesterTabActive : ''}`}
+                                    onClick={() => setActiveSemester(s)}
+                                >
+                                    {s} полугодие
+                                </button>
+                            ))}
                         </div>
 
-                        {/* Правый контейнер — w:218 h:32 br:16 p:4px 16px 4px 4px gap:4px */}
-                        <button className={styles.addLessonBtn}>
+                        {/* Кнопка добавить занятие */}
+                        <button className={styles.addLessonBtn} onClick={() => setIsCreateOpen(true)}>
                             <img src={plusIcon} alt="" className={styles.addLessonIcon} />
                             <span className={styles.addLessonText}>Добавить занятие</span>
                         </button>
                     </div>
 
-                    <div className={styles.lessonsGrid}>
-                        {LESSON_CARDS.map(card => (
-                            <LessonCardItem
-                                key={card.id}
-                                card={card}
-                                onClick={() => setOpenLessonId(card.id)}
-                            />
-                        ))}
-                    </div>
+                    {/* Сетка карточек — фильтр по активному полугодию */}
+                    {lessonCards.filter(c => c.semester === activeSemester).length > 0 ? (
+                        <div className={styles.lessonsGrid}>
+                            {lessonCards
+                                .filter(c => c.semester === activeSemester)
+                                .map(card => (
+                                    <LessonCardItem
+                                        key={card.id}
+                                        card={card}
+                                        onClick={() => setOpenLessonId(card.id)}
+                                    />
+                                ))}
+                        </div>
+                    ) : (
+                        <div className={styles.emptyState}>
+                            <span className={styles.emptyStateText}>
+                                Занятий в {activeSemester} полугодии пока нет
+                            </span>
+                        </div>
+                    )}
                 </div>
 
             </div>
 
+            {/* ── Toast-уведомление ── */}
+            <div className={`${styles.toast} ${toastVisible ? styles.toastVisible : ''}`} role="status" aria-live="polite">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                    <circle cx="9" cy="9" r="8.5" stroke="#21B46E" strokeWidth="1.2" />
+                    <path d="M5 9l3 3 5-5" stroke="#21B46E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Изменения сохранены
+            </div>
+
             {/* ── Модальное окно занятия ── */}
+            <CreateLessonModal
+                isOpen={isCreateOpen}
+                onClose={() => setIsCreateOpen(false)}
+                onSubmit={handleCreateSubmit}
+            />
             <TeacherLessonModal
                 lessonId={openLessonId}
                 onClose={() => setOpenLessonId(null)}
+                initialDetail={openLessonId ? (detailsMap[openLessonId] ?? null) : null}
+                onSave={handleLessonSave}
             />
         </section>
     );
