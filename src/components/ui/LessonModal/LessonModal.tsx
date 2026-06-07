@@ -34,22 +34,39 @@ const MOCK_DETAILS: Record<string, LessonDetail> = {
     // Уроки ребёнка / родителя
     '1': { id: '1', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205' },
     '2': { id: '2', courseName: 'Шахматы', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '13:00–15:00', teacher: 'Фаткудинов Владислав Константинович', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205' },
+    '3': {
+        id: '3',
+        courseName: 'Куборо',
+        classLabel: '9 класс',
+        date: 'текущее воскресенье',
+        timeRange: '11:00–13:00',
+        teacher: 'Иван Иванович Сидоров',
+        teacherPhone: '+7 (999)-899-99-99',
+        location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205'
+    },
     // Уроки преподавателя
     't1': { id: 't1', courseName: 'Куборо', classLabel: '9 класс', date: '12 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 11 },
     't2': { id: 't2', courseName: 'Математика', classLabel: '8 класс', date: '12 марта, 2026', timeRange: '13:00–15:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 12 },
-    't3': { id: 't3', courseName: 'Шахматы', classLabel: '8 класс', date: '12 марта, 2026', timeRange: '15:30–17:30', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 7 },
+    't3': { id: 't3', courseName: 'Математика', classLabel: '7 класс', date: 'текущее воскресенье', timeRange: '11:00–13:00', teacher: 'Петров Алексей Игоревич', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 8 },
     't4': { id: 't4', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', timeRange: '10:00–12:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 25 },
     't5': { id: 't5', courseName: 'Шахматы', classLabel: '6 класс', date: '13 марта, 2026', timeRange: '14:00–16:00', teacher: 'Гарцева Карина Александровна', teacherPhone: '+7 (999)-899-99-99', location: 'Главный корпус, ул. Фрунзе, 6, ауд. 205', studentsCount: 5 },
 };
 
-async function fetchLessonDetail(id: string): Promise<LessonDetail> {
-    // TODO: заменить на fetch('/api/lessons/' + id)
-    await new Promise(r => setTimeout(r, 100)); // имитация задержки сети
-    const detail = MOCK_DETAILS[id];
-    if (!detail) throw new Error(`Урок ${id} не найден`);
-    return detail;
-}
+export const API_LESSON_CACHE: Record<string, LessonDetail> = {};
 
+async function fetchLessonDetail(id: string): Promise<LessonDetail> {
+    await new Promise(r => setTimeout(r, 100));
+
+    // Сначала ищем в моках
+    const mockDetail = MOCK_DETAILS[id];
+    if (mockDetail) return mockDetail;
+
+    // Потом в кэше API-уроков
+    const apiDetail = API_LESSON_CACHE[id];
+    if (apiDetail) return apiDetail;
+
+    throw new Error(`Урок ${id} не найден`);
+}
 // ============================================
 // INFO CARD — одна плашка
 // ============================================

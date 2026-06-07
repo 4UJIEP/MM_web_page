@@ -1,9 +1,21 @@
-import { useState, type FC } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import styles from './TeachersPage.module.css';
 import { TeacherCard } from '../../components/ui/TeacherCard';
-import { teachersData } from '../../data/teacher';
+import { fetchTeachers } from '../../api/auth';
+
 
 import searchIcon from '../../assets/icons/Search.png';
+
+
+interface TeacherFromApi {
+    id: string;
+    name: string | null;
+    surname: string | null;
+    patronymic: string | null;
+    avatar_url: string | null;
+    email: string | null;
+    phone: string | null;
+}
 
 // ============================================
 // TEACHERS PAGE
@@ -14,22 +26,32 @@ import searchIcon from '../../assets/icons/Search.png';
 
 export const TeachersPage: FC = () => {
     const [query, setQuery] = useState('');
+    const [teachers, setTeachers] = useState<TeacherFromApi[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        fetchTeachers()
+            .then(setTeachers)
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+    }, []);
 
     const filtered = query.trim()
-        ? teachersData.filter((t) => {
+        ? teachers.filter((t) => {
             const q = query.toLowerCase();
-            const fullName = `${t.lastName} ${t.firstName} ${t.middleName}`.toLowerCase();
-            const inAchievements = t.achievements.some((a) =>
-                a.toLowerCase().includes(q)
-            );
-            return fullName.includes(q) || inAchievements;
+            const fullName = `${t.surname} ${t.name} ${t.patronymic}`.toLowerCase();
+            return fullName.includes(q);
         })
-        : teachersData;
+        : teachers;
 
     const handleCoursesClick = (teacherId: string) => {
         // TODO: navigate(`/teachers/${teacherId}`)
         console.log('Курсы преподавателя:', teacherId);
     };
+
+    if (loading) return <p style={{ padding: 32 }}>Загрузка...</p>;
+    if (error) return <p style={{ padding: 32, color: 'red' }}>{error}</p>;
 
     return (
         <section className={styles.section}>
@@ -64,7 +86,14 @@ export const TeachersPage: FC = () => {
                         {filtered.map((teacher) => (
                             <TeacherCard
                                 key={teacher.id}
-                                {...teacher}
+                                id={teacher.id}
+                                firstName={teacher.name ?? '—'}
+                                lastName={teacher.surname ?? '—'}
+                                middleName={teacher.patronymic ?? ''}
+                                photo={teacher.avatar_url
+                                    ? `https://xn----btbeiralcm3b5ag4hub.xn--p1ai${teacher.avatar_url}`
+                                    : undefined}
+                                achievements={[]}
                                 onCoursesClick={() => handleCoursesClick(teacher.id)}
                             />
                         ))}

@@ -16,6 +16,33 @@ interface LoginModalProps {
   onLogin?: (login: string, password: string) => void;
 }
 
+// ── Иконка «глаз открыт» ──
+const EyeOpenIcon: FC = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path
+      d="M1 9C1 9 4 3 9 3s8 6 8 6-3 6-8 6S1 9 1 9Z"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+  </svg>
+);
+
+// ── Иконка «глаз закрыт» ──
+const EyeOffIcon: FC = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path
+      d="M2 2l14 14M7.5 7.6A2.5 2.5 0 0 0 11.4 11.4M5.3 5.4C3.3 6.6 2 9 2 9s3 6 7 6c1.5 0 2.9-.5 4-1.4M8 3.1C8.3 3 8.6 3 9 3c4 0 7 6 7 6a13 13 0 0 1-1.7 2.5"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const LoginModal: FC<LoginModalProps> = ({
   isOpen,
   onClose,
@@ -25,6 +52,7 @@ export const LoginModal: FC<LoginModalProps> = ({
   const [password, setPassword] = useState('');
   const [isAgreed, setIsAgreed] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Если модалка закрыта, не рендерим ничего
   if (!isOpen) return null;
@@ -85,7 +113,7 @@ export const LoginModal: FC<LoginModalProps> = ({
                 id="login"
                 type="text"
                 className={styles.input}
-                placeholder="малый_ватафак"
+                placeholder="логин_матфак"
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
                 required
@@ -97,40 +125,51 @@ export const LoginModal: FC<LoginModalProps> = ({
               <label htmlFor="password" className={styles.label}>
                 Пароль
               </label>
-              <input
-                id="password"
-                type="password"
-                className={styles.input}
-                placeholder="1234567"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className={styles.passwordWrap}>
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  className={`${styles.input} ${styles.inputWithIcon}`}
+                  placeholder="1234567"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
+                  onClick={() => setShowPassword(prev => !prev)}
+                  aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOpenIcon /> : <EyeOffIcon />}
+                </button>
+              </div>
             </div>
 
             {/* Забыли пароль? */}
             <div className={styles.forgotPassword}>
-                <a href="#"
-                  className={styles.forgotLink}
+              <a href="#"
+                className={styles.forgotLink}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowTooltip(prev => !prev);
+                }}
+              >
+                Забыли пароль?
+              </a>
+              {showTooltip && (
+                <div className={styles.tooltip}
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowTooltip(prev => !prev);
-                  }}
                 >
-                  Забыли пароль?
-                </a>
-                {showTooltip && (
-                  <div className={styles.tooltip}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                  >
-                    Восстановление пароля осуществляется администратором сайта.<br />
-                    Пожалуйста, обратитесь к администратору Малого матфака
-                    для получения нового пароля :)
-                  </div>
-                )}
+                  Восстановление пароля осуществляется администратором сайта.<br />
+                  Пожалуйста, обратитесь к администратору Малого матфака
+                  для получения нового пароля :)
+                </div>
+              )}
             </div>
 
             {/* Кнопка Войти */}

@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 
 import logo from '../../assets/logoMM.png';
 import { LogoutConfirmModal } from '../ui/LogoutConfirmModal';
+import { performLogin } from '../../api/auth';
 
 // ============================================
 // НАВИГАЦИЯ ЛК (видна только залогиненным)
@@ -174,68 +175,17 @@ export const Header: FC = () => {
 
     const location = useLocation();
 
-    const handleLogin = (_login: string, _password: string) => {
-
-        // ── DEMO-режим (без бека) ────────────────────────────────────
-        // Три логина для демонстрации трёх ролей.
-        // Пароль любой.
-        // Удалить и заменить на реальный API когда бек будет готов.
-        const DEMO_USERS: Record<string, Parameters<typeof login>[0]> = {
-            teacher: {
-                id: 'demo-teacher',
-                name: 'Препод',
-                surname: 'Преподаватель',
-                patronymic: 'Преподавательевич',
-                username: 'teacher',
-                email: 'teacher@matfak.ru',
-                role: 'teacher',
-                phone: '+7 (999) 000-00-00',
-            },
-            parent: {
-                id: 'demo-parent',
-                name: 'Папа',
-                surname: 'Васи Пупкина',
-                patronymic: '',
-                username: 'parent',
-                email: 'parent@matfak.ru',
-                role: 'parent',
-                phone: '+7 904 076 94 72',
-                children: [
-                    { id: 'child-1', name: 'Вася', fullName: 'Пупкин Василий Мупкин', classNumber: 9, schoolName: 'Школа №1' },
-                    { id: 'child-2', name: 'Катя', fullName: 'Пупкина Катерина Мупкина', classNumber: 3, schoolName: 'Школа №1' },
-                ],
-            },
-            child: {
-                id: 'demo-child',
-                name: 'Василий',
-                surname: 'Пупкин',
-                patronymic: 'Мупкин',
-                username: 'child',
-                email: 'child@matfak.ru',
-                role: 'child',
-                phone: '',
-            },
-        };
-
-        const demoUser = DEMO_USERS[_login];
-        if (demoUser) {
-            login(demoUser);
-        } else {
-            // Если логин не из списка — входим как ребёнок с введённым именем
-            login({
-                id: 'demo-child',
-                name: _login,
-                surname: '',
-                patronymic: '',
-                username: _login,
-                email: '',
-                role: 'child',
-            });
+    // Замени всю функцию handleLogin:
+    const handleLogin = async (_login: string, _password: string) => {
+        try {
+            const userData = await performLogin(_login, _password);
+            login(userData);
+            setIsLoginModalOpen(false);
+            const from = (location.state as { from?: Location })?.from?.pathname;
+            navigate(from ?? '/cabinet/schedule');
+        } catch (err) {
+            alert((err as Error).message);
         }
-
-        setIsLoginModalOpen(false);
-        const from = (location.state as { from?: Location })?.from?.pathname;
-        navigate(from ?? '/cabinet/schedule');
     };
 
     const handleLogout = () => {

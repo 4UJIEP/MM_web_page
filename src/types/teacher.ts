@@ -15,7 +15,7 @@ export interface Teacher {
   middleName: string;
   
   /** Путь к фотографии */
-  photo: string;
+  photo?: string;
   
   /** Звания и достижения */
   achievements: string[];

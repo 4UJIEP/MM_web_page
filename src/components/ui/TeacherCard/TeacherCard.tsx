@@ -22,38 +22,38 @@ export const TeacherCard: FC<TeacherCardProps> = ({
 
   return (
     <div className={styles.card}>
-      
+
       {/* Внутренний контейнер */}
       <div className={styles.container}>
-        
+
         {/* ВЕРХНЯЯ ЧАСТЬ - Имя, фото, звания */}
         <div className={styles.topSection}>
-          
+
           {/* Блок: ФИО + Фото */}
           <div className={styles.namePhotoBlock}>
-            
+
             {/* ФИО */}
             <h3 className={styles.name}>{fullName}</h3>
-            
+
             {/* Фотография */}
             <div className={styles.photoWrapper}>
-              <img 
-                src={photo} 
-                alt={`${firstName} ${lastName}`} 
+              <img
+                src={photo ?? ''}
+                alt={`${firstName} ${lastName}`}
                 className={styles.photo}
               />
             </div>
-            
+
           </div>
-          
+
           {/* Звания и достижения */}
           <div className={styles.achievements}>
             {achievements.map((achievement, index) => (
               <div key={index} className={styles.achievementItem}>
                 {/* Иконка звёздочки */}
-                <img 
-                  src={starIcon} 
-                  alt="" 
+                <img
+                  src={starIcon}
+                  alt=""
                   className={styles.starIcon}
                 />
                 {/* Текст звания */}
@@ -63,19 +63,19 @@ export const TeacherCard: FC<TeacherCardProps> = ({
               </div>
             ))}
           </div>
-          
+
         </div>
-        
+
         {/* КНОПКА "Курсы преподавателя" */}
-        <button 
+        <button
           className={styles.coursesButton}
           onClick={onCoursesClick}
         >
           Курсы преподавателя
         </button>
-        
+
       </div>
-      
+
     </div>
   );
 };

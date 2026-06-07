@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import type { FC, ReactNode } from 'react';
+import { tokenStorage } from '../api/apiClient';
 
 // ============================================
 // TYPES
@@ -77,7 +78,7 @@ function clearUserFromStorage(): void {
 // CONTEXT
 // ============================================
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 // ============================================
 // PROVIDER
@@ -99,6 +100,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const logout = () => {
         clearUserFromStorage();
+        tokenStorage.clear(); // Очищаем токены при логауте
         setUser(null);
     };
 

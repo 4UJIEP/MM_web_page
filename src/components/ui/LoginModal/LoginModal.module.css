@@ -497,6 +497,42 @@
   animation: spin 0.7s linear infinite;
 }
 
+
+.passwordWrap {
+  position: relative;
+  width: 100%;
+}
+
+/* Поле ввода с отступом справа для иконки */
+.inputWithIcon {
+  padding-right: 44px !important;
+}
+
+/* Кнопка показать/скрыть пароль */
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(62, 64, 68, 0.45);
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+  padding: 0;
+}
+
+.eyeBtn:hover {
+  color: rgba(62, 64, 68, 0.85);
+  background: rgba(62, 64, 68, 0.06);
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

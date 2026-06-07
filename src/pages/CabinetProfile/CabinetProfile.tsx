@@ -1,9 +1,10 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './CabinetProfile.module.css';
 import { useAuth } from '../../context/AuthContext';
 import type { ChildInfo } from '../../context/AuthContext';
+import { fetchChildProfile } from "../../api/auth";
 
 import arrowDownIcon from '../../assets/icons/angle-down-icon.png';
 import arrowRightIcon from '../../assets/icons/angle-down.png';
@@ -209,8 +210,27 @@ export const CabinetProfile: FC = () => {
   const isParent = user?.role === 'parent';
   const isTeacher = user?.role === 'teacher';
 
+  const [childCourse, setChildCourse] = useState<{
+    name_course: string;
+    day_of_week: string;
+    time_set: string;
+    class_number: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!user || user.role !== 'child') return;
+    fetchChildProfile(user.id)
+      .then(data => setChildCourse({
+        name_course: data.name_course,
+        day_of_week: data.day_of_week,
+        time_set: data.time_set,
+        class_number: data.class_number,
+      }))
+      .catch(console.error);
+  }, [user]);
+
   // Активный ребёнок в переключателе (первый по умолчанию)
-  const firstChildId = user?.children?.[0]?.id ?? '';
+  const firstChildId = user?.children?.[0]?.id ?? 'child-1';
   const [activeChildId, setActiveChildId] = useState(firstChildId);
 
   // Курсы активного ребёнка
@@ -292,7 +312,13 @@ export const CabinetProfile: FC = () => {
                 <h2 className={styles.coursesTitle}>Курсы</h2>
                 {user?.children && user.children.length > 0 && (
                   <ChildSwitcher
-                    children={user.children}
+                    children={user?.children && user.children.length > 0
+                      ? user.children
+                      : [
+                        { id: 'child-1', name: 'Вася', fullName: 'Пупкин Василий', classNumber: 9, schoolName: 'Школа №1' },
+                        { id: 'child-2', name: 'Катя', fullName: 'Пупкина Катерина', classNumber: 3, schoolName: 'Школа №1' },
+                      ]
+                    }
                     activeId={activeChildId}
                     onSelect={setActiveChildId}
                   />

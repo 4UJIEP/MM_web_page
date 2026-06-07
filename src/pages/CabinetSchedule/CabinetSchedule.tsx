@@ -1,10 +1,11 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './CabinetSchedule.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { MonthPicker } from '../../components/ui/MonthPicker';
 import { LessonModal } from '../../components/ui/LessonModal';
+import { fetchTeacherSchedule } from '../../api/auth';
 
 import locationIcon from '../../assets/icons/location.png';
 import arrowDownIcon from '../../assets/icons/angle-down.png';
@@ -92,24 +93,108 @@ function getDateKey(date: Date): string {
 // TODO: заменить на fetchScheduleForWeek(monday)
 // ============================================
 
+// Генерируем субботу текущей недели динамически
+function getCurrentSaturday(): string {
+  const today = new Date();
+  const dow = today.getDay(); // 0=вс, 6=сб
+  const diff = dow === 0 ? -1 : 6 - dow;
+  const sat = new Date(today);
+  sat.setDate(today.getDate() + diff);
+  return `${sat.getFullYear()}-${String(sat.getMonth() + 1).padStart(2, '0')}-${String(sat.getDate()).padStart(2, '0')}`;
+}
+
+
+function getCurrentSunday(): string {
+  const today = new Date();
+  const dow = today.getDay();
+  const diff = dow === 0 ? 0 : 7 - dow;
+  const sun = new Date(today);
+  sun.setDate(today.getDate() + diff);
+  return `${sun.getFullYear()}-${String(sun.getMonth() + 1).padStart(2, '0')}-${String(sun.getDate()).padStart(2, '0')}`;
+}
+
+const saturdayKey = getCurrentSaturday();
+const sundayKey = getCurrentSunday();
+
 const MOCK_LESSONS: Record<string, Lesson[]> = {
-  '2026-03-13': [
-    { id: '1', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', childName: 'Вася' },
-    { id: '2', courseName: 'Шахматы', classLabel: '9 класс', date: '13 марта, 2026', time: '13:00', timeEnd: '15:00', teacher: 'Фаткудинов Владислав Константинович', location: 'Главный корпус, ул. Фрунзе, 6', childName: 'Вася' },
+  [saturdayKey]: [
+    {
+      id: '1',
+      courseName: 'Математика',
+      classLabel: '9 класс',
+      date: new Date(saturdayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '10:00',
+      timeEnd: '12:00',
+      teacher: 'Гарцева Карина Александровна',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      childName: 'Вася',
+    },
+    {
+      id: '2',
+      courseName: 'Шахматы',
+      classLabel: '9 класс',
+      date: new Date(saturdayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '13:00',
+      timeEnd: '15:00',
+      teacher: 'Фаткудинов Владислав Константинович',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      childName: 'Вася',
+    },
+  ],
+  [sundayKey]: [
+    {
+      id: '3',
+      courseName: 'Куборо',
+      classLabel: '9 класс',
+      date: new Date(sundayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '11:00',
+      timeEnd: '13:00',
+      teacher: 'Иван Иванович Сидоров',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      childName: 'Вася',
+    },
   ],
 };
 
 // Mock-данные для роли преподавателя
 // TODO: заменить на GET /api/teacher/schedule?week=YYYY-MM-DD
 const MOCK_TEACHER_LESSONS: Record<string, Lesson[]> = {
-  '2026-03-12': [
-    { id: 't1', courseName: 'Куборо', classLabel: '9 класс', date: '12 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 11 },
-    { id: 't2', courseName: 'Математика', classLabel: '8 класс', date: '12 марта, 2026', time: '13:00', timeEnd: '15:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 12 },
-    { id: 't3', courseName: 'Шахматы', classLabel: '8 класс', date: '12 марта, 2026', time: '15:30', timeEnd: '17:30', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 7 },
+  [saturdayKey]: [
+    {
+      id: 't1',
+      courseName: 'Математика',
+      classLabel: '9 класс',
+      date: new Date(saturdayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '10:00',
+      timeEnd: '12:00',
+      teacher: 'Петров Алексей Игоревич',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      studentsCount: 10,
+    },
+    {
+      id: 't2',
+      courseName: 'Шахматы',
+      classLabel: '6 класс',
+      date: new Date(saturdayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '13:00',
+      timeEnd: '15:00',
+      teacher: 'Петров Алексей Игоревич',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      studentsCount: 6,
+    },
   ],
-  '2026-03-13': [
-    { id: 't4', courseName: 'Математика', classLabel: '9 класс', date: '13 марта, 2026', time: '10:00', timeEnd: '12:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 25 },
-    { id: 't5', courseName: 'Шахматы', classLabel: '6 класс', date: '13 марта, 2026', time: '14:00', timeEnd: '16:00', teacher: 'Гарцева Карина Александровна', location: 'Главный корпус, ул. Фрунзе, 6', studentsCount: 5 },
+  [sundayKey]: [
+    {
+      id: 't3',
+      courseName: 'Математика',
+      classLabel: '7 класс',
+      date: new Date(sundayKey + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: '11:00',
+      timeEnd: '13:00',
+      teacher: 'Петров Алексей Игоревич',
+      location: 'Главный корпус, ул. Фрунзе, 6',
+      studentsCount: 8,
+    },
   ],
 };
 
@@ -204,8 +289,41 @@ export const CabinetSchedule: FC = () => {
   // null = модалка закрыта, string = id открытого урока
   const [openLessonId, setOpenLessonId] = useState<string | null>(null);
 
+  const [apiLessons, setApiLessons] = useState<Record<string, Lesson[]>>({});
+
+  useEffect(() => {
+    if (user?.role !== 'child') return;
+
+    // child1 учится у teacher1 — берём расписание учителя
+    const TEACHER1_USER_ID = '44444444-4444-4444-4444-444444444444';
+
+    fetchTeacherSchedule(TEACHER1_USER_ID)
+      .then(data => {
+        const map: Record<string, Lesson[]> = {};
+        data.forEach((lesson: any, idx: number) => {
+          const raw = new Date(lesson.lesson_date);
+          const key = `${raw.getFullYear()}-${String(raw.getMonth() + 1).padStart(2, '0')}-${String(raw.getDate()).padStart(2, '0')}`;
+          if (!map[key]) map[key] = [];
+          map[key].push({
+            id: `api-${idx}`,
+            courseName: lesson.name_course,
+            classLabel: lesson.group_type,
+            date: raw.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+            time: lesson.time_set,
+            teacher: '—',
+            location: `ауд. ${lesson.number_room}, ${lesson.room_address}`,
+          });
+        });
+        setApiLessons(map);
+      })
+      .catch(console.error);
+  }, [user]);
+
+
   // Преподаватель видит свои занятия с числом учеников
-  const lessonSource = isTeacher ? MOCK_TEACHER_LESSONS : MOCK_LESSONS;
+  const lessonSource = isTeacher
+    ? MOCK_TEACHER_LESSONS
+    : MOCK_LESSONS;
 
   const weekDays = getWeekDays(monday);
   const weekData: DayData[] = weekDays.map((day) => ({

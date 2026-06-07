@@ -62,22 +62,75 @@ interface LessonCard {
 // MOCK DATA
 // TODO: заменить на API
 // ============================================
-
 const COURSE_GROUPS: CourseGroup[] = [
     { id: '1', label: 'Шахматы | 6 класс' },
     { id: '2', label: 'Математика | 7 класс' },
     { id: '3', label: 'Математика | 9 класс' },
 ];
 
-const STUDENTS: Student[] = [
-    { id: 's1', name: 'Вася П.М.' },
-    { id: 's2', name: 'Вася П.М.' },
-    { id: 's3', name: 'Вася П.М.' },
-    { id: 's4', name: 'Вася П.М.' },
-    { id: 's5', name: 'Вася П.М.' },
-];
+const STUDENTS_BY_GROUP: Record<string, Student[]> = {
+    '1': [
+        { id: 's1', name: 'Иванов В.П.' },
+        { id: 's2', name: 'Петрова М.И.' },
+        { id: 's3', name: 'Сидоров А.К.' },
+        { id: 's4', name: 'Козлова Е.Д.' },
+        { id: 's5', name: 'Новиков С.А.' },
+        { id: 's6', name: 'Морозова Т.В.' },
+    ],
+    '2': [
+        { id: 's7', name: 'Волков Д.Н.' },
+        { id: 's8', name: 'Лебедева А.С.' },
+        { id: 's9', name: 'Соколов И.Р.' },
+        { id: 's10', name: 'Попова К.М.' },
+        { id: 's11', name: 'Зайцев Е.О.' },
+        { id: 's12', name: 'Федорова Н.А.' },
+        { id: 's13', name: 'Михайлов П.С.' },
+        { id: 's14', name: 'Новикова В.Д.' },
+    ],
+    '3': [
+        { id: 's15', name: 'Морозов К.В.' },
+        { id: 's16', name: 'Васильева О.Н.' },
+        { id: 's17', name: 'Петров Р.А.' },
+        { id: 's18', name: 'Смирнова Л.И.' },
+        { id: 's19', name: 'Кузнецов Д.С.' },
+        { id: 's20', name: 'Попов А.Е.' },
+        { id: 's21', name: 'Соколова М.К.' },
+        { id: 's22', name: 'Лебедев Н.В.' },
+        { id: 's23', name: 'Козлов И.А.' },
+        { id: 's24', name: 'Новикова П.С.' },
+    ],
+};
 
-// 13 колонок с датами
+const LESSON_CARDS_BY_GROUP: Record<string, LessonCard[]> = {
+    '1': Array.from({ length: 10 }, (_, i) => ({
+        id: `g1-lc${i + 1}`,
+        topic: i % 2 === 0 ? 'Основы дебюта. Испанская партия.' : 'Тактические приёмы. Вилка и связка.',
+        dateLabel: `${i + 1} Марта, 2026 14:00 - 16:00`,
+        presentCount: 5,
+        totalCount: 6,
+        materialsCount: 1,
+        semester: (i < 5 ? 1 : 2) as Semester,
+    })),
+    '2': Array.from({ length: 14 }, (_, i) => ({
+        id: `g2-lc${i + 1}`,
+        topic: i % 2 === 0 ? 'Линейные уравнения и системы.' : 'Функции и их графики.',
+        dateLabel: `${i + 1} Февраля, 2026 10:00 - 12:00`,
+        presentCount: 7,
+        totalCount: 8,
+        materialsCount: 2,
+        semester: (i < 7 ? 1 : 2) as Semester,
+    })),
+    '3': Array.from({ length: 16 }, (_, i) => ({
+        id: `g3-lc${i + 1}`,
+        topic: i % 2 === 0 ? 'Решение простых задач. Графический диктант.' : 'Прогрессии и их свойства.',
+        dateLabel: `${i + 1} Января, 2026 16:00 - 18:00`,
+        presentCount: 9,
+        totalCount: 10,
+        materialsCount: 2,
+        semester: (i < 8 ? 1 : 2) as Semester,
+    })),
+};
+
 const today = new Date();
 const LESSON_COLS: LessonCol[] = Array.from({ length: 13 }, (_, i) => {
     const d = new Date(today);
@@ -86,26 +139,6 @@ const LESSON_COLS: LessonCol[] = Array.from({ length: 13 }, (_, i) => {
     const month = String(d.getMonth() + 1).padStart(2, '0');
     return { id: `l${i + 1}`, dateLabel: `${day}.${month}`, dateRaw: d };
 });
-
-// Начальные данные посещаемости и оценок
-const INITIAL_ATTENDANCE: AttendanceCell[] = STUDENTS.flatMap((s, si) =>
-    LESSON_COLS.map((l, li) => ({
-        lessonId: l.id,
-        studentId: s.id,
-        isPresent: li === 0, // первый урок — посещён у всех
-        score: li === 0 ? (5 - si) : null,
-    }))
-);
-
-const INITIAL_LESSON_CARDS: LessonCard[] = Array.from({ length: 16 }, (_, i) => ({
-    id: `lc${i + 1}`,
-    topic: 'Решение простых задач. Графический диктант.',
-    dateLabel: '7 Марта, 2026 16:00 - 18:00',
-    presentCount: 5,
-    totalCount: 6,
-    materialsCount: 2,
-    semester: (i < 8 ? 1 : 2) as Semester,
-}));
 
 // ============================================
 // HELPERS
@@ -422,19 +455,41 @@ const LessonCardItem: FC<LessonCardItemProps> = ({ card, onClick }) => (
 
 export const TeacherJournal: FC = () => {
     const [activeGroupId, setActiveGroupId] = useState(COURSE_GROUPS[0].id);
-    const [attendance, setAttendance] = useState<AttendanceCell[]>(INITIAL_ATTENDANCE);
+    const [attendance, setAttendance] = useState<AttendanceCell[]>([]);
     const [openLessonId, setOpenLessonId] = useState<string | null>(null);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
-    const [lessonCards, setLessonCards] = useState<LessonCard[]>(INITIAL_LESSON_CARDS);
-    const nextCardId = useRef(INITIAL_LESSON_CARDS.length + 1);
-    // Хранилище деталей каждой карточки (lessonId -> detail)
+    const [lessonCards, setLessonCards] = useState<LessonCard[]>(LESSON_CARDS_BY_GROUP['1']);
+    const nextCardId = useRef(100);
     const [detailsMap, setDetailsMap] = useState<Record<string, TeacherLessonDetail>>({});
-    // Фильтр по полугодию
     const [activeSemester, setActiveSemester] = useState<Semester>(1);
-    // Toast-уведомление
     const [toastVisible, setToastVisible] = useState(false);
     const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    // Текущие студенты и посещаемость по активной группе
+    const currentStudents = STUDENTS_BY_GROUP[activeGroupId] ?? [];
+
+    const generateAttendance = (students: Student[]): AttendanceCell[] =>
+        students.flatMap((s, si) =>
+            LESSON_COLS.map((l, li) => ({
+                lessonId: l.id,
+                studentId: s.id,
+                isPresent: li < 3,
+                score: li < 3 ? Math.max(1, 5 - si % 5) : null,
+            }))
+        );
+
+    // При смене группы — обновляем карточки занятий и посещаемость
+    const handleGroupSelect = (id: string) => {
+        setActiveGroupId(id);
+        setLessonCards(LESSON_CARDS_BY_GROUP[id] ?? []);
+        setAttendance(generateAttendance(STUDENTS_BY_GROUP[id] ?? []));
+        setActiveSemester(1);
+    };
+
+    // Инициализация посещаемости при старте
+    useEffect(() => {
+        setAttendance(generateAttendance(currentStudents));
+    }, []);
     // Toast-уведомление
     const showToast = useCallback(() => {
         setToastVisible(true);
@@ -526,13 +581,13 @@ export const TeacherJournal: FC = () => {
                     <CourseDropdown
                         groups={COURSE_GROUPS}
                         activeId={activeGroupId}
-                        onSelect={setActiveGroupId}
+                        onSelect={handleGroupSelect}
                     />
                 </div>
 
                 {/* ── Таблица посещаемости ── */}
                 <AttendanceTable
-                    students={STUDENTS}
+                    students={currentStudents}
                     lessonCols={LESSON_COLS}
                     attendance={attendance}
                     onTogglePresent={handleTogglePresent}
